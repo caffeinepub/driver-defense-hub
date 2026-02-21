@@ -1,0 +1,18 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, authentication flow using a properly named RootComponent for hooks, profile setup modal integration, and route definitions for dashboard, calculator, and legal defense pages.",
+  "frontend/src/hooks/useQueries.ts": "Custom React Query hooks for all backend operations including user profile management, financial calculations, legal defense generation, and dashboard data fetching with proper cache invalidation.",
+  "frontend/src/components/Layout.tsx": "Application layout component with header navigation, login button, authentication guard that only renders children when authenticated, and footer with caffeine.ai attribution.",
+  "frontend/src/components/LoginButton.tsx": "Authentication button component handling Internet Identity login/logout with loading states and proper cache clearing.",
+  "frontend/src/components/ProfileSetup.tsx": "Modal dialog for first-time user profile setup prompting for name and email with form validation.",
+  "frontend/src/pages/Dashboard.tsx": "Main dashboard page with hero section, action cards for calculator and legal defense, and recent activity displays for calculations and defenses using Tailwind v3 shrink-0 class.",
+  "frontend/src/pages/CalculatorPage.tsx": "Dedicated page for financial calculator with back navigation and history display.",
+  "frontend/src/pages/LegalDefensePage.tsx": "Dedicated page for legal defense generator with back navigation and defense history display.",
+  "frontend/src/components/FinancialCalculator.tsx": "Financial loss calculator form with inputs for trip data, real-time calculation, breakdown display, and print-to-PDF functionality using native browser printing.",
+  "frontend/src/components/CalculationHistory.tsx": "Display component for saved financial calculations with itemized breakdowns and individual print-to-PDF buttons using native browser printing.",
+  "frontend/src/components/LegalDefenseGenerator.tsx": "Legal defense generator form with incident details inputs, violation type selector, and defense document generation.",
+  "frontend/src/components/DefenseDocument.tsx": "Structured display component for legal defense documents with sections for arguments, applicable laws, suggested next steps, and print-to-PDF functionality using native browser printing.",
+  "frontend/src/components/DefenseHistory.tsx": "Collapsible list display for saved legal defenses with expandable details and print-to-PDF functionality using native browser printing.",
+  "frontend/src/utils/pdfExport.ts": "PDF export utilities using browser's native print functionality with styled HTML documents for financial calculations and legal defense documents, eliminating the need for external jsPDF library.",
+  "frontend/src/index.css": "Global styles with dark mode OKLCH color system using warm earth tones (amber/orange primary), high contrast text, and touch-friendly sizing for driver-optimized UI.",
+  "frontend/tailwind.config.js": "Tailwind configuration with warm dark color palette, custom fonts (Inter, JetBrains Mono), and driver-optimized design tokens avoiding blue/purple colors."
+}

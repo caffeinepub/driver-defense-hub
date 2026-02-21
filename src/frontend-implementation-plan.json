@@ -1,0 +1,186 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Driver Defense Hub - Frontend Implementation",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Create financial loss calculator with trip data inputs and breakdown display",
+      "acceptanceCriteria": [
+        "Calculator accepts numerical inputs for distance, fuel costs, tolls, maintenance expenses, and fines",
+        "Calculator displays total financial loss and itemized breakdown",
+        "All monetary values are properly formatted",
+        "Calculator persists calculation history for logged-in users"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/FinancialCalculator.tsx",
+          "operation": "create",
+          "description": "Create a financial loss calculator component with form inputs for distance, fuel costs, tolls, maintenance, and fines. Display calculated breakdown including total. Use shadcn/ui form components with proper validation. Format monetary values with currency formatting. Call backend calculateFinancialLoss method and handle the response to display FinancialBreakdown results. Use the authorization component to ensure only authenticated users can save calculations."
+        },
+        {
+          "path": "frontend/src/hooks/useFinancialCalculator.ts",
+          "operation": "create",
+          "description": "Create a custom hook that manages financial calculator state and backend interactions. Implement useMutation for calculateFinancialLoss and useQuery for getAllFinancialLosses to fetch calculation history. Handle loading, error states, and cache invalidation after new calculations."
+        },
+        {
+          "path": "frontend/src/components/CalculationHistory.tsx",
+          "operation": "create",
+          "description": "Create a component to display saved financial calculations with timestamps and breakdown details. Fetch data using getAllFinancialLosses backend method. Show itemized breakdown for each saved calculation with proper formatting."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Build AI-powered legal defense generator with incident details form and structured document output",
+      "acceptanceCriteria": [
+        "Form accepts incident details including date, location, violation type, and description of circumstances",
+        "Backend generates coherent legal defense text with structured sections (facts, legal arguments, conclusion)",
+        "Generated defense references applicable traffic laws and regulations",
+        "Defense includes practical next steps for the driver",
+        "Generated defenses are saved to user's account"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/LegalDefenseGenerator.tsx",
+          "operation": "create",
+          "description": "Create a legal defense generator component with form inputs for incident date (date picker), location (text), violation type (select or text), and circumstances (textarea). Use shadcn/ui form components with validation. Call backend generateLegalDefense method with IncidentDetails and display the returned LegalDefense object with structured sections for arguments, applicable laws, and suggested next steps. Use the authorization component to ensure only authenticated users can generate defenses."
+        },
+        {
+          "path": "frontend/src/hooks/useLegalDefense.ts",
+          "operation": "create",
+          "description": "Create a custom hook for legal defense operations. Implement useMutation for generateLegalDefense and useQuery for getAllLegalDefenses to fetch defense history. Handle loading, error states, and cache invalidation."
+        },
+        {
+          "path": "frontend/src/components/DefenseHistory.tsx",
+          "operation": "create",
+          "description": "Create a component to display saved legal defenses. Fetch data using getAllLegalDefenses backend method. Display structured defense documents with sections for arguments, applicable laws, and next steps with proper formatting and readability."
+        },
+        {
+          "path": "frontend/src/components/DefenseDocument.tsx",
+          "operation": "create",
+          "description": "Create a reusable component to display a single legal defense document in a structured format with clear sections for arguments, applicable laws, and suggested next steps. Include proper typography and spacing for readability in dark mode."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement PDF export functionality for financial calculations and legal defense documents",
+      "acceptanceCriteria": [
+        "Users can export financial loss calculations as PDF with all breakdown details",
+        "Users can export legal defense documents as formatted PDF",
+        "PDFs include headers with document title and generation date",
+        "PDFs are properly formatted with clear sections and readable typography",
+        "Export buttons are accessible from both calculator results and defense document views"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/pdfExport.ts",
+          "operation": "create",
+          "description": "Create PDF export utility functions using a client-side PDF library (jsPDF or similar). Implement exportFinancialCalculationPDF function that accepts FinancialBreakdown and generates a formatted PDF with headers, breakdown sections, and branding. Implement exportLegalDefensePDF function that accepts LegalDefense and generates a formatted PDF with structured sections for arguments, laws, and next steps. Include document title, generation date, and professional formatting with proper typography."
+        },
+        {
+          "path": "frontend/src/components/FinancialCalculator.tsx",
+          "operation": "modify",
+          "description": "Add PDF export button to the calculator results display. Wire the button to call exportFinancialCalculationPDF with the current calculation results. Use shadcn/ui Button component styled for dark mode."
+        },
+        {
+          "path": "frontend/src/components/DefenseDocument.tsx",
+          "operation": "modify",
+          "description": "Add PDF export button to the legal defense document view. Wire the button to call exportLegalDefensePDF with the current defense document. Use shadcn/ui Button component styled for dark mode."
+        },
+        {
+          "path": "frontend/src/components/CalculationHistory.tsx",
+          "operation": "modify",
+          "description": "Add export buttons to each saved calculation in the history list to allow PDF export of historical calculations."
+        },
+        {
+          "path": "frontend/src/components/DefenseHistory.tsx",
+          "operation": "modify",
+          "description": "Add export buttons to each saved defense in the history list to allow PDF export of historical defenses."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Design and implement comprehensive dark mode UI optimized for drivers",
+      "acceptanceCriteria": [
+        "Entire application uses dark mode by default with warm, professional colors",
+        "Text maintains high contrast ratios for readability in vehicle environments",
+        "Interactive elements have touch-friendly sizes (minimum 44x44px)",
+        "Navigation is intuitive with clear visual hierarchy",
+        "Forms use large input fields appropriate for mobile use while driving safely parked",
+        "Color scheme avoids blue and purple, using earth tones, warm grays, or professional alternatives"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Configure Tailwind with a dark mode color scheme using warm earth tones, amber/orange accents, and warm grays. Avoid blue and purple colors. Set up custom color variables for primary (warm amber/orange), secondary (warm gray), accent (earth tones), and background (dark warm grays). Ensure high contrast ratios for text on dark backgrounds. Configure default theme to use dark mode colors."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Apply global dark mode styles with warm color palette. Set default background to dark warm gray and text to high-contrast warm white/cream. Define CSS custom properties for the driver-optimized color scheme using earth tones and warm grays. Ensure all text has high contrast ratios. Set base font size for readability and configure form inputs with large touch-friendly sizes (minimum 44x44px for interactive elements)."
+        },
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "create",
+          "description": "Create a layout component that provides consistent dark mode styling, navigation structure, and page container. Include navigation header with large touch-friendly buttons. Apply warm dark background colors and ensure proper spacing for mobile use. This layout wraps all page content and provides the visual hierarchy foundation."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Create dashboard homepage with quick access to calculator, legal defense generator, and saved documents",
+      "acceptanceCriteria": [
+        "Dashboard displays cards for 'Calculate Financial Loss' and 'Generate Legal Defense'",
+        "Dashboard shows a list of recent calculations and defenses with timestamps",
+        "Users can quickly navigate to create new documents or view saved ones",
+        "Dashboard design follows dark mode and driver-optimized UI principles"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/Dashboard.tsx",
+          "operation": "create",
+          "description": "Create the main dashboard page component. Display hero section with background image from frontend/public/assets/generated/hero-bg.dim_1920x1080.png. Show two prominent action cards: one for 'Calculate Financial Loss' using frontend/public/assets/generated/calculator-icon.dim_128x128.png and one for 'Generate Legal Defense' using frontend/public/assets/generated/legal-icon.dim_128x128.png. Below the cards, display recent calculations and defenses sections using CalculationHistory and DefenseHistory components. Use shadcn/ui Card components with large touch-friendly sizes. Ensure the layout follows dark mode and driver-optimized principles with warm colors and high contrast. Call getDashboard backend method to fetch dashboard data."
+        },
+        {
+          "path": "frontend/src/hooks/useDashboard.ts",
+          "operation": "create",
+          "description": "Create a custom hook to fetch dashboard data using the getDashboard backend method. Return savedCalculations and savedDefenses arrays with proper loading and error states."
+        },
+        {
+          "path": "frontend/src/pages/CalculatorPage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated page for the financial calculator that wraps the FinancialCalculator component. Include page title and layout using the Layout component. Add navigation back to dashboard."
+        },
+        {
+          "path": "frontend/src/pages/LegalDefensePage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated page for the legal defense generator that wraps the LegalDefenseGenerator component. Include page title and layout using the Layout component. Add navigation back to dashboard."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Set up React Router with routes for dashboard (/), calculator page (/calculator), and legal defense page (/defense). Wire Dashboard as the default route. Wrap all routes in the Layout component. Use the authorization component to ensure users must be authenticated before accessing the application. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/ProfileSetup.tsx",
+          "operation": "create",
+          "description": "Create a modal component for first-time user profile setup that prompts for name. Use shadcn/ui Dialog component. Call saveCallerUserProfile backend method after form submission. Use the authorization component's profile setup pattern to prevent modal flash. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/LoginButton.tsx",
+          "operation": "create",
+          "description": "Create a login/logout button component following the authorization component's LoginButton pattern. Handle authentication state, login, and logout with proper cache clearing. Style with large touch-friendly size and warm dark mode colors. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "modify",
+          "description": "Add LoginButton to the Layout header navigation. Include the ProfileSetup modal that shows when a new user logs in for the first time. Use the authorization component's profile checking logic to determine when to show the setup modal. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

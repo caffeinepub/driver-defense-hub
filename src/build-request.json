@@ -1,0 +1,126 @@
+{
+  "kind": "build_request",
+  "title": "Build financial loss calculator and AI legal defense generator for drivers",
+  "projectName": "Driver Defense Hub",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a financial loss calculator that allows drivers to input trip data (distance, fuel costs, tolls, maintenance, fines) and calculates total financial losses with a breakdown of each category",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "calculadora de perdas financeiras"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Calculator accepts numerical inputs for distance, fuel costs, tolls, maintenance expenses, and fines",
+        "Calculator displays total financial loss and itemized breakdown",
+        "All monetary values are properly formatted",
+        "Calculator persists calculation history for logged-in users"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Build an AI-powered legal defense generator that takes incident details (date, location, type of violation, circumstances) and generates a structured legal defense document with arguments, applicable laws, and suggested next steps",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "gerador de defesa jurdica com IA"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Form accepts incident details including date, location, violation type, and description of circumstances",
+        "Backend generates coherent legal defense text with structured sections (facts, legal arguments, conclusion)",
+        "Generated defense references applicable traffic laws and regulations",
+        "Defense includes practical next steps for the driver",
+        "Generated defenses are saved to user's account"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement PDF export functionality for both financial loss calculations and legal defense documents, with professional formatting including headers, sections, and branding",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "exportação em PDF"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can export financial loss calculations as PDF with all breakdown details",
+        "Users can export legal defense documents as formatted PDF",
+        "PDFs include headers with document title and generation date",
+        "PDFs are properly formatted with clear sections and readable typography",
+        "Export buttons are accessible from both calculator results and defense document views"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Design and implement a comprehensive dark mode UI optimized for drivers, featuring high contrast, large touch targets, clear typography, and a professional color scheme avoiding blue and purple tones",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "dark mode otimizado para motoristas"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Entire application uses dark mode by default with warm, professional colors",
+        "Text maintains high contrast ratios for readability in vehicle environments",
+        "Interactive elements have touch-friendly sizes (minimum 44x44px)",
+        "Navigation is intuitive with clear visual hierarchy",
+        "Forms use large input fields appropriate for mobile use while driving safely parked",
+        "Color scheme avoids blue and purple, using earth tones, warm grays, or professional alternatives"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Create a dashboard homepage that provides quick access to the financial calculator, legal defense generator, and previously saved calculations and defenses with clear visual cards",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard displays cards for 'Calculate Financial Loss' and 'Generate Legal Defense'",
+        "Dashboard shows a list of recent calculations and defenses with timestamps",
+        "Users can quickly navigate to create new documents or view saved ones",
+        "Dashboard design follows dark mode and driver-optimized UI principles"
+      ]
+    }
+  ],
+  "constraints": [
+    "All UI must use dark mode exclusively",
+    "Must maintain single-actor Motoko backend architecture",
+    "Cannot integrate external AI APIs for legal defense generation (must use rule-based logic or predefined templates)",
+    "PDF generation must happen on frontend using client-side libraries"
+  ],
+  "nonGoals": [
+    "Real-time GPS integration or location tracking",
+    "Integration with government traffic violation databases",
+    "External AI service calls (OpenAI, Anthropic, etc.)",
+    "Multi-language support beyond English",
+    "Payment processing for legal services",
+    "Mobile native app development"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Professional dashboard icon for financial calculator showing currency symbols or coins in warm earth tones (calculator-icon.dim_128x128.png)",
+      "Professional dashboard icon for legal defense generator showing scales of justice or document in warm earth tones (legal-icon.dim_128x128.png)",
+      "Hero background image for dashboard with abstract geometric pattern in dark mode colors with subtle texture (hero-bg.dim_1920x1080.png)"
+    ],
+    "edits": []
+  }
+}

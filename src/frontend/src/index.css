@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.625rem;
+        --background: 0.18 0.02 40;
+        --foreground: 0.95 0.01 60;
+        --card: 0.22 0.02 40;
+        --card-foreground: 0.95 0.01 60;
+        --popover: 0.22 0.02 40;
+        --popover-foreground: 0.95 0.01 60;
+        --primary: 0.72 0.15 45;
+        --primary-foreground: 0.15 0.02 40;
+        --secondary: 0.35 0.03 40;
+        --secondary-foreground: 0.95 0.01 60;
+        --muted: 0.30 0.02 40;
+        --muted-foreground: 0.65 0.02 50;
+        --accent: 0.28 0.03 40;
+        --accent-foreground: 0.95 0.01 60;
+        --destructive: 0.55 0.22 25;
+        --destructive-foreground: 0.95 0.01 60;
+        --border: 0.35 0.02 40;
+        --input: 0.35 0.02 40;
+        --ring: 0.72 0.15 45;
+        --chart-1: 0.72 0.15 45;
+        --chart-2: 0.65 0.12 35;
+        --chart-3: 0.58 0.10 55;
+        --chart-4: 0.50 0.08 65;
+        --chart-5: 0.45 0.06 75;
+    }
+
+    .dark {
+        --background: 0.18 0.02 40;
+        --foreground: 0.95 0.01 60;
+        --card: 0.22 0.02 40;
+        --card-foreground: 0.95 0.01 60;
+        --popover: 0.26 0.02 40;
+        --popover-foreground: 0.95 0.01 60;
+        --primary: 0.72 0.15 45;
+        --primary-foreground: 0.15 0.02 40;
+        --secondary: 0.35 0.03 40;
+        --secondary-foreground: 0.95 0.01 60;
+        --muted: 0.30 0.02 40;
+        --muted-foreground: 0.65 0.02 50;
+        --accent: 0.28 0.03 40;
+        --accent-foreground: 0.95 0.01 60;
+        --destructive: 0.55 0.22 25;
+        --destructive-foreground: 0.95 0.01 60;
+        --border: 0.35 0.02 40;
+        --input: 0.35 0.02 40;
+        --ring: 0.72 0.15 45;
+        --chart-1: 0.72 0.15 45;
+        --chart-2: 0.65 0.12 35;
+        --chart-3: 0.58 0.10 55;
+        --chart-4: 0.50 0.08 65;
+        --chart-5: 0.45 0.06 75;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    html {
+        color-scheme: dark;
+    }
+
+    /* Touch-friendly interactive elements */
+    button, a, input, select, textarea {
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+
+    /* High contrast text for readability */
+    h1, h2, h3, h4, h5, h6 {
+        @apply text-foreground;
+        font-weight: 700;
+    }
+
+    /* Smooth transitions */
+    * {
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+    }
+}

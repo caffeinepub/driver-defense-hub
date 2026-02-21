@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Financial loss calculator, AI-powered legal defense generator with PDF export, dark mode optimized for drivers",
+  "architectural_notes": [
+    "Target audience: drivers requiring legal and financial tools",
+    "Dark mode as primary UI theme",
+    "PDF generation capability required",
+    "AI integration needed for legal defense text generation"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Professional dashboard icon for financial calculator showing currency symbols or coins in warm earth tones (calculator-icon.dim_128x128.png)\n- Professional dashboard icon for legal defense generator showing scales of justice or document in warm earth tones (legal-icon.dim_128x128.png)\n- Hero background image for dashboard with abstract geometric pattern in dark mode colors with subtle texture (hero-bg.dim_1920x1080.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-financial-loss-calculator-that-allows-drivers-to-input-trip-data-distance-fuel-costs-tolls-maintenance-fines-and-calculates-total-financial-losses-with-a-breakdown-of-each-category",
+      "title": "Create a financial loss calculator that allows drivers to input trip data (distance, fuel costs, tolls, maintenance, fines) and calculates total financial losses with a breakdown of each category",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-an-ai-powered-legal-defense-generator-that-takes-incident-details-date-location-type-of-violation-circumstances-and-generates-a-structured-legal-defense-document-with-arguments-applicable-laws-and-suggested-next-steps",
+      "title": "Build an AI-powered legal defense generator that takes incident details (date, location, type of violation, circumstances) and generates a structured legal defense document with arguments, applicable laws, and suggested next steps",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-pdf-export-functionality-for-both-financial-loss-calculations-and-legal-defense-documents-with-professional-formatting-including-headers-sections-and-branding",
+      "title": "Implement PDF export functionality for both financial loss calculations and legal defense documents, with professional formatting including headers, sections, and branding",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-design-and-implement-a-comprehensive-dark-mode-ui-optimized-for-drivers-featuring-high-contrast-large-touch-targets-clear-typography-and-a-professional-color-scheme-avoiding-blue-and-purple-tones",
+      "title": "Design and implement a comprehensive dark mode UI optimized for drivers, featuring high contrast, large touch targets, clear typography, and a professional color scheme avoiding blue and purple tones",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dashboard-homepage-that-provides-quick-access-to-the-financial-calculator-legal-defense-generator-and-previously-saved-calculations-and-defenses-with-clear-visual-cards",
+      "title": "Create a dashboard homepage that provides quick access to the financial calculator, legal defense generator, and previously saved calculations and defenses with clear visual cards",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Financial loss calculator for drivers",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "AI-powered legal defense generator",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "PDF export functionality",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Dark mode UI optimized for drivers",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Driver Defense Hub",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

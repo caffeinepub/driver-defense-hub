@@ -1,0 +1,120 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-financial-loss-calculator-that-allows-drivers-to-input-trip-data-distance-fuel-costs-tolls-maintenance-fines-and-calculates-total-financial-losses-with-a-breakdown-of-each-category",
+      "featureTitle": "Create a financial loss calculator that allows drivers to input trip data (distance, fuel costs, tolls, maintenance, fines) and calculates total financial losses with a breakdown of each category",
+      "files": [
+        "frontend/src/components/CalculationHistory.tsx",
+        "frontend/src/components/FinancialCalculator.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-ai-powered-legal-defense-generator-that-takes-incident-details-date-location-type-of-violation-circumstances-and-generates-a-structured-legal-defense-document-with-arguments-applicable-laws-and-suggested-next-steps",
+      "featureTitle": "Build an AI-powered legal defense generator that takes incident details (date, location, type of violation, circumstances) and generates a structured legal defense document with arguments, applicable laws, and suggested next steps",
+      "files": [
+        "frontend/src/components/DefenseDocument.tsx",
+        "frontend/src/components/DefenseHistory.tsx",
+        "frontend/src/components/LegalDefenseGenerator.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-pdf-export-functionality-for-both-financial-loss-calculations-and-legal-defense-documents-with-professional-formatting-including-headers-sections-and-branding",
+      "featureTitle": "Implement PDF export functionality for both financial loss calculations and legal defense documents, with professional formatting including headers, sections, and branding",
+      "files": [
+        "frontend/src/components/CalculationHistory.tsx",
+        "frontend/src/components/DefenseDocument.tsx",
+        "frontend/src/components/DefenseHistory.tsx",
+        "frontend/src/components/FinancialCalculator.tsx",
+        "frontend/src/utils/pdfExport.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-design-and-implement-a-comprehensive-dark-mode-ui-optimized-for-drivers-featuring-high-contrast-large-touch-targets-clear-typography-and-a-professional-color-scheme-avoiding-blue-and-purple-tones",
+      "featureTitle": "Design and implement a comprehensive dark mode UI optimized for drivers, featuring high contrast, large touch targets, clear typography, and a professional color scheme avoiding blue and purple tones",
+      "files": [
+        "frontend/src/components/Layout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-dashboard-homepage-that-provides-quick-access-to-the-financial-calculator-legal-defense-generator-and-previously-saved-calculations-and-defenses-with-clear-visual-cards",
+      "featureTitle": "Create a dashboard homepage that provides quick access to the financial calculator, legal defense generator, and previously saved calculations and defenses with clear visual cards",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Layout.tsx",
+        "frontend/src/components/LoginButton.tsx",
+        "frontend/src/components/ProfileSetup.tsx",
+        "frontend/src/pages/CalculatorPage.tsx",
+        "frontend/src/pages/Dashboard.tsx",
+        "frontend/src/pages/LegalDefensePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
