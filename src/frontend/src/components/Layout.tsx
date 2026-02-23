@@ -1,5 +1,6 @@
 import { Outlet } from '@tanstack/react-router';
 import LoginButton from './LoginButton';
+import InstallPrompt from './InstallPrompt';
 import { Calculator, Scale } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
@@ -11,7 +12,7 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-border bg-card safe-area-top">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button
@@ -31,7 +32,10 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
 
       <main className="flex-1">
         {isAuthenticated ? (
-          children
+          <div className="container mx-auto px-4 py-6">
+            <InstallPrompt />
+            {children}
+          </div>
         ) : (
           <div className="container mx-auto px-4 py-16 text-center">
             <h2 className="text-3xl font-bold mb-4 text-foreground">Welcome to Driver Defense Hub</h2>
@@ -43,7 +47,7 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
         )}
       </main>
 
-      <footer className="border-t border-border bg-card py-6 mt-auto">
+      <footer className="border-t border-border bg-card py-6 mt-auto safe-area-bottom">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>
             © {new Date().getFullYear()} Driver Defense Hub. Built with ❤️ using{' '}

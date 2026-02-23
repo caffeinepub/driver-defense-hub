@@ -14,25 +14,22 @@ export class ExternalBlob {
     static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
     withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
 }
+export interface BlockReport {
+    id: string;
+    cpf: string;
+    blockDate: string;
+    platform: string;
+    additionalContext: string;
+    blockReason: string;
+    phone: string;
+    driverName: string;
+}
 export interface LegalDefense {
+    blockType: string;
     structuredDocument: string;
     suggestedNextSteps: Array<string>;
     arguments: Array<string>;
     applicableLaws: Array<string>;
-}
-export interface FinancialBreakdown {
-    fines: number;
-    tolls: number;
-    total: number;
-    distance: number;
-    fuelCost: number;
-    maintenance: number;
-}
-export interface IncidentDetails {
-    date: string;
-    circumstances: string;
-    location: string;
-    violationType: string;
 }
 export interface GalleryImage {
     id: string;
@@ -41,15 +38,26 @@ export interface GalleryImage {
     image: ExternalBlob;
 }
 export interface DashboardData {
-    savedCalculations: Array<FinancialBreakdown>;
+    ceasedProfitsCalculations: Array<CeasedProfits>;
     savedDefenses: Array<LegalDefense>;
+    workHistories: Array<WorkHistory>;
+    blockReports: Array<BlockReport>;
 }
-export interface TripData {
-    fines: number;
-    tolls: number;
-    distance: number;
-    fuelCost: number;
-    maintenance: number;
+export interface CeasedProfits {
+    netLostProfits: number;
+    totalLostEarnings: number;
+    totalBlockedDays: bigint;
+    totalExpensesDuringBlock: number;
+    avgDailyEarnings: number;
+}
+export interface WorkHistory {
+    monthlyVehicleFinancing: number;
+    activeMonths: bigint;
+    dailyAvgEarnings: number;
+    weeklyAvgEarnings: number;
+    monthlyInsurance: number;
+    monthlyFuel: number;
+    monthlyMaintenance: number;
 }
 export interface UserProfile {
     name: string;
@@ -61,11 +69,15 @@ export enum UserRole {
     guest = "guest"
 }
 export interface backendInterface {
+    addBlockReport(report: BlockReport): Promise<void>;
+    addWorkHistory(history: WorkHistory): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    calculateFinancialLoss(tripData: TripData): Promise<FinancialBreakdown>;
-    generateLegalDefense(incident: IncidentDetails): Promise<LegalDefense>;
-    getAllFinancialLosses(): Promise<Array<FinancialBreakdown>>;
+    calculateCeasedProfits(totalBlockedDays: bigint, avgDailyEarnings: number, monthlyExpenses: number): Promise<CeasedProfits>;
+    generateLegalDefense(blockType: string, context: string): Promise<LegalDefense>;
+    getAllBlockReports(): Promise<Array<BlockReport>>;
+    getAllCeasedProfits(): Promise<Array<CeasedProfits>>;
     getAllLegalDefenses(): Promise<Array<LegalDefense>>;
+    getAllWorkHistories(): Promise<Array<WorkHistory>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getDashboard(): Promise<DashboardData>;

@@ -1,6 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import type { UserProfile, TripData, FinancialBreakdown, IncidentDetails, LegalDefense, DashboardData } from '../backend';
+import type { 
+  UserProfile, 
+  BlockReport, 
+  WorkHistory, 
+  CeasedProfits, 
+  LegalDefense, 
+  DashboardData 
+} from '../backend';
 
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();
@@ -37,43 +44,113 @@ export function useSaveCallerUserProfile() {
   });
 }
 
-export function useCalculateFinancialLoss() {
+// Block Report Management
+export function useAddBlockReport() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (tripData: TripData) => {
+    mutationFn: async (report: BlockReport) => {
       if (!actor) throw new Error('Actor not available');
-      return actor.calculateFinancialLoss(tripData);
+      return actor.addBlockReport(report);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['financialLosses'] });
+      queryClient.invalidateQueries({ queryKey: ['blockReports'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     }
   });
 }
 
-export function useGetAllFinancialLosses() {
+export function useGetAllBlockReports() {
   const { actor, isFetching } = useActor();
 
-  return useQuery<FinancialBreakdown[]>({
-    queryKey: ['financialLosses'],
+  return useQuery<BlockReport[]>({
+    queryKey: ['blockReports'],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.getAllFinancialLosses();
+      return actor.getAllBlockReports();
     },
     enabled: !!actor && !isFetching
   });
 }
 
+// Work History Management
+export function useAddWorkHistory() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (history: WorkHistory) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.addWorkHistory(history);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['workHistories'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+    }
+  });
+}
+
+export function useGetAllWorkHistories() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<WorkHistory[]>({
+    queryKey: ['workHistories'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAllWorkHistories();
+    },
+    enabled: !!actor && !isFetching
+  });
+}
+
+// Ceased Profits Calculation
+export function useCalculateCeasedProfits() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ 
+      totalBlockedDays, 
+      avgDailyEarnings, 
+      monthlyExpenses 
+    }: { 
+      totalBlockedDays: bigint; 
+      avgDailyEarnings: number; 
+      monthlyExpenses: number;
+    }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.calculateCeasedProfits(totalBlockedDays, avgDailyEarnings, monthlyExpenses);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ceasedProfits'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+    }
+  });
+}
+
+export function useGetAllCeasedProfits() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<CeasedProfits[]>({
+    queryKey: ['ceasedProfits'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAllCeasedProfits();
+    },
+    enabled: !!actor && !isFetching
+  });
+}
+
+// Legal Defense Generation
 export function useGenerateLegalDefense() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (incident: IncidentDetails) => {
+    mutationFn: async ({ blockType, context }: { blockType: string; context: string }) => {
       if (!actor) throw new Error('Actor not available');
-      return actor.generateLegalDefense(incident);
+      return actor.generateLegalDefense(blockType, context);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['legalDefenses'] });
@@ -95,6 +172,7 @@ export function useGetAllLegalDefenses() {
   });
 }
 
+// Dashboard
 export function useGetDashboard() {
   const { actor, isFetching } = useActor();
 

@@ -1,148 +1,149 @@
 import { useState } from 'react';
-import { useGenerateLegalDefense } from '../hooks/useQueries';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Scale } from 'lucide-react';
 import { toast } from 'sonner';
-import type { LegalDefense } from '../backend';
-import DefenseDocument from './DefenseDocument';
+import { TRANSLATIONS } from '../constants/translations';
+import Tooltip from './Tooltip';
+import { useGenerateLegalDefense } from '../hooks/useQueries';
+import { formatCurrency } from '../utils/currencyFormat';
+import type { BlockReport, WorkHistory, CeasedProfits, LegalDefense } from '../backend';
 
-export default function LegalDefenseGenerator() {
-  const [date, setDate] = useState('');
-  const [location, setLocation] = useState('');
-  const [violationType, setViolationType] = useState('');
-  const [circumstances, setCircumstances] = useState('');
-  const [result, setResult] = useState<LegalDefense | null>(null);
+interface LegalDefenseGeneratorProps {
+  blockReport: BlockReport;
+  workHistory: WorkHistory;
+  ceasedProfits: CeasedProfits;
+  onDefenseGenerated: (defense: LegalDefense) => void;
+}
+
+const BLOCK_TYPES = [
+  { value: 'arbitraryDismissal', label: TRANSLATIONS.blockTypes.arbitraryDismissal, help: TRANSLATIONS.help.blockTypes.arbitraryDismissal },
+  { value: 'falseAccusation', label: TRANSLATIONS.blockTypes.falseAccusation, help: TRANSLATIONS.help.blockTypes.falseAccusation },
+  { value: 'systemError', label: TRANSLATIONS.blockTypes.systemError, help: TRANSLATIONS.help.blockTypes.systemError },
+  { value: 'discrimination', label: TRANSLATIONS.blockTypes.discrimination, help: TRANSLATIONS.help.blockTypes.discrimination },
+  { value: 'retaliation', label: TRANSLATIONS.blockTypes.retaliation, help: TRANSLATIONS.help.blockTypes.retaliation },
+];
+
+export default function LegalDefenseGenerator({
+  blockReport,
+  workHistory,
+  ceasedProfits,
+  onDefenseGenerated,
+}: LegalDefenseGeneratorProps) {
+  const [blockType, setBlockType] = useState('');
+  const [additionalContext, setAdditionalContext] = useState('');
 
   const generateMutation = useGenerateLegalDefense();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!date || !location || !violationType || !circumstances) {
-      toast.error('Please fill in all fields');
+    if (!blockType) {
+      toast.error('Selecione o tipo de bloqueio');
       return;
     }
 
-    const incidentDetails = {
-      date,
-      location,
-      violationType,
-      circumstances
-    };
+    const contextString = `
+Plataforma: ${blockReport.platform}
+Motivo alegado: ${blockReport.blockReason}
+Nome do motorista: ${blockReport.driverName}
+CPF: ${blockReport.cpf}
+Telefone: ${blockReport.phone}
+Data do bloqueio: ${blockReport.blockDate}
+Tempo de atividade: ${Number(workHistory.activeMonths)} meses
+Ganho médio diário: ${formatCurrency(workHistory.dailyAvgEarnings)}
+Lucros cessantes: ${formatCurrency(ceasedProfits.netLostProfits)}
+Dias bloqueado: ${Number(ceasedProfits.totalBlockedDays)}
+Contexto adicional: ${blockReport.additionalContext || 'Nenhum'}
+Detalhes adicionais: ${additionalContext || 'Nenhum'}
+    `.trim();
 
     try {
-      const defense = await generateMutation.mutateAsync(incidentDetails);
-      setResult(defense);
-      toast.success('Legal defense generated successfully!');
+      const defense = await generateMutation.mutateAsync({
+        blockType,
+        context: contextString,
+      });
+      onDefenseGenerated(defense);
+      toast.success(TRANSLATIONS.success.defenseGenerated);
     } catch (error) {
-      toast.error('Failed to generate legal defense');
+      toast.error('Erro ao gerar defesa jurídica');
       console.error(error);
     }
   };
 
-  const handleReset = () => {
-    setDate('');
-    setLocation('');
-    setViolationType('');
-    setCircumstances('');
-    setResult(null);
-  };
-
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl">
-            <Scale className="h-6 w-6 text-amber-500" />
-            Generate Legal Defense
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="date" className="text-base">
-                  Incident Date
-                </Label>
-                <Input
-                  id="date"
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="min-h-[44px] text-base"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="location" className="text-base">
-                  Location
-                </Label>
-                <Input
-                  id="location"
-                  type="text"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="City, State or Address"
-                  className="min-h-[44px] text-base"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="violationType" className="text-base">
-                  Violation Type
-                </Label>
-                <Select value={violationType} onValueChange={setViolationType}>
-                  <SelectTrigger className="min-h-[44px] text-base">
-                    <SelectValue placeholder="Select violation type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="speeding">Speeding</SelectItem>
-                    <SelectItem value="red-light">Red Light Violation</SelectItem>
-                    <SelectItem value="stop-sign">Stop Sign Violation</SelectItem>
-                    <SelectItem value="parking">Parking Violation</SelectItem>
-                    <SelectItem value="reckless-driving">Reckless Driving</SelectItem>
-                    <SelectItem value="dui">DUI/DWI</SelectItem>
-                    <SelectItem value="license">License/Registration Issue</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="circumstances" className="text-base">
-                  Circumstances & Details
-                </Label>
-                <Textarea
-                  id="circumstances"
-                  value={circumstances}
-                  onChange={(e) => setCircumstances(e.target.value)}
-                  placeholder="Describe the circumstances of the incident in detail..."
-                  className="min-h-[120px] text-base"
-                  required
-                />
-              </div>
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-2xl">
+          <Scale className="h-6 w-6 text-primary" />
+          {TRANSLATIONS.headings.legalDefense}
+        </CardTitle>
+        <p className="text-sm text-muted-foreground mt-2">
+          Selecione o tipo de bloqueio e forneça detalhes adicionais para gerar uma defesa jurídica personalizada.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <Label className="text-base flex items-center gap-2">
+              {TRANSLATIONS.labels.blockType}
+              <span className="text-destructive">*</span>
+            </Label>
+            <div className="space-y-3">
+              {BLOCK_TYPES.map((type) => (
+                <label
+                  key={type.value}
+                  className={`flex items-start gap-3 p-4 border rounded-lg cursor-pointer transition-colors ${
+                    blockType === type.value
+                      ? 'border-primary bg-primary/5'
+                      : 'border-border hover:border-primary/50'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="blockType"
+                    value={type.value}
+                    checked={blockType === type.value}
+                    onChange={(e) => setBlockType(e.target.value)}
+                    className="mt-1"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold">{type.label}</span>
+                      <Tooltip content={type.help} />
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-1">{type.help}</p>
+                  </div>
+                </label>
+              ))}
             </div>
+          </div>
 
-            <div className="flex gap-4">
-              <Button type="submit" size="lg" className="flex-1 min-h-[44px]" disabled={generateMutation.isPending}>
-                {generateMutation.isPending ? 'Generating...' : 'Generate Defense'}
-              </Button>
-              <Button type="button" variant="outline" size="lg" onClick={handleReset} className="min-h-[44px]">
-                Reset
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+          <div className="space-y-2">
+            <Label htmlFor="additionalContext" className="text-base">
+              Detalhes Adicionais (Opcional)
+            </Label>
+            <Textarea
+              id="additionalContext"
+              value={additionalContext}
+              onChange={(e) => setAdditionalContext(e.target.value)}
+              placeholder="Adicione qualquer informação relevante que possa fortalecer sua defesa..."
+              className="min-h-[120px] text-base"
+            />
+          </div>
 
-      {result && <DefenseDocument defense={result} incidentDate={date} incidentLocation={location} />}
-    </>
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full min-h-[44px]"
+            disabled={generateMutation.isPending}
+          >
+            {generateMutation.isPending ? 'Gerando defesa...' : TRANSLATIONS.buttons.generateDefense}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

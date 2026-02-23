@@ -2,11 +2,12 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-create-a-financial-loss-calculator-that-allows-drivers-to-input-trip-data-distance-fuel-costs-tolls-maintenance-fines-and-calculates-total-financial-losses-with-a-breakdown-of-each-category",
-      "featureTitle": "Create a financial loss calculator that allows drivers to input trip data (distance, fuel costs, tolls, maintenance, fines) and calculates total financial losses with a breakdown of each category",
+      "featureId": "feature-replace-the-current-financialcalculator-component-with-a-comprehensive-block-report-form-that-collects-platform-uber-99-ifood-rappi-indrive-alleged-reason-for-block-driver-s-personal-data-name-cpf-phone-date-of-block-and-additional-context-store-this-data-in-the-backend-and-associate-it-with-calculations",
+      "featureTitle": "Replace the current FinancialCalculator component with a comprehensive block report form that collects: platform (Uber/99/iFood/Rappi/Indrive), alleged reason for block, driver's personal data (name, CPF, phone), date of block, and additional context. Store this data in the backend and associate it with calculations.",
       "files": [
-        "frontend/src/components/CalculationHistory.tsx",
-        "frontend/src/components/FinancialCalculator.tsx"
+        "frontend/src/components/BlockReportForm.tsx",
+        "frontend/src/components/FinancialCalculator.tsx",
+        "frontend/src/hooks/useQueries.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -23,12 +24,12 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-build-an-ai-powered-legal-defense-generator-that-takes-incident-details-date-location-type-of-violation-circumstances-and-generates-a-structured-legal-defense-document-with-arguments-applicable-laws-and-suggested-next-steps",
-      "featureTitle": "Build an AI-powered legal defense generator that takes incident details (date, location, type of violation, circumstances) and generates a structured legal defense document with arguments, applicable laws, and suggested next steps",
+      "featureId": "feature-add-a-work-history-section-to-collect-active-time-on-platform-months-years-daily-average-earnings-weekly-average-earnings-and-fixed-monthly-expenses-vehicle-financing-insurance-fuel-maintenance-calculate-ceased-profits-lucros-cessantes-based-on-time-blocked-multiplied-by-average-earnings-minus-expenses",
+      "featureTitle": "Add a work history section to collect: active time on platform (months/years), daily average earnings, weekly average earnings, and fixed monthly expenses (vehicle financing, insurance, fuel, maintenance). Calculate ceased profits (lucros cessantes) based on time blocked multiplied by average earnings minus expenses.",
       "files": [
-        "frontend/src/components/DefenseDocument.tsx",
-        "frontend/src/components/DefenseHistory.tsx",
-        "frontend/src/components/LegalDefenseGenerator.tsx"
+        "frontend/src/components/WorkHistoryForm.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/utils/currencyFormat.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -45,14 +46,11 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-implement-pdf-export-functionality-for-both-financial-loss-calculations-and-legal-defense-documents-with-professional-formatting-including-headers-sections-and-branding",
-      "featureTitle": "Implement PDF export functionality for both financial loss calculations and legal defense documents, with professional formatting including headers, sections, and branding",
+      "featureId": "feature-create-a-detailed-calculation-review-screen-that-displays-all-inputs-and-the-itemized-financial-loss-breakdown-before-proceeding-to-defense-generation-include-daily-rate-days-blocked-total-loss-expenses-deducted-and-net-ceased-profits-with-edit-capability",
+      "featureTitle": "Create a detailed calculation review screen that displays all inputs and the itemized financial loss breakdown before proceeding to defense generation. Include daily rate, days blocked, total loss, expenses deducted, and net ceased profits with edit capability.",
       "files": [
-        "frontend/src/components/CalculationHistory.tsx",
-        "frontend/src/components/DefenseDocument.tsx",
-        "frontend/src/components/DefenseHistory.tsx",
-        "frontend/src/components/FinancialCalculator.tsx",
-        "frontend/src/utils/pdfExport.ts"
+        "frontend/src/components/CalculationReview.tsx",
+        "frontend/src/pages/CalculatorPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -69,12 +67,11 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-design-and-implement-a-comprehensive-dark-mode-ui-optimized-for-drivers-featuring-high-contrast-large-touch-targets-clear-typography-and-a-professional-color-scheme-avoiding-blue-and-purple-tones",
-      "featureTitle": "Design and implement a comprehensive dark mode UI optimized for drivers, featuring high contrast, large touch targets, clear typography, and a professional color scheme avoiding blue and purple tones",
+      "featureId": "feature-enhance-the-legaldefensegenerator-to-include-block-type-selection-arbitrary-dismissal-false-accusation-system-error-discrimination-retaliation-and-context-aware-ai-prompt-that-incorporates-the-block-data-work-history-and-calculated-losses-into-the-generated-defense-with-relevant-brazilian-labor-and-consumer-law-citations",
+      "featureTitle": "Enhance the LegalDefenseGenerator to include block type selection (arbitrary dismissal, false accusation, system error, discrimination, retaliation) and context-aware AI prompt that incorporates the block data, work history, and calculated losses into the generated defense with relevant Brazilian labor and consumer law citations.",
       "files": [
-        "frontend/src/components/Layout.tsx",
-        "frontend/src/index.css",
-        "frontend/tailwind.config.js"
+        "frontend/src/components/LegalDefenseGenerator.tsx",
+        "frontend/src/hooks/useQueries.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -91,16 +88,12 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-create-a-dashboard-homepage-that-provides-quick-access-to-the-financial-calculator-legal-defense-generator-and-previously-saved-calculations-and-defenses-with-clear-visual-cards",
-      "featureTitle": "Create a dashboard homepage that provides quick access to the financial calculator, legal defense generator, and previously saved calculations and defenses with clear visual cards",
+      "featureId": "feature-allow-drivers-to-review-and-edit-the-ai-generated-legal-defense-text-before-export-with-a-rich-text-editor-that-preserves-formatting-and-legal-structure-while-enabling-customization",
+      "featureTitle": "Allow drivers to review and edit the AI-generated legal defense text before export, with a rich text editor that preserves formatting and legal structure while enabling customization.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/Layout.tsx",
-        "frontend/src/components/LoginButton.tsx",
-        "frontend/src/components/ProfileSetup.tsx",
-        "frontend/src/pages/CalculatorPage.tsx",
-        "frontend/src/pages/Dashboard.tsx",
-        "frontend/src/pages/LegalDefensePage.tsx"
+        "frontend/src/components/DefenseDocument.tsx",
+        "frontend/src/components/DefenseEditor.tsx",
+        "frontend/src/hooks/useLocalStorage.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -113,6 +106,120 @@
       ],
       "testIds": [
         "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-modify-pdf-export-to-generate-a-comprehensive-legal-document-that-includes-driver-information-block-details-complete-work-history-itemized-financial-loss-calculation-with-formulas-ai-generated-legal-defense-with-citations-and-signature-date-fields-format-for-a4-printing-with-professional-legal-document-styling",
+      "featureTitle": "Modify PDF export to generate a comprehensive legal document that includes: driver information, block details, complete work history, itemized financial loss calculation with formulas, AI-generated legal defense with citations, and signature/date fields. Format for A4 printing with professional legal document styling.",
+      "files": [
+        "frontend/src/utils/pdfExport.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-localstorage-indexeddb-persistence-to-save-draft-calculations-work-history-and-defense-documents-automatically-allowing-drivers-to-return-and-continue-without-losing-data-include-a-history-view-showing-all-saved-drafts-with-timestamps",
+      "featureTitle": "Implement localStorage/IndexedDB persistence to save draft calculations, work history, and defense documents automatically, allowing drivers to return and continue without losing data. Include a history view showing all saved drafts with timestamps.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/DraftIndicator.tsx",
+        "frontend/src/hooks/useDraftPersistence.ts",
+        "frontend/src/pages/CalculatorPage.tsx",
+        "frontend/src/pages/DraftsHistoryPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-dashboard-to-show-quick-access-cards-for-new-block-report-continue-draft-view-history-and-stats-showing-total-calculated-losses-and-number-of-defenses-generated-remove-or-adapt-existing-calculator-legal-defense-cards-to-fit-new-flow",
+      "featureTitle": "Update Dashboard to show quick access cards for: 'New Block Report', 'Continue Draft', 'View History', and stats showing total calculated losses and number of defenses generated. Remove or adapt existing calculator/legal defense cards to fit new flow.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/Dashboard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-revise-all-ui-text-to-use-clear-accessible-portuguese-language-that-avoids-complex-legal-jargon-in-interface-elements-add-tooltips-or-help-text-to-explain-legal-terms-where-necessary-e-g-lucros-cessantes-cdc-clt",
+      "featureTitle": "Revise all UI text to use clear, accessible Portuguese language that avoids complex legal jargon in interface elements. Add tooltips or help text to explain legal terms where necessary (e.g., 'lucros cessantes', 'CDC', 'CLT').",
+      "files": [
+        "frontend/src/components/BlockReportForm.tsx",
+        "frontend/src/components/DefenseEditor.tsx",
+        "frontend/src/components/LegalDefenseGenerator.tsx",
+        "frontend/src/components/Tooltip.tsx",
+        "frontend/src/components/WorkHistoryForm.tsx",
+        "frontend/src/constants/translations.ts",
+        "frontend/src/pages/Dashboard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-entire-flow-from-block-report-work-history-calculation-review-defense-generation-pdf-export-works-as-a-seamless-multi-step-process-with-clear-progress-indication-back-navigation-and-the-ability-to-save-at-any-step",
+      "featureTitle": "Ensure the entire flow from block report → work history → calculation review → defense generation → PDF export works as a seamless multi-step process with clear progress indication, back navigation, and the ability to save at any step.",
+      "files": [
+        "frontend/src/components/ExportSuccessModal.tsx",
+        "frontend/src/components/NavigationButtons.tsx",
+        "frontend/src/components/ProgressIndicator.tsx",
+        "frontend/src/pages/CalculatorPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
       ],
       "confidence": "high"
     }

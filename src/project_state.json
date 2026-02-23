@@ -1,54 +1,97 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Financial loss calculator, AI-powered legal defense generator with PDF export, dark mode optimized for drivers",
+  "summary": "PWA jurídico para motoristas/entregadores de apps (Uber, 99, iFood, Rappi, Indrive) bloqueados injustamente. Calcula automaticamente prejuízo financeiro (lucros cessantes) e gera defesas jurídicas personalizadas com IA, exportando PDF profissional para recurso administrativo/judicial. Dark mode otimizado, mobile-first, sem login/cadastro no MVP.",
   "architectural_notes": [
-    "Target audience: drivers requiring legal and financial tools",
-    "Dark mode as primary UI theme",
-    "PDF generation capability required",
-    "AI integration needed for legal defense text generation"
+    "PWA construído em React + TypeScript + Tailwind CSS",
+    "Otimizado para celulares de entrada (Android Go/Lite)",
+    "Geração de PDF do lado do cliente (privacidade)",
+    "Armazenamento local: localStorage/IndexedDB",
+    "Mobile-first responsive design",
+    "Dark mode (#121212 fundo, #FF9800 acentos laranja, #4CAF50 verde sucesso)",
+    "Sem cadastro/login no MVP - uso imediato",
+    "Futuro: offline-first para funcionamento sem internet"
   ],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Professional dashboard icon for financial calculator showing currency symbols or coins in warm earth tones (calculator-icon.dim_128x128.png)\n- Professional dashboard icon for legal defense generator showing scales of justice or document in warm earth tones (legal-icon.dim_128x128.png)\n- Hero background image for dashboard with abstract geometric pattern in dark mode colors with subtle texture (hero-bg.dim_1920x1080.png)",
   "existing_features": [
     {
-      "id": "feature-create-a-financial-loss-calculator-that-allows-drivers-to-input-trip-data-distance-fuel-costs-tolls-maintenance-fines-and-calculates-total-financial-losses-with-a-breakdown-of-each-category",
-      "title": "Create a financial loss calculator that allows drivers to input trip data (distance, fuel costs, tolls, maintenance, fines) and calculates total financial losses with a breakdown of each category",
+      "id": "feature-replace-the-current-financialcalculator-component-with-a-comprehensive-block-report-form-that-collects-platform-uber-99-ifood-rappi-indrive-alleged-reason-for-block-driver-s-personal-data-name-cpf-phone-date-of-block-and-additional-context-store-this-data-in-the-backend-and-associate-it-with-calculations",
+      "title": "Replace the current FinancialCalculator component with a comprehensive block report form that collects: platform (Uber/99/iFood/Rappi/Indrive), alleged reason for block, driver's personal data (name, CPF, phone), date of block, and additional context. Store this data in the backend and associate it with calculations.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-build-an-ai-powered-legal-defense-generator-that-takes-incident-details-date-location-type-of-violation-circumstances-and-generates-a-structured-legal-defense-document-with-arguments-applicable-laws-and-suggested-next-steps",
-      "title": "Build an AI-powered legal defense generator that takes incident details (date, location, type of violation, circumstances) and generates a structured legal defense document with arguments, applicable laws, and suggested next steps",
+      "id": "feature-add-a-work-history-section-to-collect-active-time-on-platform-months-years-daily-average-earnings-weekly-average-earnings-and-fixed-monthly-expenses-vehicle-financing-insurance-fuel-maintenance-calculate-ceased-profits-lucros-cessantes-based-on-time-blocked-multiplied-by-average-earnings-minus-expenses",
+      "title": "Add a work history section to collect: active time on platform (months/years), daily average earnings, weekly average earnings, and fixed monthly expenses (vehicle financing, insurance, fuel, maintenance). Calculate ceased profits (lucros cessantes) based on time blocked multiplied by average earnings minus expenses.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-implement-pdf-export-functionality-for-both-financial-loss-calculations-and-legal-defense-documents-with-professional-formatting-including-headers-sections-and-branding",
-      "title": "Implement PDF export functionality for both financial loss calculations and legal defense documents, with professional formatting including headers, sections, and branding",
+      "id": "feature-create-a-detailed-calculation-review-screen-that-displays-all-inputs-and-the-itemized-financial-loss-breakdown-before-proceeding-to-defense-generation-include-daily-rate-days-blocked-total-loss-expenses-deducted-and-net-ceased-profits-with-edit-capability",
+      "title": "Create a detailed calculation review screen that displays all inputs and the itemized financial loss breakdown before proceeding to defense generation. Include daily rate, days blocked, total loss, expenses deducted, and net ceased profits with edit capability.",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
     },
     {
-      "id": "feature-design-and-implement-a-comprehensive-dark-mode-ui-optimized-for-drivers-featuring-high-contrast-large-touch-targets-clear-typography-and-a-professional-color-scheme-avoiding-blue-and-purple-tones",
-      "title": "Design and implement a comprehensive dark mode UI optimized for drivers, featuring high contrast, large touch targets, clear typography, and a professional color scheme avoiding blue and purple tones",
+      "id": "feature-enhance-the-legaldefensegenerator-to-include-block-type-selection-arbitrary-dismissal-false-accusation-system-error-discrimination-retaliation-and-context-aware-ai-prompt-that-incorporates-the-block-data-work-history-and-calculated-losses-into-the-generated-defense-with-relevant-brazilian-labor-and-consumer-law-citations",
+      "title": "Enhance the LegalDefenseGenerator to include block type selection (arbitrary dismissal, false accusation, system error, discrimination, retaliation) and context-aware AI prompt that incorporates the block data, work history, and calculated losses into the generated defense with relevant Brazilian labor and consumer law citations.",
       "reqIds": [
         "REQ-4"
       ],
       "version": 1
     },
     {
-      "id": "feature-create-a-dashboard-homepage-that-provides-quick-access-to-the-financial-calculator-legal-defense-generator-and-previously-saved-calculations-and-defenses-with-clear-visual-cards",
-      "title": "Create a dashboard homepage that provides quick access to the financial calculator, legal defense generator, and previously saved calculations and defenses with clear visual cards",
+      "id": "feature-allow-drivers-to-review-and-edit-the-ai-generated-legal-defense-text-before-export-with-a-rich-text-editor-that-preserves-formatting-and-legal-structure-while-enabling-customization",
+      "title": "Allow drivers to review and edit the AI-generated legal defense text before export, with a rich text editor that preserves formatting and legal structure while enabling customization.",
       "reqIds": [
         "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-modify-pdf-export-to-generate-a-comprehensive-legal-document-that-includes-driver-information-block-details-complete-work-history-itemized-financial-loss-calculation-with-formulas-ai-generated-legal-defense-with-citations-and-signature-date-fields-format-for-a4-printing-with-professional-legal-document-styling",
+      "title": "Modify PDF export to generate a comprehensive legal document that includes: driver information, block details, complete work history, itemized financial loss calculation with formulas, AI-generated legal defense with citations, and signature/date fields. Format for A4 printing with professional legal document styling.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-localstorage-indexeddb-persistence-to-save-draft-calculations-work-history-and-defense-documents-automatically-allowing-drivers-to-return-and-continue-without-losing-data-include-a-history-view-showing-all-saved-drafts-with-timestamps",
+      "title": "Implement localStorage/IndexedDB persistence to save draft calculations, work history, and defense documents automatically, allowing drivers to return and continue without losing data. Include a history view showing all saved drafts with timestamps.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-dashboard-to-show-quick-access-cards-for-new-block-report-continue-draft-view-history-and-stats-showing-total-calculated-losses-and-number-of-defenses-generated-remove-or-adapt-existing-calculator-legal-defense-cards-to-fit-new-flow",
+      "title": "Update Dashboard to show quick access cards for: 'New Block Report', 'Continue Draft', 'View History', and stats showing total calculated losses and number of defenses generated. Remove or adapt existing calculator/legal defense cards to fit new flow.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-revise-all-ui-text-to-use-clear-accessible-portuguese-language-that-avoids-complex-legal-jargon-in-interface-elements-add-tooltips-or-help-text-to-explain-legal-terms-where-necessary-e-g-lucros-cessantes-cdc-clt",
+      "title": "Revise all UI text to use clear, accessible Portuguese language that avoids complex legal jargon in interface elements. Add tooltips or help text to explain legal terms where necessary (e.g., 'lucros cessantes', 'CDC', 'CLT').",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-entire-flow-from-block-report-work-history-calculation-review-defense-generation-pdf-export-works-as-a-seamless-multi-step-process-with-clear-progress-indication-back-navigation-and-the-ability-to-save-at-any-step",
+      "title": "Ensure the entire flow from block report → work history → calculation review → defense generation → PDF export works as a seamless multi-step process with clear progress indication, back navigation, and the ability to save at any step.",
+      "reqIds": [
+        "REQ-10"
       ],
       "version": 1
     }
@@ -56,31 +99,43 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Financial loss calculator for drivers",
+      "summary": "Formulário de dados do bloqueio (plataforma, motivo, dados pessoais)",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "AI-powered legal defense generator",
+      "summary": "Inserção de histórico de trabalho (tempo ativo, média de ganhos, despesas fixas)",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-3",
-      "summary": "PDF export functionality",
+      "summary": "Cálculo automático de perdas financeiras (lucros cessantes)",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-4",
-      "summary": "Dark mode UI optimized for drivers",
+      "summary": "Gerador de defesa jurídica com IA (tipo de bloqueio, fundamentação legal)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Exportação de PDF completo (cálculo + defesa formatada)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Armazenamento local (localStorage/IndexedDB) para rascunhos e histórico",
       "reqIds": [],
       "status": "pending"
     }
   ],
   "gameProjectType": "none",
-  "projectName": "Driver Defense Hub",
+  "projectName": "Assistente Jurídico para Motoristas de App",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

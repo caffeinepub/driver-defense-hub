@@ -10,48 +10,56 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
+export interface BlockReport {
+  'id' : string,
+  'cpf' : string,
+  'blockDate' : string,
+  'platform' : string,
+  'additionalContext' : string,
+  'blockReason' : string,
+  'phone' : string,
+  'driverName' : string,
+}
+export interface CeasedProfits {
+  'netLostProfits' : number,
+  'totalLostEarnings' : number,
+  'totalBlockedDays' : bigint,
+  'totalExpensesDuringBlock' : number,
+  'avgDailyEarnings' : number,
+}
 export interface DashboardData {
-  'savedCalculations' : Array<FinancialBreakdown>,
+  'ceasedProfitsCalculations' : Array<CeasedProfits>,
   'savedDefenses' : Array<LegalDefense>,
+  'workHistories' : Array<WorkHistory>,
+  'blockReports' : Array<BlockReport>,
 }
 export type ExternalBlob = Uint8Array;
-export interface FinancialBreakdown {
-  'fines' : number,
-  'tolls' : number,
-  'total' : number,
-  'distance' : number,
-  'fuelCost' : number,
-  'maintenance' : number,
-}
 export interface GalleryImage {
   'id' : string,
   'title' : string,
   'description' : string,
   'image' : ExternalBlob,
 }
-export interface IncidentDetails {
-  'date' : string,
-  'circumstances' : string,
-  'location' : string,
-  'violationType' : string,
-}
 export interface LegalDefense {
+  'blockType' : string,
   'structuredDocument' : string,
   'suggestedNextSteps' : Array<string>,
   'arguments' : Array<string>,
   'applicableLaws' : Array<string>,
 }
-export interface TripData {
-  'fines' : number,
-  'tolls' : number,
-  'distance' : number,
-  'fuelCost' : number,
-  'maintenance' : number,
-}
 export interface UserProfile { 'name' : string, 'email' : string }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
+export interface WorkHistory {
+  'monthlyVehicleFinancing' : number,
+  'activeMonths' : bigint,
+  'dailyAvgEarnings' : number,
+  'weeklyAvgEarnings' : number,
+  'monthlyInsurance' : number,
+  'monthlyFuel' : number,
+  'monthlyMaintenance' : number,
+}
 export interface _CaffeineStorageCreateCertificateResult {
   'method' : string,
   'blob_hash' : string,
@@ -80,11 +88,18 @@ export interface _SERVICE {
   >,
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
+  'addBlockReport' : ActorMethod<[BlockReport], undefined>,
+  'addWorkHistory' : ActorMethod<[WorkHistory], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'calculateFinancialLoss' : ActorMethod<[TripData], FinancialBreakdown>,
-  'generateLegalDefense' : ActorMethod<[IncidentDetails], LegalDefense>,
-  'getAllFinancialLosses' : ActorMethod<[], Array<FinancialBreakdown>>,
+  'calculateCeasedProfits' : ActorMethod<
+    [bigint, number, number],
+    CeasedProfits
+  >,
+  'generateLegalDefense' : ActorMethod<[string, string], LegalDefense>,
+  'getAllBlockReports' : ActorMethod<[], Array<BlockReport>>,
+  'getAllCeasedProfits' : ActorMethod<[], Array<CeasedProfits>>,
   'getAllLegalDefenses' : ActorMethod<[], Array<LegalDefense>>,
+  'getAllWorkHistories' : ActorMethod<[], Array<WorkHistory>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getDashboard' : ActorMethod<[], DashboardData>,

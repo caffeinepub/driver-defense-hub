@@ -1,184 +1,316 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Driver Defense Hub - Frontend Implementation",
+  "title": "Implement core driver defense features based on plan",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Create financial loss calculator with trip data inputs and breakdown display",
+      "summary": "Replace FinancialCalculator with comprehensive block report form collecting platform, reason, driver data, date, and context",
       "acceptanceCriteria": [
-        "Calculator accepts numerical inputs for distance, fuel costs, tolls, maintenance expenses, and fines",
-        "Calculator displays total financial loss and itemized breakdown",
-        "All monetary values are properly formatted",
-        "Calculator persists calculation history for logged-in users"
+        "Form includes dropdown for platform selection with all 5 platforms",
+        "Text field for alleged block reason",
+        "Personal data fields (name, CPF, phone number) with Brazilian format validation",
+        "Date picker for block date",
+        "Optional context/notes textarea",
+        "Data is saved to backend and linked to subsequent calculations",
+        "Mobile-optimized form layout with clear labels in Portuguese"
       ],
       "file_operations": [
         {
+          "path": "frontend/src/components/BlockReportForm.tsx",
+          "operation": "create",
+          "description": "Create new comprehensive block report form component with platform dropdown (Uber, 99, iFood, Rappi, Indrive), text input for alleged block reason, personal data fields (name with text input, CPF with Brazilian format validation mask, phone with Brazilian format), date picker for block date, and optional textarea for additional context. Include Portuguese labels and helper text. Use React Hook Form for validation. Call backend addBlockReport method via useActor hook. Display success/error feedback. Use dark theme colors (#121212 background, #FF9800 accent) and mobile-first responsive design."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useAddBlockReport mutation hook that calls actor.addBlockReport with BlockReport data. Include proper error handling and success callbacks. Invalidate relevant queries (dashboard, block reports list) on success. Return mutation status for UI feedback."
+        },
+        {
           "path": "frontend/src/components/FinancialCalculator.tsx",
-          "operation": "create",
-          "description": "Create a financial loss calculator component with form inputs for distance, fuel costs, tolls, maintenance, and fines. Display calculated breakdown including total. Use shadcn/ui form components with proper validation. Format monetary values with currency formatting. Call backend calculateFinancialLoss method and handle the response to display FinancialBreakdown results. Use the authorization component to ensure only authenticated users can save calculations."
-        },
-        {
-          "path": "frontend/src/hooks/useFinancialCalculator.ts",
-          "operation": "create",
-          "description": "Create a custom hook that manages financial calculator state and backend interactions. Implement useMutation for calculateFinancialLoss and useQuery for getAllFinancialLosses to fetch calculation history. Handle loading, error states, and cache invalidation after new calculations."
-        },
-        {
-          "path": "frontend/src/components/CalculationHistory.tsx",
-          "operation": "create",
-          "description": "Create a component to display saved financial calculations with timestamps and breakdown details. Fetch data using getAllFinancialLosses backend method. Show itemized breakdown for each saved calculation with proper formatting."
+          "operation": "delete",
+          "description": "Remove the existing FinancialCalculator component as it is being replaced by the new multi-step block report and work history flow."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Build AI-powered legal defense generator with incident details form and structured document output",
+      "summary": "Add work history section collecting active time, earnings averages, and fixed expenses with automatic ceased profits calculation",
       "acceptanceCriteria": [
-        "Form accepts incident details including date, location, violation type, and description of circumstances",
-        "Backend generates coherent legal defense text with structured sections (facts, legal arguments, conclusion)",
-        "Generated defense references applicable traffic laws and regulations",
-        "Defense includes practical next steps for the driver",
-        "Generated defenses are saved to user's account"
+        "Input fields for time active on platform (years and months)",
+        "Daily and weekly average earnings inputs with currency formatting (R$)",
+        "Fixed monthly expenses breakdown: vehicle payment, insurance, fuel budget, maintenance",
+        "Automatic calculation of daily ceased profits: (daily avg - daily expenses) × days blocked",
+        "Automatic calculation of total ceased profits with projection",
+        "Clear formula display showing how losses were calculated",
+        "Results formatted in Brazilian currency (R$) with proper locale"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/LegalDefenseGenerator.tsx",
+          "path": "frontend/src/components/WorkHistoryForm.tsx",
           "operation": "create",
-          "description": "Create a legal defense generator component with form inputs for incident date (date picker), location (text), violation type (select or text), and circumstances (textarea). Use shadcn/ui form components with validation. Call backend generateLegalDefense method with IncidentDetails and display the returned LegalDefense object with structured sections for arguments, applicable laws, and suggested next steps. Use the authorization component to ensure only authenticated users can generate defenses."
+          "description": "Create work history form component with inputs for active time (separate numeric inputs for years and months), daily average earnings with Brazilian currency formatting (R$), weekly average earnings with currency formatting, and fixed monthly expenses breakdown (vehicle financing, insurance, fuel budget, maintenance - all with currency formatting). Include real-time calculation display showing: daily expenses calculation, daily ceased profits formula ((daily avg - daily expenses) × days blocked), and total ceased profits. Display formulas clearly with tooltips explaining each component. Use proper pt-BR locale for number/currency formatting. Include submit button that calls backend addWorkHistory method. Use dark theme styling and mobile-responsive layout."
         },
         {
-          "path": "frontend/src/hooks/useLegalDefense.ts",
-          "operation": "create",
-          "description": "Create a custom hook for legal defense operations. Implement useMutation for generateLegalDefense and useQuery for getAllLegalDefenses to fetch defense history. Handle loading, error states, and cache invalidation."
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useAddWorkHistory mutation hook calling actor.addWorkHistory and useCalculateCeasedProfits mutation hook calling actor.calculateCeasedProfits. Both should include error handling, loading states, and query invalidation on success. Return formatted results for display in UI components."
         },
         {
-          "path": "frontend/src/components/DefenseHistory.tsx",
+          "path": "frontend/src/utils/currencyFormat.ts",
           "operation": "create",
-          "description": "Create a component to display saved legal defenses. Fetch data using getAllLegalDefenses backend method. Display structured defense documents with sections for arguments, applicable laws, and next steps with proper formatting and readability."
-        },
-        {
-          "path": "frontend/src/components/DefenseDocument.tsx",
-          "operation": "create",
-          "description": "Create a reusable component to display a single legal defense document in a structured format with clear sections for arguments, applicable laws, and suggested next steps. Include proper typography and spacing for readability in dark mode."
+          "description": "Create utility module with functions for Brazilian currency formatting: formatCurrency(value: number) returning formatted R$ string using pt-BR locale, parseCurrencyInput(input: string) returning number for form inputs, and formatCurrencyInput(value: string) for real-time input formatting as user types. Handle edge cases like empty strings, invalid numbers, and decimal separators."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Implement PDF export functionality for financial calculations and legal defense documents",
+      "summary": "Create detailed calculation review screen displaying all inputs and itemized financial loss breakdown before defense generation with edit capability",
       "acceptanceCriteria": [
-        "Users can export financial loss calculations as PDF with all breakdown details",
-        "Users can export legal defense documents as formatted PDF",
-        "PDFs include headers with document title and generation date",
-        "PDFs are properly formatted with clear sections and readable typography",
-        "Export buttons are accessible from both calculator results and defense document views"
+        "Summary card showing all block information (platform, date, reason)",
+        "Work history summary (time active, averages)",
+        "Itemized loss calculation with line items",
+        "Edit button to go back and modify inputs",
+        "Confirm button to proceed to legal defense generation",
+        "Clear visual hierarchy with orange accent (#FF9800) for totals"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/pdfExport.ts",
+          "path": "frontend/src/components/CalculationReview.tsx",
           "operation": "create",
-          "description": "Create PDF export utility functions using a client-side PDF library (jsPDF or similar). Implement exportFinancialCalculationPDF function that accepts FinancialBreakdown and generates a formatted PDF with headers, breakdown sections, and branding. Implement exportLegalDefensePDF function that accepts LegalDefense and generates a formatted PDF with structured sections for arguments, laws, and next steps. Include document title, generation date, and professional formatting with proper typography."
+          "description": "Create calculation review component displaying: (1) Block information summary card with platform name, block date formatted in Portuguese, alleged reason, and driver details, (2) Work history summary showing time active formatted as 'X anos, Y meses', daily/weekly earnings formatted as R$, and monthly expenses breakdown, (3) Itemized loss calculation section with line items (daily rate, days blocked, total gross loss, total expenses, net ceased profits) each formatted in Brazilian currency with clear labels, (4) Edit button with icon navigating back to previous step, (5) Confirm button in orange (#FF9800) to proceed to legal defense generation. Use card-based layout with clear visual hierarchy, orange accent for totals and primary actions. Include data prop types matching BlockReport, WorkHistory, and CeasedProfits from backend interface. Mobile-responsive with proper spacing."
         },
         {
-          "path": "frontend/src/components/FinancialCalculator.tsx",
+          "path": "frontend/src/pages/CalculatorPage.tsx",
           "operation": "modify",
-          "description": "Add PDF export button to the calculator results display. Wire the button to call exportFinancialCalculationPDF with the current calculation results. Use shadcn/ui Button component styled for dark mode."
-        },
-        {
-          "path": "frontend/src/components/DefenseDocument.tsx",
-          "operation": "modify",
-          "description": "Add PDF export button to the legal defense document view. Wire the button to call exportLegalDefensePDF with the current defense document. Use shadcn/ui Button component styled for dark mode."
-        },
-        {
-          "path": "frontend/src/components/CalculationHistory.tsx",
-          "operation": "modify",
-          "description": "Add export buttons to each saved calculation in the history list to allow PDF export of historical calculations."
-        },
-        {
-          "path": "frontend/src/components/DefenseHistory.tsx",
-          "operation": "modify",
-          "description": "Add export buttons to each saved defense in the history list to allow PDF export of historical defenses."
+          "description": "Transform into multi-step flow container managing BlockReportForm, WorkHistoryForm, and CalculationReview steps. Add step state management (current step index), data persistence between steps, and navigation logic (next, back, save). Display progress indicator showing current step (e.g., Step 1/4). Pass shared data between components. Include auto-save functionality calling localStorage on step transitions. Update page layout and routing to support the new flow. Remove old FinancialCalculator and CalculationHistory component references."
         }
       ]
     },
     {
       "id": "REQ-4",
-      "summary": "Design and implement comprehensive dark mode UI optimized for drivers",
+      "summary": "Enhance LegalDefenseGenerator with block type selection and context-aware AI prompt incorporating block data, work history, and calculated losses with Brazilian law citations",
       "acceptanceCriteria": [
-        "Entire application uses dark mode by default with warm, professional colors",
-        "Text maintains high contrast ratios for readability in vehicle environments",
-        "Interactive elements have touch-friendly sizes (minimum 44x44px)",
-        "Navigation is intuitive with clear visual hierarchy",
-        "Forms use large input fields appropriate for mobile use while driving safely parked",
-        "Color scheme avoids blue and purple, using earth tones, warm grays, or professional alternatives"
+        "Dropdown or radio selection for block type in Portuguese",
+        "AI prompt template includes: platform name, block reason, driver data, work history, calculated losses",
+        "Generated defense references relevant Brazilian laws (CLT, CDC, Marco Civil)",
+        "Defense structured with: introduction, facts, legal arguments, calculated damages, conclusion, next steps",
+        "Output in formal legal Portuguese suitable for administrative or judicial filing",
+        "Citations formatted properly with article numbers and law names"
       ],
       "file_operations": [
         {
-          "path": "frontend/tailwind.config.js",
+          "path": "frontend/src/components/LegalDefenseGenerator.tsx",
           "operation": "modify",
-          "description": "Configure Tailwind with a dark mode color scheme using warm earth tones, amber/orange accents, and warm grays. Avoid blue and purple colors. Set up custom color variables for primary (warm amber/orange), secondary (warm gray), accent (earth tones), and background (dark warm grays). Ensure high contrast ratios for text on dark backgrounds. Configure default theme to use dark mode colors."
+          "description": "Replace existing incident input fields with: (1) Block type selection using radio buttons or dropdown with Portuguese labels (Dispensa Arbitrária, Acusação Falsa, Erro do Sistema, Discriminação, Retaliação), (2) Integration with block report data, work history data, and calculated losses passed as props or from context, (3) Enhanced context field for additional details. Update the generateLegalDefense call to pass blockType string and comprehensive context string that includes platform name, block reason, driver details from BlockReport, work history summary, and calculated ceased profits formatted in R$. Remove old date/location/violation fields. Maintain DefenseDocument display component usage. Update form layout for mobile-first design with dark theme colors. Add tooltips explaining each block type in simple Portuguese."
         },
         {
-          "path": "frontend/src/index.css",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Apply global dark mode styles with warm color palette. Set default background to dark warm gray and text to high-contrast warm white/cream. Define CSS custom properties for the driver-optimized color scheme using earth tones and warm grays. Ensure all text has high contrast ratios. Set base font size for readability and configure form inputs with large touch-friendly sizes (minimum 44x44px for interactive elements)."
-        },
-        {
-          "path": "frontend/src/components/Layout.tsx",
-          "operation": "create",
-          "description": "Create a layout component that provides consistent dark mode styling, navigation structure, and page container. Include navigation header with large touch-friendly buttons. Apply warm dark background colors and ensure proper spacing for mobile use. This layout wraps all page content and provides the visual hierarchy foundation."
+          "description": "Update useGenerateLegalDefense mutation to accept enhanced parameters: blockType string and comprehensive context object/string containing block report details, work history data, and calculated losses. Ensure the context is properly formatted and passed to actor.generateLegalDefense. Handle response containing structured legal defense with Brazilian law citations (CLT, CDC, Marco Civil). Add proper TypeScript types matching the enhanced LegalDefense interface."
         }
       ]
     },
     {
       "id": "REQ-5",
-      "summary": "Create dashboard homepage with quick access to calculator, legal defense generator, and saved documents",
+      "summary": "Allow drivers to review and edit AI-generated legal defense text with rich text editor preserving formatting and legal structure",
       "acceptanceCriteria": [
-        "Dashboard displays cards for 'Calculate Financial Loss' and 'Generate Legal Defense'",
-        "Dashboard shows a list of recent calculations and defenses with timestamps",
-        "Users can quickly navigate to create new documents or view saved ones",
-        "Dashboard design follows dark mode and driver-optimized UI principles"
+        "Editable text area or simple rich text editor for defense text",
+        "Preserves paragraph breaks and legal document formatting",
+        "Clear instructions in Portuguese about what can be edited",
+        "Reset button to restore AI-generated version",
+        "Character count or length indicator",
+        "Save draft functionality before export"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/Dashboard.tsx",
+          "path": "frontend/src/components/DefenseEditor.tsx",
           "operation": "create",
-          "description": "Create the main dashboard page component. Display hero section with background image from frontend/public/assets/generated/hero-bg.dim_1920x1080.png. Show two prominent action cards: one for 'Calculate Financial Loss' using frontend/public/assets/generated/calculator-icon.dim_128x128.png and one for 'Generate Legal Defense' using frontend/public/assets/generated/legal-icon.dim_128x128.png. Below the cards, display recent calculations and defenses sections using CalculationHistory and DefenseHistory components. Use shadcn/ui Card components with large touch-friendly sizes. Ensure the layout follows dark mode and driver-optimized principles with warm colors and high contrast. Call getDashboard backend method to fetch dashboard data."
+          "description": "Create defense text editor component with: (1) Textarea or contenteditable div supporting paragraph breaks and basic formatting, (2) Display of original AI-generated defense text passed as prop, (3) Edit state management allowing modifications, (4) Portuguese instructions above editor explaining editable sections, (5) Reset button to restore original AI-generated version with confirmation dialog, (6) Character count display showing current length, (7) Save draft button calling localStorage persistence, (8) Controlled input state with onChange handler. Use monospace or legal-document-style font. Include proper line height and spacing for readability. Style with dark theme colors and mobile-responsive layout. Pass edited text to parent component for PDF export."
         },
         {
-          "path": "frontend/src/hooks/useDashboard.ts",
+          "path": "frontend/src/components/DefenseDocument.tsx",
+          "operation": "modify",
+          "description": "Integrate DefenseEditor component into the defense document flow. Add edit mode state toggle. When in view mode, display the defense text read-only with preview styling. When in edit mode, render DefenseEditor component with current defense text. Include Edit/Done toggle button. Pass edited text state to PDF export function. Maintain existing structure showing arguments, applicable laws, and suggested next steps sections. Update layout to accommodate editor component while preserving legal document formatting in preview mode."
+        },
+        {
+          "path": "frontend/src/hooks/useLocalStorage.ts",
           "operation": "create",
-          "description": "Create a custom hook to fetch dashboard data using the getDashboard backend method. Return savedCalculations and savedDefenses arrays with proper loading and error states."
+          "description": "Create custom hook for localStorage operations: useLocalStorage(key: string, initialValue: any) returning [storedValue, setValue, removeValue]. Include JSON serialization/deserialization with error handling. Add auto-save functionality with debouncing (save after 500ms of no changes). Provide getItem, setItem, removeItem helper functions. Handle localStorage quota exceeded errors gracefully. Use TypeScript generics for type safety."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Modify PDF export to generate comprehensive legal document including driver info, block details, work history, itemized losses, AI defense with citations, and signature fields formatted for A4 printing",
+      "acceptanceCriteria": [
+        "PDF includes header with document title and generation date",
+        "Section 1: Driver and block information",
+        "Section 2: Work history and earnings summary",
+        "Section 3: Itemized financial loss calculation",
+        "Section 4: Complete legal defense text with formatting",
+        "Section 5: Signature and date fields for driver",
+        "Professional formatting suitable for submission to platforms or courts",
+        "A4 page size with proper margins and page breaks",
+        "Export function works client-side for privacy"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/pdfExport.ts",
+          "operation": "modify",
+          "description": "Replace existing PDF export functions with comprehensive legal document generator. Create generateLegalDocumentPDF function accepting: blockReport (BlockReport type), workHistory (WorkHistory type), ceasedProfits (CeasedProfits type), legalDefense (LegalDefense type with edited text), and generation date. Structure HTML template with: (1) Header section with document title 'Defesa Administrativa - Bloqueio Indevido' and generation date formatted in Portuguese, (2) Section 1 labeled 'Dados do Motorista e Bloqueio' displaying driver name, CPF, phone, platform, block date, and alleged reason, (3) Section 2 labeled 'Histórico de Trabalho' showing time active, daily/weekly earnings, and monthly expenses breakdown all formatted in R$, (4) Section 3 labeled 'Cálculo de Lucros Cessantes' with itemized loss calculation table (daily rate, blocked days, gross loss, expenses, net loss) with totals highlighted, (5) Section 4 labeled 'Fundamentação Jurídica' containing full legal defense text preserving paragraph breaks and citations formatting, (6) Section 5 labeled 'Assinatura' with signature line, printed name line, date line, and CPF line. Apply A4-specific CSS: page size 210mm x 297mm, margins 20mm all sides, page breaks between major sections, professional legal document typography (serif font for body, sans-serif for headers), proper line spacing (1.5 for body text), and print-optimized colors (black text, no backgrounds). Use window.print() for client-side generation. Ensure proper encoding for Portuguese characters."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Implement localStorage/IndexedDB persistence for auto-saving drafts with history view showing all saved items with timestamps",
+      "acceptanceCriteria": [
+        "Auto-save form inputs to localStorage every 30 seconds or on field blur",
+        "Saved drafts include: block data, work history, calculation results, defense text",
+        "History/drafts page shows list of all saved items with timestamps",
+        "Load draft functionality to restore a previous session",
+        "Delete draft functionality with confirmation",
+        "Indicator showing when draft was last saved",
+        "Clear all drafts option with confirmation dialog"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useDraftPersistence.ts",
+          "operation": "create",
+          "description": "Create custom hook managing draft persistence: useDraftPersistence() returning { saveDraft, loadDraft, deleteDraft, getAllDrafts, clearAllDrafts, lastSaved }. Define Draft type containing: id (generated UUID), timestamp (Date), blockReport (BlockReport or partial), workHistory (WorkHistory or partial), ceasedProfits (CeasedProfits or null), legalDefense (string or null), step (current step number). Implement auto-save with 30-second interval and on-blur triggers. Use localStorage with key 'driver-defense-drafts'. Store drafts as JSON array. Provide functions: saveDraft(draft: Draft) adding/updating draft in array, loadDraft(id: string) returning Draft or null, deleteDraft(id: string) removing from array with confirmation, getAllDrafts() returning sorted array (newest first), clearAllDrafts() removing all with confirmation, and lastSaved timestamp state. Handle storage quota errors. Include TypeScript types for all draft data."
+        },
+        {
+          "path": "frontend/src/components/DraftIndicator.tsx",
+          "operation": "create",
+          "description": "Create draft auto-save indicator component displaying last saved timestamp. Show small badge/chip with text 'Salvo em [time]' using Portuguese relative time format (e.g., 'há 2 minutos', 'há 1 hora'). Update timestamp display every 30 seconds. Use green color (#4CAF50) when recently saved (< 1 min), gray when older. Position fixed or sticky in bottom-right corner on mobile. Include small icon (checkmark or cloud). Receive lastSaved prop from useDraftPersistence hook. Auto-hide after 5 seconds of display, show again on next save. Use fade-in/fade-out animations."
+        },
+        {
+          "path": "frontend/src/pages/DraftsHistoryPage.tsx",
+          "operation": "create",
+          "description": "Create drafts history page showing list of all saved drafts. Display cards/list items for each draft with: timestamp formatted in Portuguese ('DD/MM/YYYY HH:mm'), driver name if available, platform name if available, progress indicator showing which step was reached (e.g., '3/4 completo'), Load button to restore and continue draft, Delete button (trash icon) with confirmation dialog. Implement sort by timestamp (newest first). Include 'Clear All' button in header with confirmation dialog ('Tem certeza que deseja apagar todos os rascunhos?'). Empty state message when no drafts: 'Nenhum rascunho salvo ainda'. Use dark theme card layout with orange accent for Load buttons. Mobile-responsive list/grid. Add back button to dashboard. Call useDraftPersistence hook for data and actions. When loading draft, navigate to appropriate step and populate form fields."
         },
         {
           "path": "frontend/src/pages/CalculatorPage.tsx",
-          "operation": "create",
-          "description": "Create a dedicated page for the financial calculator that wraps the FinancialCalculator component. Include page title and layout using the Layout component. Add navigation back to dashboard."
-        },
-        {
-          "path": "frontend/src/pages/LegalDefensePage.tsx",
-          "operation": "create",
-          "description": "Create a dedicated page for the legal defense generator that wraps the LegalDefenseGenerator component. Include page title and layout using the Layout component. Add navigation back to dashboard."
+          "operation": "modify",
+          "description": "Integrate draft auto-save functionality using useDraftPersistence hook. Call saveDraft on every step transition and field blur (debounced). Display DraftIndicator component in page layout. When user navigates to this page, check for existing draft and show prompt to continue or start fresh. Populate form fields from loaded draft if user chooses to continue. Update step navigation to persist current progress. Add 'Save & Exit' button in page header allowing user to explicitly save and return to dashboard. Ensure all form data (BlockReport, WorkHistory, defense text) is included in draft saves."
         },
         {
           "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Set up React Router with routes for dashboard (/), calculator page (/calculator), and legal defense page (/defense). Wire Dashboard as the default route. Wrap all routes in the Layout component. Use the authorization component to ensure users must be authenticated before accessing the application. Verify the component's usage instructions before implementing."
-        },
+          "description": "Add route for DraftsHistoryPage at path '/drafts'. Update router configuration to include the new drafts route. Ensure route is accessible from Dashboard via navigation link. Add proper route typing and lazy loading if needed. Maintain existing routes (Dashboard, Calculator, Legal Defense) while integrating the new drafts history route."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Update Dashboard with quick access cards for 'New Block Report', 'Continue Draft', 'View History', and stats showing total losses and defenses generated",
+      "acceptanceCriteria": [
+        "Primary CTA button: 'Report New Block' prominently displayed in orange (#FF9800)",
+        "Card to resume most recent draft if exists",
+        "Link to full history/drafts view",
+        "Dashboard stats: total ceased profits calculated, number of defenses generated",
+        "Clear visual hierarchy with most critical action (new report) most prominent",
+        "Mobile-optimized card layout"
+      ],
+      "file_operations": [
         {
-          "path": "frontend/src/components/ProfileSetup.tsx",
-          "operation": "create",
-          "description": "Create a modal component for first-time user profile setup that prompts for name. Use shadcn/ui Dialog component. Call saveCallerUserProfile backend method after form submission. Use the authorization component's profile setup pattern to prevent modal flash. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/LoginButton.tsx",
-          "operation": "create",
-          "description": "Create a login/logout button component following the authorization component's LoginButton pattern. Handle authentication state, login, and logout with proper cache clearing. Style with large touch-friendly size and warm dark mode colors. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/Layout.tsx",
+          "path": "frontend/src/pages/Dashboard.tsx",
           "operation": "modify",
-          "description": "Add LoginButton to the Layout header navigation. Include the ProfileSetup modal that shows when a new user logs in for the first time. Use the authorization component's profile checking logic to determine when to show the setup modal. Verify the component's usage instructions before implementing."
+          "description": "Replace existing action cards with new priority layout: (1) Hero section reduced or removed to prioritize emergency actions, (2) Primary CTA 'Reportar Novo Bloqueio' button prominent in orange (#FF9800) at top, large size, full-width on mobile, navigating to /calculator, (3) Quick access cards below: 'Continuar Rascunho' card (only shown if draft exists) with draft timestamp and 'Retomar' button linking to /calculator with draft loaded, 'Ver Histórico de Rascunhos' card linking to /drafts showing count of saved drafts, (4) Dashboard stats section displaying: total ceased profits calculated across all calculations formatted in R$ with prominent typography, number of legal defenses generated, both fetched from getDashboard backend method via useQueries hook, (5) Remove or adapt existing calculator and legal defense cards to avoid duplication. Maintain recent activity sections (saved calculations, defenses) below stats but de-emphasize compared to primary actions. Use card-based layout with proper spacing, orange accent for primary actions, dark theme styling. Mobile-first responsive design with proper touch targets (min 44x44px). Load most recent draft from useDraftPersistence hook to show 'Continue Draft' card conditionally."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Ensure useGetDashboard query hook properly fetches DashboardData from actor.getDashboard containing arrays of blockReports, workHistories, ceasedProfitsCalculations, and savedDefenses. Add derived calculations for dashboard stats: totalCeasedProfits summing all netLostProfits from ceasedProfitsCalculations array, totalDefensesGenerated counting savedDefenses array length. Return these stats along with raw data for display in Dashboard component. Include proper error handling and loading states."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Revise all UI text to use clear, accessible Portuguese avoiding complex legal jargon in interface elements with tooltips for technical terms",
+      "acceptanceCriteria": [
+        "All form labels, buttons, and instructions in simple Portuguese",
+        "Legal terms explained with tooltips or help icons",
+        "Examples provided for unclear fields",
+        "Error messages in plain language",
+        "Success messages that clearly explain next steps"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/constants/translations.ts",
+          "operation": "create",
+          "description": "Create centralized translation/copy constants file with all user-facing text in clear, accessible Portuguese. Include: form labels with simple language (e.g., 'Plataforma que bloqueou você' instead of 'Plataforma de ride-hailing'), button text ('Continuar', 'Voltar', 'Salvar Rascunho', 'Exportar PDF'), section headings, error messages in plain language ('Por favor, preencha seu CPF' instead of 'Campo obrigatório'), success messages explaining next steps ('Rascunho salvo! Você pode continuar depois.'), legal term explanations for tooltips (lucros cessantes: 'O dinheiro que você deixou de ganhar por estar bloqueado', CDC: 'Código de Defesa do Consumidor - lei que protege seus direitos', CLT: 'Consolidação das Leis do Trabalho'), placeholder examples ('Ex: 123.456.789-00', 'Ex: (11) 98765-4321'), and help text for complex fields. Export as typed constants object for use throughout app. Organize by component or feature area."
+        },
+        {
+          "path": "frontend/src/components/Tooltip.tsx",
+          "operation": "create",
+          "description": "Create reusable Tooltip component for explaining legal terms and providing help text. Accept props: children (trigger element, typically help icon), content (tooltip text in Portuguese), placement (top, bottom, left, right). Implement with accessible HTML (role='tooltip', aria-describedby). Use small info icon (i in circle) as default trigger when no children provided. Style with dark background, white text, small font size, max-width for readability, z-index above other content. Add hover and focus triggers for accessibility. Include small arrow pointing to trigger element. Use CSS transitions for smooth show/hide. Mobile-friendly with touch support. Integrate with shadcn/ui Tooltip component if available, or implement custom solution."
+        },
+        {
+          "path": "frontend/src/components/BlockReportForm.tsx",
+          "operation": "modify",
+          "description": "Update all form field labels and instructions to use clear Portuguese from translations.ts constants. Add Tooltip components next to technical terms: 'CPF' with explanation of what it is and format, 'Motivo alegado' with example of what to write. Include placeholder examples in all text inputs. Update button labels to use translated constants. Add help text above form explaining its purpose in simple language. Update validation error messages to use plain Portuguese. Add success message after submission explaining what happens next."
+        },
+        {
+          "path": "frontend/src/components/WorkHistoryForm.tsx",
+          "operation": "modify",
+          "description": "Replace all labels and instructions with clear Portuguese from translations.ts. Add Tooltip components explaining: 'Lucros cessantes' (ceased profits concept), 'Despesas fixas' (fixed expenses concept), 'Média de ganhos' (how to calculate average earnings). Include examples in placeholders: 'Ex: R$ 150,00' for daily earnings, 'Ex: R$ 800,00' for vehicle payment. Update section headings to simple language. Add help text explaining the calculation formula in plain Portuguese. Update error messages to be specific and actionable."
+        },
+        {
+          "path": "frontend/src/components/LegalDefenseGenerator.tsx",
+          "operation": "modify",
+          "description": "Update block type options to use clear Portuguese labels from translations.ts. Add Tooltip component for each block type explaining what it means: 'Dispensa Arbitrária' (unfair dismissal without cause), 'Acusação Falsa' (false accusation), etc. Replace technical field labels with accessible language. Update instructions and help text to explain what information to provide in simple terms. Update button labels to translated constants. Add pre-submission explanation of what the AI will generate."
+        },
+        {
+          "path": "frontend/src/components/DefenseEditor.tsx",
+          "operation": "modify",
+          "description": "Add clear instructions in Portuguese above editor explaining: which parts can be edited, what should not be changed (legal citations), how to restore original version. Add Tooltip components for any legal terms that appear in the interface (not in the defense text itself). Update button labels ('Restaurar Original', 'Salvar Alterações') using translations constants. Add help text about document formatting and structure."
+        },
+        {
+          "path": "frontend/src/pages/Dashboard.tsx",
+          "operation": "modify",
+          "description": "Update all button and card labels to use clear Portuguese from translations.ts. Replace technical terminology in stats section with accessible language: instead of 'Lucros Cessantes Totais', use 'Total que Você Deixou de Ganhar'. Add Tooltip components explaining dashboard stats. Update section headings to simple, action-oriented language. Ensure CTA button text is clear and urgent: 'Reportar Bloqueio Agora' instead of 'Novo Relatório'."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Ensure seamless multi-step flow from block report → work history → calculation review → defense generation → PDF export with progress indication, navigation, and save-at-any-step capability",
+      "acceptanceCriteria": [
+        "Multi-step form with progress indicator (e.g., Step 1/5)",
+        "Back button on each step to edit previous sections",
+        "Next/Continue button clearly labeled for forward progress",
+        "Data persists when navigating backward",
+        "Auto-save at each step transition",
+        "Final review screen before PDF export",
+        "Success confirmation after export with option to start new report"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProgressIndicator.tsx",
+          "operation": "create",
+          "description": "Create progress indicator component showing current step in multi-step flow. Display step number and total steps (e.g., 'Passo 2 de 5' or '2/5'). Accept props: currentStep (number), totalSteps (number), stepLabels (optional array of Portuguese step names). Render horizontal progress bar or step dots. Highlight completed steps with green (#4CAF50), current step with orange (#FF9800), and future steps with gray. Include step labels below indicators on desktop, hide on mobile for space. Use semantic HTML (nav or ol) for accessibility. Style for mobile-first design. Position fixed at top of form container or relative within page header."
+        },
+        {
+          "path": "frontend/src/components/NavigationButtons.tsx",
+          "operation": "create",
+          "description": "Create reusable navigation buttons component for multi-step form. Accept props: onBack (callback), onNext (callback), backLabel (string, default 'Voltar'), nextLabel (string, default 'Continuar'), showBack (boolean), showNext (boolean), nextDisabled (boolean), loading (boolean). Render button group with: Back button on left (secondary styling, gray), Next/Continue button on right (primary styling, orange #FF9800). Handle loading states with spinner and disabled state. Use full-width on mobile with buttons stacked or side-by-side. Include proper spacing and touch targets (min 44x44px). Add keyboard navigation support (Enter to continue, Escape to go back). Style consistent with dark theme."
+        },
+        {
+          "path": "frontend/src/pages/CalculatorPage.tsx",
+          "operation": "modify",
+          "description": "Transform into full multi-step flow orchestrator managing: Step 1 - BlockReportForm, Step 2 - WorkHistoryForm, Step 3 - CalculationReview, Step 4 - LegalDefenseGenerator with block type selection, Step 5 - DefenseEditor for review/editing. Implement step state management: currentStep (number 1-5), completedSteps (Set<number>), formData (comprehensive object holding all step data). Add step validation ensuring required data before allowing next step. Implement navigation functions: goToStep(step: number), nextStep() with validation, previousStep() preserving data. Integrate ProgressIndicator component at top showing current position. Render NavigationButtons component at bottom of each step with appropriate labels ('Voltar', 'Continuar', 'Revisar Cálculo', 'Gerar Defesa', 'Exportar PDF'). Call useDraftPersistence saveDraft on every step transition. Conditionally render appropriate component based on currentStep. Pass shared formData as props to each step component. On step 3 (CalculationReview), display all collected data. On step 5 (DefenseEditor), show final review before export. After PDF export, show success modal with options: 'Começar Novo Relatório' (resets flow) or 'Voltar ao Início' (returns to dashboard). Maintain data when navigating back. Clear completed steps tracking when starting fresh."
+        },
+        {
+          "path": "frontend/src/components/ExportSuccessModal.tsx",
+          "operation": "create",
+          "description": "Create success confirmation modal shown after PDF export. Display checkmark icon with green color (#4CAF50), success message in Portuguese ('Documento exportado com sucesso!'), explanation of what was generated ('Sua defesa jurídica completa foi gerada e está pronta para impressão ou envio.'), and action buttons: 'Começar Novo Relatório' (primary, orange) returning to step 1 with clean state, 'Voltar ao Início' (secondary) navigating to dashboard, and 'Fechar' (tertiary) closing modal and staying on current page. Include optional tips section: 'Próximos passos: 1. Imprima o documento, 2. Assine na última página, 3. Envie para a plataforma via SAC'. Style as centered modal with dark background overlay, card with rounded corners, mobile-responsive. Use shadcn/ui Dialog component if available. Accept props: isOpen (boolean), onClose (callback), onNewReport (callback), onDashboard (callback)."
+        },
+        {
+          "path": "frontend/src/pages/CalculatorPage.tsx",
+          "operation": "modify",
+          "description": "Integrate ExportSuccessModal component. Add state for modal visibility: showSuccessModal (boolean). After PDF export completes successfully, set showSuccessModal to true. Pass callbacks to modal: onNewReport clears all form data, resets to step 1, closes modal; onDashboard navigates to '/' and closes modal; onClose just closes modal. Ensure proper cleanup of draft after successful export completion (optional: offer to keep or delete draft). Add error handling for PDF export failures with user-friendly error modal."
         }
       ]
     }

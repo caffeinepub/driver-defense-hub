@@ -19,33 +19,39 @@ export const _CaffeineStorageRefillResult = IDL.Record({
   'success' : IDL.Opt(IDL.Bool),
   'topped_up_amount' : IDL.Opt(IDL.Nat),
 });
+export const BlockReport = IDL.Record({
+  'id' : IDL.Text,
+  'cpf' : IDL.Text,
+  'blockDate' : IDL.Text,
+  'platform' : IDL.Text,
+  'additionalContext' : IDL.Text,
+  'blockReason' : IDL.Text,
+  'phone' : IDL.Text,
+  'driverName' : IDL.Text,
+});
+export const WorkHistory = IDL.Record({
+  'monthlyVehicleFinancing' : IDL.Float64,
+  'activeMonths' : IDL.Nat,
+  'dailyAvgEarnings' : IDL.Float64,
+  'weeklyAvgEarnings' : IDL.Float64,
+  'monthlyInsurance' : IDL.Float64,
+  'monthlyFuel' : IDL.Float64,
+  'monthlyMaintenance' : IDL.Float64,
+});
 export const UserRole = IDL.Variant({
   'admin' : IDL.Null,
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
-export const TripData = IDL.Record({
-  'fines' : IDL.Float64,
-  'tolls' : IDL.Float64,
-  'distance' : IDL.Float64,
-  'fuelCost' : IDL.Float64,
-  'maintenance' : IDL.Float64,
-});
-export const FinancialBreakdown = IDL.Record({
-  'fines' : IDL.Float64,
-  'tolls' : IDL.Float64,
-  'total' : IDL.Float64,
-  'distance' : IDL.Float64,
-  'fuelCost' : IDL.Float64,
-  'maintenance' : IDL.Float64,
-});
-export const IncidentDetails = IDL.Record({
-  'date' : IDL.Text,
-  'circumstances' : IDL.Text,
-  'location' : IDL.Text,
-  'violationType' : IDL.Text,
+export const CeasedProfits = IDL.Record({
+  'netLostProfits' : IDL.Float64,
+  'totalLostEarnings' : IDL.Float64,
+  'totalBlockedDays' : IDL.Nat,
+  'totalExpensesDuringBlock' : IDL.Float64,
+  'avgDailyEarnings' : IDL.Float64,
 });
 export const LegalDefense = IDL.Record({
+  'blockType' : IDL.Text,
   'structuredDocument' : IDL.Text,
   'suggestedNextSteps' : IDL.Vec(IDL.Text),
   'arguments' : IDL.Vec(IDL.Text),
@@ -56,8 +62,10 @@ export const UserProfile = IDL.Record({
   'email' : IDL.Text,
 });
 export const DashboardData = IDL.Record({
-  'savedCalculations' : IDL.Vec(FinancialBreakdown),
+  'ceasedProfitsCalculations' : IDL.Vec(CeasedProfits),
   'savedDefenses' : IDL.Vec(LegalDefense),
+  'workHistories' : IDL.Vec(WorkHistory),
+  'blockReports' : IDL.Vec(BlockReport),
 });
 export const ExternalBlob = IDL.Vec(IDL.Nat8);
 export const GalleryImage = IDL.Record({
@@ -95,15 +103,19 @@ export const idlService = IDL.Service({
     ),
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+  'addBlockReport' : IDL.Func([BlockReport], [], []),
+  'addWorkHistory' : IDL.Func([WorkHistory], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-  'calculateFinancialLoss' : IDL.Func([TripData], [FinancialBreakdown], []),
-  'generateLegalDefense' : IDL.Func([IncidentDetails], [LegalDefense], []),
-  'getAllFinancialLosses' : IDL.Func(
+  'calculateCeasedProfits' : IDL.Func(
+      [IDL.Nat, IDL.Float64, IDL.Float64],
+      [CeasedProfits],
       [],
-      [IDL.Vec(FinancialBreakdown)],
-      ['query'],
     ),
+  'generateLegalDefense' : IDL.Func([IDL.Text, IDL.Text], [LegalDefense], []),
+  'getAllBlockReports' : IDL.Func([], [IDL.Vec(BlockReport)], ['query']),
+  'getAllCeasedProfits' : IDL.Func([], [IDL.Vec(CeasedProfits)], ['query']),
   'getAllLegalDefenses' : IDL.Func([], [IDL.Vec(LegalDefense)], ['query']),
+  'getAllWorkHistories' : IDL.Func([], [IDL.Vec(WorkHistory)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getDashboard' : IDL.Func([], [DashboardData], ['query']),
@@ -136,33 +148,39 @@ export const idlFactory = ({ IDL }) => {
     'success' : IDL.Opt(IDL.Bool),
     'topped_up_amount' : IDL.Opt(IDL.Nat),
   });
+  const BlockReport = IDL.Record({
+    'id' : IDL.Text,
+    'cpf' : IDL.Text,
+    'blockDate' : IDL.Text,
+    'platform' : IDL.Text,
+    'additionalContext' : IDL.Text,
+    'blockReason' : IDL.Text,
+    'phone' : IDL.Text,
+    'driverName' : IDL.Text,
+  });
+  const WorkHistory = IDL.Record({
+    'monthlyVehicleFinancing' : IDL.Float64,
+    'activeMonths' : IDL.Nat,
+    'dailyAvgEarnings' : IDL.Float64,
+    'weeklyAvgEarnings' : IDL.Float64,
+    'monthlyInsurance' : IDL.Float64,
+    'monthlyFuel' : IDL.Float64,
+    'monthlyMaintenance' : IDL.Float64,
+  });
   const UserRole = IDL.Variant({
     'admin' : IDL.Null,
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
-  const TripData = IDL.Record({
-    'fines' : IDL.Float64,
-    'tolls' : IDL.Float64,
-    'distance' : IDL.Float64,
-    'fuelCost' : IDL.Float64,
-    'maintenance' : IDL.Float64,
-  });
-  const FinancialBreakdown = IDL.Record({
-    'fines' : IDL.Float64,
-    'tolls' : IDL.Float64,
-    'total' : IDL.Float64,
-    'distance' : IDL.Float64,
-    'fuelCost' : IDL.Float64,
-    'maintenance' : IDL.Float64,
-  });
-  const IncidentDetails = IDL.Record({
-    'date' : IDL.Text,
-    'circumstances' : IDL.Text,
-    'location' : IDL.Text,
-    'violationType' : IDL.Text,
+  const CeasedProfits = IDL.Record({
+    'netLostProfits' : IDL.Float64,
+    'totalLostEarnings' : IDL.Float64,
+    'totalBlockedDays' : IDL.Nat,
+    'totalExpensesDuringBlock' : IDL.Float64,
+    'avgDailyEarnings' : IDL.Float64,
   });
   const LegalDefense = IDL.Record({
+    'blockType' : IDL.Text,
     'structuredDocument' : IDL.Text,
     'suggestedNextSteps' : IDL.Vec(IDL.Text),
     'arguments' : IDL.Vec(IDL.Text),
@@ -170,8 +188,10 @@ export const idlFactory = ({ IDL }) => {
   });
   const UserProfile = IDL.Record({ 'name' : IDL.Text, 'email' : IDL.Text });
   const DashboardData = IDL.Record({
-    'savedCalculations' : IDL.Vec(FinancialBreakdown),
+    'ceasedProfitsCalculations' : IDL.Vec(CeasedProfits),
     'savedDefenses' : IDL.Vec(LegalDefense),
+    'workHistories' : IDL.Vec(WorkHistory),
+    'blockReports' : IDL.Vec(BlockReport),
   });
   const ExternalBlob = IDL.Vec(IDL.Nat8);
   const GalleryImage = IDL.Record({
@@ -209,15 +229,19 @@ export const idlFactory = ({ IDL }) => {
       ),
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+    'addBlockReport' : IDL.Func([BlockReport], [], []),
+    'addWorkHistory' : IDL.Func([WorkHistory], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-    'calculateFinancialLoss' : IDL.Func([TripData], [FinancialBreakdown], []),
-    'generateLegalDefense' : IDL.Func([IncidentDetails], [LegalDefense], []),
-    'getAllFinancialLosses' : IDL.Func(
+    'calculateCeasedProfits' : IDL.Func(
+        [IDL.Nat, IDL.Float64, IDL.Float64],
+        [CeasedProfits],
         [],
-        [IDL.Vec(FinancialBreakdown)],
-        ['query'],
       ),
+    'generateLegalDefense' : IDL.Func([IDL.Text, IDL.Text], [LegalDefense], []),
+    'getAllBlockReports' : IDL.Func([], [IDL.Vec(BlockReport)], ['query']),
+    'getAllCeasedProfits' : IDL.Func([], [IDL.Vec(CeasedProfits)], ['query']),
     'getAllLegalDefenses' : IDL.Func([], [IDL.Vec(LegalDefense)], ['query']),
+    'getAllWorkHistories' : IDL.Func([], [IDL.Vec(WorkHistory)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getDashboard' : IDL.Func([], [DashboardData], ['query']),

@@ -89,28 +89,22 @@ export class ExternalBlob {
         return this;
     }
 }
+export interface BlockReport {
+    id: string;
+    cpf: string;
+    blockDate: string;
+    platform: string;
+    additionalContext: string;
+    blockReason: string;
+    phone: string;
+    driverName: string;
+}
 export interface LegalDefense {
+    blockType: string;
     structuredDocument: string;
     suggestedNextSteps: Array<string>;
     arguments: Array<string>;
     applicableLaws: Array<string>;
-}
-export interface FinancialBreakdown {
-    fines: number;
-    tolls: number;
-    total: number;
-    distance: number;
-    fuelCost: number;
-    maintenance: number;
-}
-export interface IncidentDetails {
-    date: string;
-    circumstances: string;
-    location: string;
-    violationType: string;
-}
-export interface _CaffeineStorageRefillInformation {
-    proposed_top_up_amount?: bigint;
 }
 export interface GalleryImage {
     id: string;
@@ -118,20 +112,34 @@ export interface GalleryImage {
     description: string;
     image: ExternalBlob;
 }
+export interface _CaffeineStorageRefillInformation {
+    proposed_top_up_amount?: bigint;
+}
 export interface DashboardData {
-    savedCalculations: Array<FinancialBreakdown>;
+    ceasedProfitsCalculations: Array<CeasedProfits>;
     savedDefenses: Array<LegalDefense>;
+    workHistories: Array<WorkHistory>;
+    blockReports: Array<BlockReport>;
+}
+export interface CeasedProfits {
+    netLostProfits: number;
+    totalLostEarnings: number;
+    totalBlockedDays: bigint;
+    totalExpensesDuringBlock: number;
+    avgDailyEarnings: number;
 }
 export interface _CaffeineStorageCreateCertificateResult {
     method: string;
     blob_hash: string;
 }
-export interface TripData {
-    fines: number;
-    tolls: number;
-    distance: number;
-    fuelCost: number;
-    maintenance: number;
+export interface WorkHistory {
+    monthlyVehicleFinancing: number;
+    activeMonths: bigint;
+    dailyAvgEarnings: number;
+    weeklyAvgEarnings: number;
+    monthlyInsurance: number;
+    monthlyFuel: number;
+    monthlyMaintenance: number;
 }
 export interface UserProfile {
     name: string;
@@ -154,11 +162,15 @@ export interface backendInterface {
     _caffeineStorageRefillCashier(refillInformation: _CaffeineStorageRefillInformation | null): Promise<_CaffeineStorageRefillResult>;
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
     _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
+    addBlockReport(report: BlockReport): Promise<void>;
+    addWorkHistory(history: WorkHistory): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    calculateFinancialLoss(tripData: TripData): Promise<FinancialBreakdown>;
-    generateLegalDefense(incident: IncidentDetails): Promise<LegalDefense>;
-    getAllFinancialLosses(): Promise<Array<FinancialBreakdown>>;
+    calculateCeasedProfits(totalBlockedDays: bigint, avgDailyEarnings: number, monthlyExpenses: number): Promise<CeasedProfits>;
+    generateLegalDefense(blockType: string, context: string): Promise<LegalDefense>;
+    getAllBlockReports(): Promise<Array<BlockReport>>;
+    getAllCeasedProfits(): Promise<Array<CeasedProfits>>;
     getAllLegalDefenses(): Promise<Array<LegalDefense>>;
+    getAllWorkHistories(): Promise<Array<WorkHistory>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getDashboard(): Promise<DashboardData>;
@@ -269,6 +281,34 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async addBlockReport(arg0: BlockReport): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addBlockReport(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addBlockReport(arg0);
+            return result;
+        }
+    }
+    async addWorkHistory(arg0: WorkHistory): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addWorkHistory(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addWorkHistory(arg0);
+            return result;
+        }
+    }
     async assignCallerUserRole(arg0: Principal, arg1: UserRole): Promise<void> {
         if (this.processError) {
             try {
@@ -283,45 +323,59 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async calculateFinancialLoss(arg0: TripData): Promise<FinancialBreakdown> {
+    async calculateCeasedProfits(arg0: bigint, arg1: number, arg2: number): Promise<CeasedProfits> {
         if (this.processError) {
             try {
-                const result = await this.actor.calculateFinancialLoss(arg0);
+                const result = await this.actor.calculateCeasedProfits(arg0, arg1, arg2);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.calculateFinancialLoss(arg0);
+            const result = await this.actor.calculateCeasedProfits(arg0, arg1, arg2);
             return result;
         }
     }
-    async generateLegalDefense(arg0: IncidentDetails): Promise<LegalDefense> {
+    async generateLegalDefense(arg0: string, arg1: string): Promise<LegalDefense> {
         if (this.processError) {
             try {
-                const result = await this.actor.generateLegalDefense(arg0);
+                const result = await this.actor.generateLegalDefense(arg0, arg1);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.generateLegalDefense(arg0);
+            const result = await this.actor.generateLegalDefense(arg0, arg1);
             return result;
         }
     }
-    async getAllFinancialLosses(): Promise<Array<FinancialBreakdown>> {
+    async getAllBlockReports(): Promise<Array<BlockReport>> {
         if (this.processError) {
             try {
-                const result = await this.actor.getAllFinancialLosses();
+                const result = await this.actor.getAllBlockReports();
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getAllFinancialLosses();
+            const result = await this.actor.getAllBlockReports();
+            return result;
+        }
+    }
+    async getAllCeasedProfits(): Promise<Array<CeasedProfits>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAllCeasedProfits();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAllCeasedProfits();
             return result;
         }
     }
@@ -336,6 +390,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.getAllLegalDefenses();
+            return result;
+        }
+    }
+    async getAllWorkHistories(): Promise<Array<WorkHistory>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAllWorkHistories();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAllWorkHistories();
             return result;
         }
     }

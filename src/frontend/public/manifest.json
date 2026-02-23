@@ -1,0 +1,27 @@
+{
+  "name": "Driver Defense Hub",
+  "short_name": "Defense Hub",
+  "description": "Financial loss calculator and AI-powered legal defense generator for drivers",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2d2418",
+  "theme_color": "#f59e0b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/generated/app-icon.dim_192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/generated/app-icon.dim_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "legal", "utilities"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

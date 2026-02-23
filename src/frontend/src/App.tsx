@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import CalculatorPage from './pages/CalculatorPage';
 import LegalDefensePage from './pages/LegalDefensePage';
+import DraftsHistoryPage from './pages/DraftsHistoryPage';
 import ProfileSetup from './components/ProfileSetup';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -48,7 +49,13 @@ const legalDefenseRoute = createRoute({
   component: LegalDefensePage
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, calculatorRoute, legalDefenseRoute]);
+const draftsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/drafts',
+  component: DraftsHistoryPage
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, calculatorRoute, legalDefenseRoute, draftsRoute]);
 
 const router = createRouter({ routeTree });
 
