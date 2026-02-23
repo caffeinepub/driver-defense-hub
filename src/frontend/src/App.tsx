@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import CalculatorPage from './pages/CalculatorPage';
 import LegalDefensePage from './pages/LegalDefensePage';
 import DraftsHistoryPage from './pages/DraftsHistoryPage';
+import PricingPage from './pages/PricingPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import AdminUserManagementPage from './pages/AdminUserManagementPage';
 import AdminActivityLogPage from './pages/AdminActivityLogPage';
@@ -79,6 +80,12 @@ const draftsRoute = createRoute({
   component: DraftsHistoryPage,
 });
 
+const pricingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/pricing',
+  component: PricingPage,
+});
+
 const adminDashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin/dashboard',
@@ -114,6 +121,7 @@ const routeTree = rootRoute.addChildren([
   calculatorRoute,
   defenseRoute,
   draftsRoute,
+  pricingRoute,
   adminDashboardRoute,
   adminUsersRoute,
   adminActivityRoute,

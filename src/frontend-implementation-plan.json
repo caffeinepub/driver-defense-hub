@@ -1,193 +1,80 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add complete admin panel with user management and access control",
+  "title": "Create pricing plans interface with static PIX QR code payment",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Create admin menu component with navigation to user management, access control, and administrative functions",
+      "summary": "Create pricing plans page with subscription tier cards displaying features and pricing",
       "acceptanceCriteria": [
-        "Admin menu is accessible only to authenticated administrators",
-        "Menu displays clear navigation options for all admin functions",
-        "Menu follows the existing application design system with OKLCH colors and Tailwind styling"
+        "Pricing plans page accessible from home page navigation",
+        "Each plan displayed as a distinct card with clear visual hierarchy",
+        "Plan details include price, benefits list, and feature comparison",
+        "Cards are responsive and work on mobile devices"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/AdminMenu.tsx",
+          "path": "frontend/src/pages/PricingPage.tsx",
           "operation": "create",
-          "description": "Create a new AdminMenu component that provides navigation links to user management, access control, and admin dashboard. The menu should check admin status using the authorization component's isCallerAdmin backend capability and only render for authenticated admins. Include navigation items for: User Management, Activity Log, and Dashboard Statistics. Use Tailwind styling with OKLCH colors from the existing design system. Verify the authorization component's usage instructions before implementing."
+          "description": "Create the pricing plans page component that displays subscription tiers (Basic, Premium, etc.) as visually distinct cards. Each card should show the plan name, price in BRL, a list of benefits/features, and visual hierarchy using Tailwind CSS and shadcn/ui Card components. Include responsive grid layout that works on mobile devices. Use Portuguese for all text content following the existing translations pattern."
+        },
+        {
+          "path": "frontend/src/constants/translations.ts",
+          "operation": "modify",
+          "description": "Add Portuguese translations for pricing page content including plan names (Basic, Premium, etc.), plan descriptions, pricing labels, feature lists, payment section headings, and any instructional text needed for the pricing interface."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the new /pricing route in the router configuration. Import PricingPage component and add it to the routes array so users can navigate to the pricing plans page."
         },
         {
           "path": "frontend/src/components/Layout.tsx",
           "operation": "modify",
-          "description": "Integrate the AdminMenu component into the Layout header navigation. Add conditional rendering to show the admin menu only when the user has admin privileges. Use the useGetCallerUserRole or isCallerAdmin query hook to determine admin status. Position the admin menu appropriately within the existing navigation structure."
+          "description": "Add a navigation link to the pricing page in the header navigation menu. Include appropriate label in Portuguese (e.g., 'Planos') and ensure it's accessible to both authenticated and unauthenticated users since pricing is public information."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Display static PIX QR code image with email key on pricing page",
+      "acceptanceCriteria": [
+        "QR code displayed as a static image on pricing plans page",
+        "QR code is clearly visible and scannable on mobile devices",
+        "Email key 'proj.defdriver+pagbank@gmail.com' is shown as text alongside QR code",
+        "Payment instructions in Portuguese are displayed near the QR code"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PricingPage.tsx",
+          "operation": "modify",
+          "description": "Add a payment section to the pricing page that displays the static PIX QR code image located at frontend/public/assets/generated/pix-qr-code.dim_400x400.png. The QR code should be rendered at an appropriate size for mobile scanning (minimum 300px). Display the PIX key email 'proj.defdriver+pagbank@gmail.com' as copyable text below the QR code. Use a visually prominent section with clear spacing and borders to draw attention to the payment method."
+        },
+        {
+          "path": "frontend/src/constants/translations.ts",
+          "operation": "modify",
+          "description": "Add Portuguese translations for PIX payment section including labels like 'Pagamento via PIX', 'Chave PIX (Email)', 'Escaneie o QR Code', and any other payment-related labels needed to display the QR code and email key clearly."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Create user data management page displaying all users with profile information",
+      "summary": "Add PIX payment instructions explaining how to complete the transaction",
       "acceptanceCriteria": [
-        "Frontend displays user data in a table or card layout with search and filter capabilities",
-        "User data includes name, email, registration timestamp, and account status"
+        "Clear step-by-step payment instructions in Portuguese",
+        "Instructions include how to scan QR code and verify payment details",
+        "Contact information or support guidance for payment issues is provided"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/useQueries.ts",
+          "path": "frontend/src/pages/PricingPage.tsx",
           "operation": "modify",
-          "description": "Add a new React Query hook useGetAllUsers that calls the getAllUsers backend capability. This hook should be enabled only when the user is an admin. Configure appropriate caching and refetch behavior. The backend returns Array<UserProfileWithPrincipal> containing principal, name, email, registrationDate, and isBlocked status."
-        },
-        {
-          "path": "frontend/src/pages/AdminUserManagementPage.tsx",
-          "operation": "create",
-          "description": "Create a new page component that displays all users in a table or card layout. Fetch users using the useGetAllUsers hook. Include columns for name, email, registration date (formatted with Brazilian locale), and account status (blocked/active). Implement search/filter functionality for finding users by name or email. Display loading and error states appropriately. Use shadcn/ui Table component or Card components for consistent styling with the rest of the application."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Add a new route for the AdminUserManagementPage at path '/admin/users'. Register this route in the TanStack Router configuration alongside existing routes for dashboard, calculator, defense, and drafts. Ensure the route is protected with admin-only access by checking authentication and admin status before rendering."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Implement user access blocking functionality for admins",
-      "acceptanceCriteria": [
-        "Admin can block a user through the frontend interface",
-        "Blocked users receive an appropriate error message when attempting to access the application",
-        "Block action includes a reason field for documentation"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Add a new React Query mutation hook useBlockUser that calls the blockUser backend capability with user principal and userName parameters. Configure mutation callbacks to invalidate the getAllUsers and getAdminDashboardStats queries upon success to refresh the user list and statistics. Include error handling with user-friendly error messages from constants/translations.ts."
-        },
-        {
-          "path": "frontend/src/components/BlockUserDialog.tsx",
-          "operation": "create",
-          "description": "Create a modal dialog component for blocking a user. Include a confirmation message, a text input for block reason (for documentation/logging), and action buttons (Cancel, Block). Use the useBlockUser mutation hook. Display loading state during the block operation. Use shadcn/ui Dialog component for consistent modal styling. Show success/error toast notifications after the operation completes."
-        },
-        {
-          "path": "frontend/src/pages/AdminUserManagementPage.tsx",
-          "operation": "modify",
-          "description": "Add a 'Block' action button to each user row in the user management table (only for active/non-blocked users). Wire this button to open the BlockUserDialog component. Pass the selected user's principal and name to the dialog. Ensure the block button is disabled while any blocking operation is in progress."
-        },
-        {
-          "path": "frontend/src/components/Layout.tsx",
-          "operation": "modify",
-          "description": "Add logic to check the current user's blocked status from their profile (isBlocked field). If the user is blocked, display an access denied message with explanation and prevent access to the main application content. Show only logout option for blocked users. Use Portuguese translations from constants/translations.ts for the blocked user message."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Implement user access unblocking functionality for admins",
-      "acceptanceCriteria": [
-        "Admin can unblock a user through the frontend interface",
-        "Unblocked users immediately regain full access to the application"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Add a new React Query mutation hook useUnblockUser that calls the unblockUser backend capability with user principal and userName parameters. Configure mutation callbacks to invalidate the getAllUsers and getAdminDashboardStats queries upon success. Include error handling with user-friendly error messages."
-        },
-        {
-          "path": "frontend/src/components/UnblockUserDialog.tsx",
-          "operation": "create",
-          "description": "Create a modal dialog component for unblocking a user. Include a confirmation message asking if the admin wants to restore access, and action buttons (Cancel, Unblock). Use the useUnblockUser mutation hook. Display loading state during the unblock operation. Use shadcn/ui Dialog component. Show success/error toast notifications after the operation completes."
-        },
-        {
-          "path": "frontend/src/pages/AdminUserManagementPage.tsx",
-          "operation": "modify",
-          "description": "Add an 'Unblock' action button to each user row in the user management table (only for blocked users). Wire this button to open the UnblockUserDialog component. Pass the selected user's principal and name to the dialog. Display blocked users with a visual indicator (e.g., red badge or different background color) to distinguish them from active users."
-        }
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "summary": "Add admin dashboard statistics showing user metrics",
-      "acceptanceCriteria": [
-        "Admin dashboard displays key metrics with visual indicators",
-        "Statistics update in real-time when user status changes"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Add a new React Query hook useGetAdminDashboardStats that calls the getAdminDashboardStats backend capability. Configure this hook to be enabled only for admin users. Set appropriate cache time and refetch interval to keep statistics up-to-date. The backend returns AdminDashboardStats containing totalUsers, activeUsers, blockedUsers, and recentRegistrations array."
-        },
-        {
-          "path": "frontend/src/pages/AdminDashboardPage.tsx",
-          "operation": "create",
-          "description": "Create an admin dashboard page that displays statistics cards showing total users, active users, blocked users, and a list of recent user registrations. Fetch data using the useGetAdminDashboardStats hook. Display each metric in a visually distinct card with appropriate icons and colors (e.g., green for active, red for blocked). Show the recent registrations list with user names and registration dates formatted with Brazilian locale. Include loading skeletons and error states. Use the existing OKLCH color system and Tailwind styling."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Add a new route for the AdminDashboardPage at path '/admin/dashboard'. Register this route in the TanStack Router configuration. Ensure the route is protected with admin-only access by checking authentication and admin status before rendering."
-        }
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "summary": "Create admin activity log page displaying administrative actions",
-      "acceptanceCriteria": [
-        "Frontend displays audit log with filtering by action type and date range",
-        "Each log entry includes timestamp, admin principal, action type, and affected user"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Add a new React Query hook useGetAdminActivityLog that calls the getAdminActivityLog backend capability. Enable this hook only for admin users. The backend returns Array<AdminAction> with fields: timestamp, admin principal, and action (AdminActionType with blockUser/unblockUser/other variants)."
-        },
-        {
-          "path": "frontend/src/pages/AdminActivityLogPage.tsx",
-          "operation": "create",
-          "description": "Create an activity log page that displays a chronological list or table of admin actions. Fetch data using the useGetAdminActivityLog hook. Display each action with formatted timestamp (Brazilian locale), admin principal identifier, action type (block/unblock/other), and affected user name when applicable. Implement filter controls for action type and date range. Sort entries by timestamp in descending order (most recent first). Use shadcn/ui Table component for consistent styling. Include loading and error states."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Add a new route for the AdminActivityLogPage at path '/admin/activity'. Register this route in the TanStack Router configuration. Ensure the route is protected with admin-only access."
-        }
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "summary": "Add admin route protection to restrict admin pages to privileged users",
-      "acceptanceCriteria": [
-        "Admin routes redirect non-admin users to the main dashboard",
-        "Admin navigation items are hidden from non-admin users",
-        "Unauthorized access attempts display appropriate error messages"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Add a new React Query hook useIsCallerAdmin that calls the isCallerAdmin backend capability. Enable this hook only when the user is authenticated. Configure appropriate caching to avoid repeated backend calls. This hook will be used throughout the frontend to determine admin status for route guards and conditional rendering."
-        },
-        {
-          "path": "frontend/src/components/AdminRouteGuard.tsx",
-          "operation": "create",
-          "description": "Create a route guard component that wraps admin pages. Use the useIsCallerAdmin hook to check admin status. If the user is not an admin, display an access denied message with Portuguese translation from constants/translations.ts and provide a link to return to the main dashboard. Show a loading state while checking admin status. Use the authorization component to verify access before rendering children."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wrap all admin routes (/admin/users, /admin/dashboard, /admin/activity) with the AdminRouteGuard component in the TanStack Router configuration. This ensures that unauthorized users cannot access admin pages even if they navigate directly to the URL."
-        },
-        {
-          "path": "frontend/src/components/AdminMenu.tsx",
-          "operation": "modify",
-          "description": "Ensure the AdminMenu component uses the useIsCallerAdmin hook to conditionally render. The menu should return null for non-admin users. Add proper loading state handling to prevent menu flash during authentication check."
+          "description": "Add a payment instructions section below or near the QR code that provides step-by-step guidance in Portuguese for completing a PIX payment. Include instructions for: (1) opening the banking app, (2) selecting PIX payment option, (3) scanning the QR code or copying the email key, (4) verifying payment details (amount and recipient), (5) confirming the transaction. Add a support/contact section with guidance for users who encounter payment issues or need assistance. Use an ordered list or numbered steps for clarity, with appropriate visual styling using Tailwind CSS."
         },
         {
           "path": "frontend/src/constants/translations.ts",
           "operation": "modify",
-          "description": "Add Portuguese translations for admin-related messages including: admin menu labels, access denied messages, user management labels (block/unblock actions, status indicators), activity log labels, dashboard statistics labels, and error messages for unauthorized access attempts."
+          "description": "Add comprehensive Portuguese translations for payment instructions including step labels, instruction text for each step (scanning QR code, verifying details, confirming payment), support/contact information headings, and any disclaimers or important notes about manual payment verification."
         }
       ]
     }

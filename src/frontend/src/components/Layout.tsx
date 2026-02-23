@@ -24,15 +24,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 group">
             <img 
-              src="/assets/generated/rotas-direitos-logo.dim_200x200.png" 
+              src="/assets/LOGO LARANJA-2.png" 
               alt="ROTAS & DIREITOS" 
-              className="h-12 w-auto object-contain"
+              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              loading="eager"
             />
-            <span className="font-bold text-xl text-foreground hidden sm:inline">
-              ROTAS & DIREITOS
-            </span>
           </Link>
 
           {isAuthenticated && !isBlocked && (
@@ -61,6 +59,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               >
                 {TRANSLATIONS.nav.legalDefense}
               </Link>
+              <Link
+                to="/pricing"
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  currentPath === '/pricing' ? 'text-primary' : 'text-muted-foreground'
+                }`}
+              >
+                {TRANSLATIONS.nav.pricing}
+              </Link>
               <AdminMenu />
             </nav>
           )}
@@ -72,14 +78,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1 container mx-auto px-4 py-8">
         {!isAuthenticated ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            <img 
-              src="/assets/generated/rotas-direitos-logo.dim_200x200.png" 
-              alt="ROTAS & DIREITOS" 
-              className="w-32 h-32 object-contain mb-6"
-            />
-            <h1 className="text-4xl font-bold mb-4 text-foreground">
-              ROTAS & DIREITOS
-            </h1>
+            <div className="mb-8">
+              <img 
+                src="/assets/LOGO LARANJA-2.png" 
+                alt="ROTAS & DIREITOS" 
+                className="w-64 h-auto object-contain mx-auto"
+                loading="eager"
+              />
+            </div>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
               {TRANSLATIONS.dashboard.subtitle}
             </p>

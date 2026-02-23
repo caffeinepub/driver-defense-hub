@@ -1,15 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Add a complete admin panel with user management and access control capabilities for administrators.
+**Goal:** Add a pricing plans interface with static PIX QR code payment option.
 
 **Planned changes:**
-- Create an admin menu component with navigation to user management and administrative functions
-- Implement backend admin role authorization system to restrict admin functions
-- Add user data management page displaying all users with profile information
-- Implement user access blocking and unblocking functionality
-- Add admin dashboard with user statistics (total users, blocked users, active users, recent registrations)
-- Create admin activity log page showing recent administrative actions
-- Add admin route protection to ensure admin pages are only accessible to authorized users
+- Create a pricing plans page displaying subscription tiers (Basic, Premium, etc.) with visual cards showing price, benefits, and feature lists
+- Display a static PIX QR code image for payment using the email key 'proj.defdriver+pagbank@gmail.com'
+- Add payment instructions in Portuguese explaining how to scan the QR code and complete the PIX transaction
+- Include the email key as text alongside the QR code for manual entry
 
-**User-visible outcome:** Administrators can access a dedicated admin panel to view all user data, block and unblock user access, monitor user statistics, and review administrative activity logs. Regular users continue using the application without seeing admin features.
+**User-visible outcome:** Users can view available subscription plans, see pricing details and features, and use a PIX QR code to make manual payments.

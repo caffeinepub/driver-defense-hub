@@ -1,156 +1,70 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-23T14:31:13.521Z",
+  "generatedAt": "2026-02-23T21:39:46.510Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 8,
-    "implemented": 7,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Create a new admin menu component that provides navigation to user data management, access control (block/unblock users), and other administrative functions",
+        "summary": "Create a pricing plans page displaying subscription tiers (Basic, Premium, etc.) with visual cards showing price, benefits, and feature lists for each plan",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/pages/PricingPage.tsx",
+          "frontend/src/constants/translations.ts",
+          "frontend/src/App.tsx",
           "frontend/src/components/Layout.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/pages/PricingPage.tsx",
+          "frontend/src/constants/translations.ts",
+          "frontend/src/App.tsx",
           "frontend/src/components/Layout.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Implement backend admin role authorization system to restrict admin functions to authorized users only",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-3",
-        "summary": "Create a user data management page that displays a list of all users with their profile information (name, email, registration date, and current status)",
+        "summary": "Generate a static PIX QR code image using the email key 'proj.defdriver+pagbank@gmail.com' and display it prominently on the pricing plans page",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/AdminUserManagementPage.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/AdminUserManagementPage.tsx",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Implement user access blocking functionality that allows admins to block a user's access to the application",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/BlockUserDialog.tsx",
-          "frontend/src/pages/AdminUserManagementPage.tsx",
-          "frontend/src/components/Layout.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/BlockUserDialog.tsx",
-          "frontend/src/pages/AdminUserManagementPage.tsx",
-          "frontend/src/components/Layout.tsx"
-        ]
-      },
-      {
-        "id": "REQ-5",
-        "summary": "Implement user access unblocking functionality that allows admins to restore access for previously blocked users",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/UnblockUserDialog.tsx",
-          "frontend/src/pages/AdminUserManagementPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/UnblockUserDialog.tsx",
-          "frontend/src/pages/AdminUserManagementPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-6",
-        "summary": "Add admin dashboard statistics showing total users, blocked users, active users, and recent user registrations",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/AdminDashboardPage.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/AdminDashboardPage.tsx",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-7",
-        "summary": "Create an admin activity log page that displays recent administrative actions (blocks, unblocks, and other admin operations) with timestamps and admin identities",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/AdminActivityLogPage.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/AdminActivityLogPage.tsx",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-8",
-        "summary": "Add admin route protection to ensure all admin pages and components are only accessible to users with admin privileges",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/AdminRouteGuard.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/pages/PricingPage.tsx",
           "frontend/src/constants/translations.ts"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/AdminRouteGuard.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/pages/PricingPage.tsx",
+          "frontend/src/constants/translations.ts"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Add payment instructions section explaining how to complete PIX payment using the QR code, including steps for scanning and confirming the transaction",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/PricingPage.tsx",
+          "frontend/src/constants/translations.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/PricingPage.tsx",
           "frontend/src/constants/translations.ts"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/pix-qr-code.dim_400x400.png",
     "frontend/src/App.tsx",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
-    "frontend/src/components/AdminMenu.tsx",
-    "frontend/src/components/AdminRouteGuard.tsx",
-    "frontend/src/components/BlockUserDialog.tsx",
     "frontend/src/components/Layout.tsx",
-    "frontend/src/components/ProfileSetup.tsx",
-    "frontend/src/components/UnblockUserDialog.tsx",
     "frontend/src/constants/translations.ts",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/pages/AdminActivityLogPage.tsx",
-    "frontend/src/pages/AdminDashboardPage.tsx",
-    "frontend/src/pages/AdminUserManagementPage.tsx",
+    "frontend/src/pages/PricingPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

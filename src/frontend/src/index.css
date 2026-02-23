@@ -72,6 +72,46 @@
         color-scheme: dark;
     }
 
+    /* Logo enhanced styling */
+    .logo-enhanced {
+        filter: drop-shadow(0 4px 12px oklch(0.65 0.20 35 / 0.4)) 
+                drop-shadow(0 2px 4px oklch(0 0 0 / 0.3));
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+
+    .logo-hero-container {
+        position: relative;
+        animation: logo-glow 3s ease-in-out infinite;
+    }
+
+    .logo-hero {
+        filter: drop-shadow(0 8px 24px oklch(0.65 0.20 35 / 0.5)) 
+                drop-shadow(0 4px 8px oklch(0 0 0 / 0.4))
+                drop-shadow(0 0 40px oklch(0.65 0.20 35 / 0.3));
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        animation: logo-float 4s ease-in-out infinite;
+    }
+
+    @keyframes logo-float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+    @keyframes logo-glow {
+        0%, 100% {
+            filter: drop-shadow(0 0 20px oklch(0.65 0.20 35 / 0.2));
+        }
+        50% {
+            filter: drop-shadow(0 0 40px oklch(0.65 0.20 35 / 0.4));
+        }
+    }
+
     /* iOS PWA safe area support */
     .safe-area-top {
         padding-top: env(safe-area-inset-top);
@@ -147,6 +187,18 @@
         body {
             /* Prevent pull-to-refresh in iOS PWA */
             overscroll-behavior-y: contain;
+        }
+    }
+
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        .logo-hero,
+        .logo-hero-container {
+            animation: none;
+        }
+        
+        .logo-enhanced {
+            transition: none;
         }
     }
 }
