@@ -10,6 +10,20 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
+export interface AdminAction {
+  'action' : AdminActionType,
+  'admin' : Principal,
+  'timestamp' : Time,
+}
+export type AdminActionType = { 'other' : string } |
+  { 'blockUser' : { 'userName' : string } } |
+  { 'unblockUser' : { 'userName' : string } };
+export interface AdminDashboardStats {
+  'recentRegistrations' : Array<UserProfile>,
+  'blockedUsers' : bigint,
+  'activeUsers' : bigint,
+  'totalUsers' : bigint,
+}
 export interface BlockReport {
   'id' : string,
   'cpf' : string,
@@ -47,7 +61,17 @@ export interface LegalDefense {
   'arguments' : Array<string>,
   'applicableLaws' : Array<string>,
 }
-export interface UserProfile { 'name' : string, 'email' : string }
+export type Time = bigint;
+export interface UserProfile {
+  'isBlocked' : boolean,
+  'name' : string,
+  'email' : string,
+  'registrationDate' : Time,
+}
+export interface UserProfileWithPrincipal {
+  'principal' : Principal,
+  'profile' : UserProfile,
+}
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
@@ -91,14 +115,18 @@ export interface _SERVICE {
   'addBlockReport' : ActorMethod<[BlockReport], undefined>,
   'addWorkHistory' : ActorMethod<[WorkHistory], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'blockUser' : ActorMethod<[Principal, string], undefined>,
   'calculateCeasedProfits' : ActorMethod<
     [bigint, number, number],
     CeasedProfits
   >,
   'generateLegalDefense' : ActorMethod<[string, string], LegalDefense>,
+  'getAdminActivityLog' : ActorMethod<[], Array<AdminAction>>,
+  'getAdminDashboardStats' : ActorMethod<[], AdminDashboardStats>,
   'getAllBlockReports' : ActorMethod<[], Array<BlockReport>>,
   'getAllCeasedProfits' : ActorMethod<[], Array<CeasedProfits>>,
   'getAllLegalDefenses' : ActorMethod<[], Array<LegalDefense>>,
+  'getAllUsers' : ActorMethod<[], Array<UserProfileWithPrincipal>>,
   'getAllWorkHistories' : ActorMethod<[], Array<WorkHistory>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
@@ -107,6 +135,7 @@ export interface _SERVICE {
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'unblockUser' : ActorMethod<[Principal, string], undefined>,
   'uploadGalleryImage' : ActorMethod<
     [string, string, string, ExternalBlob],
     undefined

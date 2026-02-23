@@ -1,87 +1,156 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-23T13:39:43.082Z",
+  "generatedAt": "2026-02-23T14:31:13.521Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 8,
+    "implemented": 7,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Update all English UI text in frontend components to Brazilian Portuguese, using the existing TRANSLATIONS constant from frontend/src/constants/translations.ts as the source of truth for all translated strings",
+        "summary": "Create a new admin menu component that provides navigation to user data management, access control (block/unblock users), and other administrative functions",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/BlockReportForm.tsx",
-          "frontend/src/components/WorkHistoryForm.tsx",
-          "frontend/src/components/LegalDefenseGenerator.tsx",
-          "frontend/src/components/CalculationReview.tsx",
-          "frontend/src/components/DefenseEditor.tsx",
-          "frontend/src/components/ExportSuccessModal.tsx",
-          "frontend/src/components/DraftIndicator.tsx",
-          "frontend/src/components/InstallPrompt.tsx",
-          "frontend/src/components/Layout.tsx",
-          "frontend/src/components/LoginButton.tsx",
-          "frontend/src/components/NavigationButtons.tsx",
-          "frontend/src/components/ProfileSetup.tsx",
-          "frontend/src/components/ProgressIndicator.tsx",
-          "frontend/src/pages/CalculatorPage.tsx",
-          "frontend/src/pages/Dashboard.tsx",
-          "frontend/src/pages/DraftsHistoryPage.tsx",
-          "frontend/src/pages/LegalDefensePage.tsx"
+          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/components/Layout.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/InstallPrompt.tsx",
-          "frontend/src/components/Layout.tsx",
-          "frontend/src/components/LoginButton.tsx",
-          "frontend/src/components/ProfileSetup.tsx",
-          "frontend/src/pages/Dashboard.tsx"
+          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/components/Layout.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Update the PWA manifest (frontend/public/manifest.json) and HTML metadata to use Brazilian Portuguese for app name, description, and display properties",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/manifest.json",
-          "frontend/index.html"
-        ],
-        "matchedFiles": [
-          "frontend/public/manifest.json",
-          "frontend/index.html"
-        ]
+        "summary": "Implement backend admin role authorization system to restrict admin functions to authorized users only",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
       },
       {
         "id": "REQ-3",
-        "summary": "Update the offline fallback page (frontend/public/offline.html) to display all text in Brazilian Portuguese, including the heading, description, and retry button",
+        "summary": "Create a user data management page that displays a list of all users with their profile information (name, email, registration date, and current status)",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/offline.html"
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminUserManagementPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/public/offline.html"
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminUserManagementPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Implement user access blocking functionality that allows admins to block a user's access to the application",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/BlockUserDialog.tsx",
+          "frontend/src/pages/AdminUserManagementPage.tsx",
+          "frontend/src/components/Layout.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/BlockUserDialog.tsx",
+          "frontend/src/pages/AdminUserManagementPage.tsx",
+          "frontend/src/components/Layout.tsx"
+        ]
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Implement user access unblocking functionality that allows admins to restore access for previously blocked users",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/UnblockUserDialog.tsx",
+          "frontend/src/pages/AdminUserManagementPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/UnblockUserDialog.tsx",
+          "frontend/src/pages/AdminUserManagementPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Add admin dashboard statistics showing total users, blocked users, active users, and recent user registrations",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminDashboardPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminDashboardPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-7",
+        "summary": "Create an admin activity log page that displays recent administrative actions (blocks, unblocks, and other admin operations) with timestamps and admin identities",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminActivityLogPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminActivityLogPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-8",
+        "summary": "Add admin route protection to ensure all admin pages and components are only accessible to users with admin privileges",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/AdminRouteGuard.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/constants/translations.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/AdminRouteGuard.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/components/AdminMenu.tsx",
+          "frontend/src/constants/translations.ts"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/index.html",
-    "frontend/public/manifest.json",
-    "frontend/public/offline.html",
     "frontend/src/App.tsx",
-    "frontend/src/components/InstallPrompt.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/AdminMenu.tsx",
+    "frontend/src/components/AdminRouteGuard.tsx",
+    "frontend/src/components/BlockUserDialog.tsx",
     "frontend/src/components/Layout.tsx",
-    "frontend/src/components/LoginButton.tsx",
     "frontend/src/components/ProfileSetup.tsx",
+    "frontend/src/components/UnblockUserDialog.tsx",
     "frontend/src/constants/translations.ts",
-    "frontend/src/pages/Dashboard.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/AdminActivityLogPage.tsx",
+    "frontend/src/pages/AdminDashboardPage.tsx",
+    "frontend/src/pages/AdminUserManagementPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

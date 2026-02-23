@@ -169,149 +169,183 @@ export const TRANSLATIONS = {
     generatedOn: 'Gerado em',
     page: 'Página',
     signatureLine: 'Assinatura',
-    printedName: 'Nome Completo',
-    date: 'Data',
-    cpfLine: 'CPF',
-  },
-
-  // Next Steps
-  nextSteps: {
-    title: 'Próximos passos',
-    step1: '1. Imprima o documento',
-    step2: '2. Assine na última página',
-    step3: '3. Envie para a plataforma via SAC ou e-mail',
-  },
-
-  // Authentication
-  auth: {
-    login: 'Entrar',
-    logout: 'Sair',
-    loggingIn: 'Entrando...',
-    loginPrompt: 'Faça login para acessar seus dados',
-    welcomeBack: 'Bem-vindo de volta',
-  },
-
-  // Profile Setup
-  profile: {
-    setupTitle: 'Configure seu Perfil',
-    setupDescription: 'Por favor, forneça suas informações para começar',
-    name: 'Nome',
-    namePlaceholder: 'Digite seu nome completo',
-    nameRequired: 'Nome é obrigatório',
-    email: 'E-mail',
-    emailPlaceholder: 'seu@email.com',
-    emailRequired: 'E-mail é obrigatório',
-    emailInvalid: 'E-mail inválido',
-    saveProfile: 'Salvar Perfil',
-    saving: 'Salvando...',
+    calculationTitle: 'Cálculo de Lucros Cessantes',
+    defenseTitle: 'Defesa Jurídica',
   },
 
   // Navigation
   nav: {
-    home: 'Início',
-    dashboard: 'Painel',
+    dashboard: 'Início',
     calculator: 'Calculadora',
-    legalDefense: 'Defesa Legal',
-    back: 'Voltar',
-    next: 'Próximo',
-    loading: 'Carregando...',
+    legalDefense: 'Defesa Jurídica',
+    drafts: 'Rascunhos',
   },
 
   // Dashboard
   dashboard: {
-    title: 'Central de Defesa do Motorista',
-    subtitle: 'Sua ferramenta completa para defesa legal e cálculo de lucros cessantes',
-    welcome: 'Bem-vindo',
+    welcome: 'Bem-vindo ao ROTAS & DIREITOS',
+    subtitle: 'Sua ferramenta completa para calcular lucros cessantes e gerar defesas jurídicas contra bloqueios indevidos em plataformas de transporte e delivery.',
     quickActions: 'Ações Rápidas',
-    recentActivity: 'Atividade Recente',
-    statistics: 'Estatísticas',
-    
     calculatorCard: {
-      title: 'Calculadora de Lucros Cessantes',
-      description: 'Calcule seus prejuízos financeiros durante bloqueios',
+      title: 'Calcular Lucros Cessantes',
+      description: 'Calcule quanto você perdeu financeiramente durante o bloqueio',
       action: 'Iniciar Cálculo',
     },
     defenseCard: {
-      title: 'Gerador de Defesa Legal',
-      description: 'Crie documentos de defesa personalizados',
-      action: 'Criar Defesa',
+      title: 'Gerar Defesa Jurídica',
+      description: 'Crie uma defesa completa com fundamentação legal',
+      action: 'Gerar Defesa',
     },
-    
     stats: {
-      totalCalculations: 'Cálculos Totais',
-      totalDefenses: 'Defesas Criadas',
+      totalCalculations: 'Cálculos Realizados',
+      totalDefenses: 'Defesas Geradas',
       totalLoss: 'Prejuízo Total',
     },
-    
     recentCalculations: 'Cálculos Recentes',
     recentDefenses: 'Defesas Recentes',
-    noCalculations: 'Nenhum cálculo ainda',
-    noDefenses: 'Nenhuma defesa ainda',
-    viewAll: 'Ver Todos',
+    noCalculations: 'Nenhum cálculo realizado ainda',
+    noDefenses: 'Nenhuma defesa gerada ainda',
   },
 
-  // Calculator Page
-  calculator: {
-    title: 'Calculadora de Lucros Cessantes',
-    subtitle: 'Calcule seus prejuízos financeiros durante bloqueios',
-    startCalculation: 'Iniciar Novo Cálculo',
-    history: 'Histórico de Cálculos',
-    noHistory: 'Nenhum cálculo salvo ainda',
+  // Auth
+  auth: {
+    loginPrompt: 'Faça login para começar a usar o sistema',
+    login: 'Entrar',
+    logout: 'Sair',
+    loggingIn: 'Entrando...',
   },
 
-  // Calculation Review
-  calculationReview: {
-    title: 'Revisão do Cálculo',
-    blockInfo: 'Informações do Bloqueio',
-    workInfo: 'Informações de Trabalho',
-    financialImpact: 'Impacto Financeiro',
-    
-    platform: 'Plataforma',
-    blockReason: 'Motivo',
-    blockDate: 'Data do Bloqueio',
-    driverName: 'Motorista',
-    cpf: 'CPF',
-    phone: 'Telefone',
-    activeMonths: 'Meses Ativos',
-    dailyAvgEarnings: 'Ganho Médio Diário',
-    weeklyAvgEarnings: 'Ganho Médio Semanal',
-    totalBlockedDays: 'Total de Dias Bloqueados',
-    totalLostEarnings: 'Total de Ganhos Perdidos',
-    totalExpenses: 'Total de Despesas',
-    netLostProfits: 'Lucros Cessantes Líquidos',
-    
-    editBlockReport: 'Editar Relatório',
-    editWorkHistory: 'Editar Histórico',
-    generateDefense: 'Gerar Defesa',
-  },
-
-  // Install Prompt
-  install: {
-    message: 'Instale o app para acesso rápido e offline',
-    dismiss: 'Dispensar',
-    install: 'Instalar',
+  // Profile Setup
+  profile: {
+    setup: {
+      title: 'Complete seu Perfil',
+      description: 'Por favor, forneça algumas informações básicas para começar',
+      nameLabel: 'Nome Completo',
+      namePlaceholder: 'Digite seu nome completo',
+      emailLabel: 'E-mail',
+      emailPlaceholder: 'Digite seu e-mail',
+      saveButton: 'Salvar Perfil',
+    },
+    setupTitle: 'Complete seu Perfil',
+    setupDescription: 'Por favor, forneça algumas informações básicas para começar',
+    name: 'Nome Completo',
+    namePlaceholder: 'Digite seu nome completo',
+    email: 'E-mail',
+    emailPlaceholder: 'Digite seu e-mail',
+    saveProfile: 'Salvar Perfil',
+    saving: 'Salvando...',
+    nameRequired: 'Nome é obrigatório',
+    emailRequired: 'E-mail é obrigatório',
+    emailInvalid: 'E-mail inválido',
   },
 
   // Footer
   footer: {
-    builtWith: 'Construído com',
-    love: 'amor',
+    builtWith: 'Feito com',
     using: 'usando',
   },
 
-  // Common
-  common: {
-    save: 'Salvar',
-    cancel: 'Cancelar',
-    delete: 'Excluir',
-    edit: 'Editar',
-    view: 'Ver',
-    close: 'Fechar',
-    confirm: 'Confirmar',
-    loading: 'Carregando...',
-    error: 'Erro',
-    success: 'Sucesso',
-    warning: 'Aviso',
-    info: 'Informação',
+  // Next Steps
+  nextSteps: {
+    title: 'Próximos Passos',
+    step1: '1. Revise o documento gerado e faça ajustes se necessário',
+    step2: '2. Imprima ou salve o PDF para seus registros',
+    step3: '3. Envie a defesa para a plataforma dentro do prazo estabelecido',
+  },
+
+  // Install Prompt
+  install: {
+    message: 'Instale o app ROTAS & DIREITOS para acesso rápido',
+    install: 'Instalar',
+    dismiss: 'Agora não',
+  },
+
+  // Admin
+  admin: {
+    loading: 'Verificando permissões...',
+    menu: {
+      title: 'Administração',
+      dashboard: 'Painel Admin',
+      users: 'Gerenciar Usuários',
+      activity: 'Registro de Atividades',
+    },
+    accessDenied: {
+      title: 'Acesso Negado',
+      message: 'Você não tem permissão para acessar esta área. Apenas administradores podem visualizar esta página.',
+      backToDashboard: 'Voltar ao Início',
+    },
+    blockedUser: {
+      title: 'Conta Bloqueada',
+      message: 'Sua conta foi bloqueada por um administrador. Entre em contato com o suporte para mais informações.',
+    },
+    dashboard: {
+      title: 'Painel Administrativo',
+      subtitle: 'Visão geral das estatísticas e atividades do sistema',
+      stats: {
+        totalUsers: 'Total de Usuários',
+        activeUsers: 'Usuários Ativos',
+        blockedUsers: 'Usuários Bloqueados',
+      },
+      recentRegistrations: 'Registros Recentes',
+      noRegistrations: 'Nenhum registro recente',
+    },
+    users: {
+      title: 'Gerenciamento de Usuários',
+      subtitle: 'Visualize e gerencie todos os usuários do sistema',
+      searchPlaceholder: 'Buscar por nome, e-mail ou ID...',
+      usersFound: 'usuários encontrados',
+      noUsers: 'Nenhum usuário encontrado',
+      table: {
+        name: 'Nome',
+        email: 'E-mail',
+        registrationDate: 'Data de Registro',
+        status: 'Status',
+        actions: 'Ações',
+      },
+      status: {
+        active: 'Ativo',
+        blocked: 'Bloqueado',
+      },
+      actions: {
+        block: 'Bloquear',
+        unblock: 'Desbloquear',
+      },
+      blockDialog: {
+        title: 'Bloquear Usuário',
+        description: 'Tem certeza que deseja bloquear o usuário {name}? O usuário não poderá mais acessar o sistema.',
+        reasonLabel: 'Motivo do bloqueio (opcional)',
+        reasonPlaceholder: 'Descreva o motivo do bloqueio para documentação...',
+        confirmButton: 'Bloquear Usuário',
+      },
+      unblockDialog: {
+        title: 'Desbloquear Usuário',
+        description: 'Tem certeza que deseja desbloquear o usuário {name}? O usuário recuperará o acesso ao sistema.',
+        confirmButton: 'Desbloquear Usuário',
+      },
+      blockSuccess: 'Usuário bloqueado com sucesso',
+      unblockSuccess: 'Usuário desbloqueado com sucesso',
+    },
+    activity: {
+      title: 'Registro de Atividades',
+      subtitle: 'Histórico de todas as ações administrativas realizadas no sistema',
+      filters: {
+        all: 'Todas as Ações',
+        block: 'Bloqueios',
+        unblock: 'Desbloqueios',
+      },
+      actionsFound: 'ações encontradas',
+      noActivity: 'Nenhuma atividade registrada',
+      table: {
+        timestamp: 'Data/Hora',
+        action: 'Ação',
+        targetUser: 'Usuário Afetado',
+        admin: 'Administrador',
+      },
+      actions: {
+        block: 'Bloqueio',
+        unblock: 'Desbloqueio',
+        other: 'Outra Ação',
+      },
+    },
   },
 };

@@ -1,142 +1,193 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Change app language to Portuguese (Brazil)",
+  "title": "Add complete admin panel with user management and access control",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Update all English UI text in frontend components to Brazilian Portuguese, using the existing TRANSLATIONS constant from frontend/src/constants/translations.ts as the source of truth for all translated strings",
+      "summary": "Create admin menu component with navigation to user management, access control, and administrative functions",
       "acceptanceCriteria": [
-        "All visible text in the application displays in Brazilian Portuguese",
-        "Form labels, placeholders, buttons, headings, and messages use the TRANSLATIONS object",
-        "No hardcoded English strings remain in component JSX",
-        "Error messages and success notifications appear in Portuguese",
-        "Help text and tooltips display in Portuguese"
+        "Admin menu is accessible only to authenticated administrators",
+        "Menu displays clear navigation options for all admin functions",
+        "Menu follows the existing application design system with OKLCH colors and Tailwind styling"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/BlockReportForm.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for form labels, placeholders, validation messages, and button text"
-        },
-        {
-          "path": "frontend/src/components/WorkHistoryForm.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for work history form fields, labels, placeholders, and help text"
-        },
-        {
-          "path": "frontend/src/components/LegalDefenseGenerator.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for block type options, form labels, placeholders, and button text"
-        },
-        {
-          "path": "frontend/src/components/CalculationReview.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for section headings, data labels, and action button text"
-        },
-        {
-          "path": "frontend/src/components/DefenseEditor.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for editor labels, character count display, and action buttons (reset, save)"
-        },
-        {
-          "path": "frontend/src/components/ExportSuccessModal.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for modal heading, description text, next steps guidance, and action button labels"
-        },
-        {
-          "path": "frontend/src/components/DraftIndicator.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for auto-save status messages and relative time display text"
-        },
-        {
-          "path": "frontend/src/components/InstallPrompt.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for PWA installation prompt message and dismiss button text"
+          "path": "frontend/src/components/AdminMenu.tsx",
+          "operation": "create",
+          "description": "Create a new AdminMenu component that provides navigation links to user management, access control, and admin dashboard. The menu should check admin status using the authorization component's isCallerAdmin backend capability and only render for authenticated admins. Include navigation items for: User Management, Activity Log, and Dashboard Statistics. Use Tailwind styling with OKLCH colors from the existing design system. Verify the authorization component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/components/Layout.tsx",
           "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for header text, footer text, welcome message, and login prompt text"
-        },
-        {
-          "path": "frontend/src/components/LoginButton.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for login/logout button text and loading state messages"
-        },
-        {
-          "path": "frontend/src/components/NavigationButtons.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for default back/next button labels and loading text"
-        },
-        {
-          "path": "frontend/src/components/ProfileSetup.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for modal title, form field labels, placeholders, validation messages, and submit button text"
-        },
-        {
-          "path": "frontend/src/components/ProgressIndicator.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for step labels (block report, work history, review, defense, edit)"
-        },
-        {
-          "path": "frontend/src/pages/CalculatorPage.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for page headings, step titles, error messages, success notifications, and confirmation dialog text"
-        },
-        {
-          "path": "frontend/src/pages/Dashboard.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for page heading, statistics labels, section titles, card titles, and action button text"
-        },
-        {
-          "path": "frontend/src/pages/DraftsHistoryPage.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for page heading, draft list labels, timestamps, action buttons, and confirmation dialog text"
-        },
-        {
-          "path": "frontend/src/pages/LegalDefensePage.tsx",
-          "operation": "modify",
-          "description": "Replace all hardcoded English strings with references to TRANSLATIONS object for page heading, redirect message, and action button text"
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Update the PWA manifest (frontend/public/manifest.json) and HTML metadata to use Brazilian Portuguese for app name, description, and display properties",
-      "acceptanceCriteria": [
-        "manifest.json name and short_name fields are in Portuguese",
-        "manifest.json description field is in Portuguese",
-        "HTML title tag displays Portuguese app name",
-        "Meta tags reference Portuguese content where applicable"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/manifest.json",
-          "operation": "modify",
-          "description": "Update the name field to 'Central de Defesa do Motorista', short_name to 'Defesa Motorista', and description to a Portuguese translation explaining the app's purpose for driver legal defense and profit calculation"
-        },
-        {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Update the <title> tag to 'Central de Defesa do Motorista', the theme-color meta tag description (if any), and add or update the lang attribute on the <html> tag to 'pt-BR'"
+          "description": "Integrate the AdminMenu component into the Layout header navigation. Add conditional rendering to show the admin menu only when the user has admin privileges. Use the useGetCallerUserRole or isCallerAdmin query hook to determine admin status. Position the admin menu appropriately within the existing navigation structure."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Update the offline fallback page (frontend/public/offline.html) to display all text in Brazilian Portuguese, including the heading, description, and retry button",
+      "summary": "Create user data management page displaying all users with profile information",
       "acceptanceCriteria": [
-        "Offline page heading displays in Portuguese",
-        "Offline page description text is in Portuguese",
-        "Retry button label is in Portuguese",
-        "Page maintains the warm color palette and branding"
+        "Frontend displays user data in a table or card layout with search and filter capabilities",
+        "User data includes name, email, registration timestamp, and account status"
       ],
       "file_operations": [
         {
-          "path": "frontend/public/offline.html",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Replace the heading with 'Sem Conexão com a Internet', update the description text to explain in Portuguese that an internet connection is required, and change the retry button text to 'Tentar Novamente'. Preserve all existing styling and color values"
+          "description": "Add a new React Query hook useGetAllUsers that calls the getAllUsers backend capability. This hook should be enabled only when the user is an admin. Configure appropriate caching and refetch behavior. The backend returns Array<UserProfileWithPrincipal> containing principal, name, email, registrationDate, and isBlocked status."
+        },
+        {
+          "path": "frontend/src/pages/AdminUserManagementPage.tsx",
+          "operation": "create",
+          "description": "Create a new page component that displays all users in a table or card layout. Fetch users using the useGetAllUsers hook. Include columns for name, email, registration date (formatted with Brazilian locale), and account status (blocked/active). Implement search/filter functionality for finding users by name or email. Display loading and error states appropriately. Use shadcn/ui Table component or Card components for consistent styling with the rest of the application."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a new route for the AdminUserManagementPage at path '/admin/users'. Register this route in the TanStack Router configuration alongside existing routes for dashboard, calculator, defense, and drafts. Ensure the route is protected with admin-only access by checking authentication and admin status before rendering."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Implement user access blocking functionality for admins",
+      "acceptanceCriteria": [
+        "Admin can block a user through the frontend interface",
+        "Blocked users receive an appropriate error message when attempting to access the application",
+        "Block action includes a reason field for documentation"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a new React Query mutation hook useBlockUser that calls the blockUser backend capability with user principal and userName parameters. Configure mutation callbacks to invalidate the getAllUsers and getAdminDashboardStats queries upon success to refresh the user list and statistics. Include error handling with user-friendly error messages from constants/translations.ts."
+        },
+        {
+          "path": "frontend/src/components/BlockUserDialog.tsx",
+          "operation": "create",
+          "description": "Create a modal dialog component for blocking a user. Include a confirmation message, a text input for block reason (for documentation/logging), and action buttons (Cancel, Block). Use the useBlockUser mutation hook. Display loading state during the block operation. Use shadcn/ui Dialog component for consistent modal styling. Show success/error toast notifications after the operation completes."
+        },
+        {
+          "path": "frontend/src/pages/AdminUserManagementPage.tsx",
+          "operation": "modify",
+          "description": "Add a 'Block' action button to each user row in the user management table (only for active/non-blocked users). Wire this button to open the BlockUserDialog component. Pass the selected user's principal and name to the dialog. Ensure the block button is disabled while any blocking operation is in progress."
+        },
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "modify",
+          "description": "Add logic to check the current user's blocked status from their profile (isBlocked field). If the user is blocked, display an access denied message with explanation and prevent access to the main application content. Show only logout option for blocked users. Use Portuguese translations from constants/translations.ts for the blocked user message."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement user access unblocking functionality for admins",
+      "acceptanceCriteria": [
+        "Admin can unblock a user through the frontend interface",
+        "Unblocked users immediately regain full access to the application"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a new React Query mutation hook useUnblockUser that calls the unblockUser backend capability with user principal and userName parameters. Configure mutation callbacks to invalidate the getAllUsers and getAdminDashboardStats queries upon success. Include error handling with user-friendly error messages."
+        },
+        {
+          "path": "frontend/src/components/UnblockUserDialog.tsx",
+          "operation": "create",
+          "description": "Create a modal dialog component for unblocking a user. Include a confirmation message asking if the admin wants to restore access, and action buttons (Cancel, Unblock). Use the useUnblockUser mutation hook. Display loading state during the unblock operation. Use shadcn/ui Dialog component. Show success/error toast notifications after the operation completes."
+        },
+        {
+          "path": "frontend/src/pages/AdminUserManagementPage.tsx",
+          "operation": "modify",
+          "description": "Add an 'Unblock' action button to each user row in the user management table (only for blocked users). Wire this button to open the UnblockUserDialog component. Pass the selected user's principal and name to the dialog. Display blocked users with a visual indicator (e.g., red badge or different background color) to distinguish them from active users."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add admin dashboard statistics showing user metrics",
+      "acceptanceCriteria": [
+        "Admin dashboard displays key metrics with visual indicators",
+        "Statistics update in real-time when user status changes"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a new React Query hook useGetAdminDashboardStats that calls the getAdminDashboardStats backend capability. Configure this hook to be enabled only for admin users. Set appropriate cache time and refetch interval to keep statistics up-to-date. The backend returns AdminDashboardStats containing totalUsers, activeUsers, blockedUsers, and recentRegistrations array."
+        },
+        {
+          "path": "frontend/src/pages/AdminDashboardPage.tsx",
+          "operation": "create",
+          "description": "Create an admin dashboard page that displays statistics cards showing total users, active users, blocked users, and a list of recent user registrations. Fetch data using the useGetAdminDashboardStats hook. Display each metric in a visually distinct card with appropriate icons and colors (e.g., green for active, red for blocked). Show the recent registrations list with user names and registration dates formatted with Brazilian locale. Include loading skeletons and error states. Use the existing OKLCH color system and Tailwind styling."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a new route for the AdminDashboardPage at path '/admin/dashboard'. Register this route in the TanStack Router configuration. Ensure the route is protected with admin-only access by checking authentication and admin status before rendering."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Create admin activity log page displaying administrative actions",
+      "acceptanceCriteria": [
+        "Frontend displays audit log with filtering by action type and date range",
+        "Each log entry includes timestamp, admin principal, action type, and affected user"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a new React Query hook useGetAdminActivityLog that calls the getAdminActivityLog backend capability. Enable this hook only for admin users. The backend returns Array<AdminAction> with fields: timestamp, admin principal, and action (AdminActionType with blockUser/unblockUser/other variants)."
+        },
+        {
+          "path": "frontend/src/pages/AdminActivityLogPage.tsx",
+          "operation": "create",
+          "description": "Create an activity log page that displays a chronological list or table of admin actions. Fetch data using the useGetAdminActivityLog hook. Display each action with formatted timestamp (Brazilian locale), admin principal identifier, action type (block/unblock/other), and affected user name when applicable. Implement filter controls for action type and date range. Sort entries by timestamp in descending order (most recent first). Use shadcn/ui Table component for consistent styling. Include loading and error states."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a new route for the AdminActivityLogPage at path '/admin/activity'. Register this route in the TanStack Router configuration. Ensure the route is protected with admin-only access."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Add admin route protection to restrict admin pages to privileged users",
+      "acceptanceCriteria": [
+        "Admin routes redirect non-admin users to the main dashboard",
+        "Admin navigation items are hidden from non-admin users",
+        "Unauthorized access attempts display appropriate error messages"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a new React Query hook useIsCallerAdmin that calls the isCallerAdmin backend capability. Enable this hook only when the user is authenticated. Configure appropriate caching to avoid repeated backend calls. This hook will be used throughout the frontend to determine admin status for route guards and conditional rendering."
+        },
+        {
+          "path": "frontend/src/components/AdminRouteGuard.tsx",
+          "operation": "create",
+          "description": "Create a route guard component that wraps admin pages. Use the useIsCallerAdmin hook to check admin status. If the user is not an admin, display an access denied message with Portuguese translation from constants/translations.ts and provide a link to return to the main dashboard. Show a loading state while checking admin status. Use the authorization component to verify access before rendering children."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap all admin routes (/admin/users, /admin/dashboard, /admin/activity) with the AdminRouteGuard component in the TanStack Router configuration. This ensures that unauthorized users cannot access admin pages even if they navigate directly to the URL."
+        },
+        {
+          "path": "frontend/src/components/AdminMenu.tsx",
+          "operation": "modify",
+          "description": "Ensure the AdminMenu component uses the useIsCallerAdmin hook to conditionally render. The menu should return null for non-admin users. Add proper loading state handling to prevent menu flash during authentication check."
+        },
+        {
+          "path": "frontend/src/constants/translations.ts",
+          "operation": "modify",
+          "description": "Add Portuguese translations for admin-related messages including: admin menu labels, access denied messages, user management labels (block/unblock actions, status indicators), activity log labels, dashboard statistics labels, and error messages for unauthorized access attempts."
         }
       ]
     }

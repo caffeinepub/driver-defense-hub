@@ -6,8 +6,12 @@ import type {
   WorkHistory, 
   CeasedProfits, 
   LegalDefense, 
-  DashboardData 
+  DashboardData,
+  UserProfileWithPrincipal,
+  AdminDashboardStats,
+  AdminAction
 } from '../backend';
+import type { Principal } from '@icp-sdk/core/principal';
 
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();
@@ -41,6 +45,94 @@ export function useSaveCallerUserProfile() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
     }
+  });
+}
+
+// Admin Queries
+export function useIsCallerAdmin() {
+  const { actor, isFetching: actorFetching } = useActor();
+
+  return useQuery<boolean>({
+    queryKey: ['isCallerAdmin'],
+    queryFn: async () => {
+      if (!actor) return false;
+      return actor.isCallerAdmin();
+    },
+    enabled: !!actor && !actorFetching,
+    retry: false
+  });
+}
+
+export function useGetAllUsers() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<UserProfileWithPrincipal[]>({
+    queryKey: ['allUsers'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAllUsers();
+    },
+    enabled: !!actor && !isFetching
+  });
+}
+
+export function useBlockUser() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ user, userName }: { user: Principal; userName: string }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.blockUser(user, userName);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['allUsers'] });
+      queryClient.invalidateQueries({ queryKey: ['adminDashboardStats'] });
+      queryClient.invalidateQueries({ queryKey: ['adminActivityLog'] });
+    }
+  });
+}
+
+export function useUnblockUser() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ user, userName }: { user: Principal; userName: string }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.unblockUser(user, userName);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['allUsers'] });
+      queryClient.invalidateQueries({ queryKey: ['adminDashboardStats'] });
+      queryClient.invalidateQueries({ queryKey: ['adminActivityLog'] });
+    }
+  });
+}
+
+export function useGetAdminDashboardStats() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<AdminDashboardStats>({
+    queryKey: ['adminDashboardStats'],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.getAdminDashboardStats();
+    },
+    enabled: !!actor && !isFetching
+  });
+}
+
+export function useGetAdminActivityLog() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<AdminAction[]>({
+    queryKey: ['adminActivityLog'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAdminActivityLog();
+    },
+    enabled: !!actor && !isFetching
   });
 }
 

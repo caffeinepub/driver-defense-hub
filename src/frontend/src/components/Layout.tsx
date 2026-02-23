@@ -1,15 +1,22 @@
 import React from 'react';
 import { Link, useRouterState } from '@tanstack/react-router';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
+import { useGetCallerUserProfile } from '../hooks/useQueries';
 import LoginButton from './LoginButton';
 import InstallPrompt from './InstallPrompt';
+import AdminMenu from './AdminMenu';
 import { TRANSLATIONS } from '../constants/translations';
+import { AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { identity } = useInternetIdentity();
   const isAuthenticated = !!identity;
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
+  
+  const { data: userProfile } = useGetCallerUserProfile();
+  const isBlocked = userProfile?.isBlocked || false;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -17,16 +24,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">CD</span>
-            </div>
+          <Link to="/" className="flex items-center gap-3">
+            <img 
+              src="/assets/generated/rotas-direitos-logo.dim_200x200.png" 
+              alt="ROTAS & DIREITOS" 
+              className="h-12 w-auto object-contain"
+            />
             <span className="font-bold text-xl text-foreground hidden sm:inline">
-              {TRANSLATIONS.dashboard.title}
+              ROTAS & DIREITOS
             </span>
           </Link>
 
-          {isAuthenticated && (
+          {isAuthenticated && !isBlocked && (
             <nav className="hidden md:flex items-center gap-6">
               <Link
                 to="/"
@@ -52,6 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               >
                 {TRANSLATIONS.nav.legalDefense}
               </Link>
+              <AdminMenu />
             </nav>
           )}
 
@@ -62,11 +72,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1 container mx-auto px-4 py-8">
         {!isAuthenticated ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-              <span className="text-primary font-bold text-3xl">CD</span>
-            </div>
+            <img 
+              src="/assets/generated/rotas-direitos-logo.dim_200x200.png" 
+              alt="ROTAS & DIREITOS" 
+              className="w-32 h-32 object-contain mb-6"
+            />
             <h1 className="text-4xl font-bold mb-4 text-foreground">
-              {TRANSLATIONS.dashboard.title}
+              ROTAS & DIREITOS
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
               {TRANSLATIONS.dashboard.subtitle}
@@ -74,6 +86,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <p className="text-muted-foreground mb-6">
               {TRANSLATIONS.auth.loginPrompt}
             </p>
+            <LoginButton />
+          </div>
+        ) : isBlocked ? (
+          <div className="flex flex-col items-center justify-center min-h-[60vh] max-w-2xl mx-auto">
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>{TRANSLATIONS.admin.blockedUser.title}</AlertTitle>
+              <AlertDescription>
+                {TRANSLATIONS.admin.blockedUser.message}
+              </AlertDescription>
+            </Alert>
             <LoginButton />
           </div>
         ) : (
@@ -99,7 +122,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </a>
           </p>
           <p className="mt-2 text-xs">
-            © {new Date().getFullYear()} {TRANSLATIONS.dashboard.title}
+            © {new Date().getFullYear()} ROTAS & DIREITOS
           </p>
         </div>
       </footer>

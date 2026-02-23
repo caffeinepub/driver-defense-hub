@@ -1,32 +1,64 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
+  "summary": "Admin panel application for managing users and access control",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-update-all-english-ui-text-in-frontend-components-to-brazilian-portuguese-using-the-existing-translations-constant-from-frontend-src-constants-translations-ts-as-the-source-of-truth-for-all-translated-strings",
-      "title": "Update all English UI text in frontend components to Brazilian Portuguese, using the existing TRANSLATIONS constant from frontend/src/constants/translations.ts as the source of truth for all translated strings",
+      "id": "feature-create-a-new-admin-menu-component-that-provides-navigation-to-user-data-management-access-control-block-unblock-users-and-other-administrative-functions",
+      "title": "Create a new admin menu component that provides navigation to user data management, access control (block/unblock users), and other administrative functions",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-the-pwa-manifest-frontend-public-manifest-json-and-html-metadata-to-use-brazilian-portuguese-for-app-name-description-and-display-properties",
-      "title": "Update the PWA manifest (frontend/public/manifest.json) and HTML metadata to use Brazilian Portuguese for app name, description, and display properties",
+      "id": "feature-create-a-user-data-management-page-that-displays-a-list-of-all-users-with-their-profile-information-name-email-registration-date-and-current-status",
+      "title": "Create a user data management page that displays a list of all users with their profile information (name, email, registration date, and current status)",
       "reqIds": [
-        "REQ-2"
+        "REQ-3"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-the-offline-fallback-page-frontend-public-offline-html-to-display-all-text-in-brazilian-portuguese-including-the-heading-description-and-retry-button",
-      "title": "Update the offline fallback page (frontend/public/offline.html) to display all text in Brazilian Portuguese, including the heading, description, and retry button",
+      "id": "feature-implement-user-access-blocking-functionality-that-allows-admins-to-block-a-user-s-access-to-the-application",
+      "title": "Implement user access blocking functionality that allows admins to block a user's access to the application",
       "reqIds": [
-        "REQ-3"
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-user-access-unblocking-functionality-that-allows-admins-to-restore-access-for-previously-blocked-users",
+      "title": "Implement user access unblocking functionality that allows admins to restore access for previously blocked users",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-admin-dashboard-statistics-showing-total-users-blocked-users-active-users-and-recent-user-registrations",
+      "title": "Add admin dashboard statistics showing total users, blocked users, active users, and recent user registrations",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-an-admin-activity-log-page-that-displays-recent-administrative-actions-blocks-unblocks-and-other-admin-operations-with-timestamps-and-admin-identities",
+      "title": "Create an admin activity log page that displays recent administrative actions (blocks, unblocks, and other admin operations) with timestamps and admin identities",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-admin-route-protection-to-ensure-all-admin-pages-and-components-are-only-accessible-to-users-with-admin-privileges",
+      "title": "Add admin route protection to ensure all admin pages and components are only accessible to users with admin privileges",
+      "reqIds": [
+        "REQ-8"
       ],
       "version": 1
     }
@@ -34,12 +66,21 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Change app language to Portuguese (Brazil)",
+      "summary": "Complete admin menu with user data access, block/unblock users, and other admin functions",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Implement backend admin role authorization system to restrict admin functions to authorized users only",
+      "reqIds": [
+        "REQ-2"
+      ],
       "status": "pending"
     }
   ],
-  "projectName": "Change app language to Portuguese (Brazil)",
+  "gameProjectType": "none",
+  "projectName": "ROTAS & DIREITOS",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

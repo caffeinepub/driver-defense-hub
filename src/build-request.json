@@ -1,79 +1,165 @@
 {
   "kind": "build_request",
-  "title": "Change app language to Portuguese (Brazil)",
+  "title": "Add complete admin panel with user management and access control",
+  "projectName": "ROTAS & DIREITOS",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Update all English UI text in frontend components to Brazilian Portuguese, using the existing TRANSLATIONS constant from frontend/src/constants/translations.ts as the source of truth for all translated strings",
+      "text": "Create a new admin menu component that provides navigation to user data management, access control (block/unblock users), and other administrative functions",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-6"
         ],
         "quotes": [
-          "ALTERE O IDIOMA DO APP PARA PORTUGUES - BR"
+          "crie um menu copleto onde posso ter acesso a dados de usuario,bloquerar e desbloquear acessos entre outras funções de administrador"
         ]
       },
       "acceptanceCriteria": [
-        "All visible text in the application displays in Brazilian Portuguese",
-        "Form labels, placeholders, buttons, headings, and messages use the TRANSLATIONS object",
-        "No hardcoded English strings remain in component JSX",
-        "Error messages and success notifications appear in Portuguese",
-        "Help text and tooltips display in Portuguese"
+        "Admin menu is accessible only to authenticated administrators",
+        "Menu displays clear navigation options for all admin functions",
+        "Menu follows the existing application design system with OKLCH colors and Tailwind styling"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Update the PWA manifest (frontend/public/manifest.json) and HTML metadata to use Brazilian Portuguese for app name, description, and display properties",
-      "target": "frontend",
+      "text": "Implement backend admin role authorization system to restrict admin functions to authorized users only",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-6"
         ],
         "quotes": [
-          "ALTERE O IDIOMA DO APP PARA PORTUGUES - BR"
+          "como administrador deste aplicativo"
         ]
       },
       "acceptanceCriteria": [
-        "manifest.json name and short_name fields are in Portuguese",
-        "manifest.json description field is in Portuguese",
-        "HTML title tag displays Portuguese app name",
-        "Meta tags reference Portuguese content where applicable"
+        "Admin role is assigned and verified at the backend level",
+        "Non-admin users cannot access admin functions",
+        "Admin status is returned with user profile data"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Update the offline fallback page (frontend/public/offline.html) to display all text in Brazilian Portuguese, including the heading, description, and retry button",
-      "target": "frontend",
+      "text": "Create a user data management page that displays a list of all users with their profile information (name, email, registration date, and current status)",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-6"
         ],
         "quotes": [
-          "ALTERE O IDIOMA DO APP PARA PORTUGUES - BR"
+          "posso ter acesso a dados de usuario"
         ]
       },
       "acceptanceCriteria": [
-        "Offline page heading displays in Portuguese",
-        "Offline page description text is in Portuguese",
-        "Retry button label is in Portuguese",
-        "Page maintains the warm color palette and branding"
+        "Backend provides a query function to retrieve all user profiles for admins",
+        "Frontend displays user data in a table or card layout with search and filter capabilities",
+        "User data includes name, email, registration timestamp, and account status"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement user access blocking functionality that allows admins to block a user's access to the application",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "bloquerar e desbloquear acessos"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend stores user blocked status and enforces access restrictions",
+        "Admin can block a user through the frontend interface",
+        "Blocked users receive an appropriate error message when attempting to access the application",
+        "Block action includes a reason field for documentation"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement user access unblocking functionality that allows admins to restore access for previously blocked users",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "bloquerar e desbloquear acessos"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin can unblock a user through the frontend interface",
+        "Unblocked users immediately regain full access to the application",
+        "Unblock action is logged for audit purposes"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add admin dashboard statistics showing total users, blocked users, active users, and recent user registrations",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "outras funções de administrador"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend calculates and returns user statistics",
+        "Admin dashboard displays key metrics with visual indicators",
+        "Statistics update in real-time when user status changes"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Create an admin activity log page that displays recent administrative actions (blocks, unblocks, and other admin operations) with timestamps and admin identities",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "outras funções de administrador"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend stores admin actions in an audit log",
+        "Frontend displays audit log with filtering by action type and date range",
+        "Each log entry includes timestamp, admin principal, action type, and affected user"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Add admin route protection to ensure all admin pages and components are only accessible to users with admin privileges",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "como administrador deste aplicativo"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin routes redirect non-admin users to the main dashboard",
+        "Admin navigation items are hidden from non-admin users",
+        "Unauthorized access attempts display appropriate error messages"
       ]
     }
   ],
   "constraints": [
-    "Do not modify backend code or API responses - language changes are frontend-only",
-    "Preserve all existing functionality and user flows",
-    "Maintain the existing TRANSLATIONS constant structure in frontend/src/constants/translations.ts",
-    "Do not change any styling, colors, or visual design elements"
+    "Admin functionality must not break existing user flows for block reports, work history, and legal defense generation",
+    "Admin authorization must be enforced at the backend level, not just in the UI",
+    "User blocking must not delete user data, only restrict access"
   ],
   "nonGoals": [
-    "Backend error messages or logging (remains in English)",
-    "Code comments or developer documentation",
-    "Multi-language support or language switching functionality",
-    "Translation of date/time formats (already using Brazilian format)",
-    "Currency formatting (already using BRL)"
+    "Email notifications for blocked users",
+    "Bulk user operations (mass block/unblock)",
+    "User data export functionality",
+    "Admin role delegation or multi-level admin permissions"
   ],
   "imageRequirements": {
     "required": [],

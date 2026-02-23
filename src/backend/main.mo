@@ -4,29 +4,44 @@ import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
 import Text "mo:core/Text";
 import Float "mo:core/Float";
-import Int "mo:core/Int";
 import Nat "mo:core/Nat";
 import AccessControl "authorization/access-control";
 import MixinAuthorization "authorization/MixinAuthorization";
 import Storage "blob-storage/Storage";
 import MixinStorage "blob-storage/Mixin";
+import Time "mo:core/Time";
+import Migration "migration";
 
-
-// Apply migration via with clause
-
+(with migration = Migration.run)
 actor {
-  // Initialize the access control system
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
   include MixinStorage();
 
-  // User Profile Type
   public type UserProfile = {
     name : Text;
     email : Text;
+    registrationDate : Time.Time;
+    isBlocked : Bool;
   };
 
-  // Types
+  public type UserProfileWithPrincipal = {
+    principal : Principal;
+    profile : UserProfile;
+  };
+
+  public type AdminActionType = {
+    #blockUser : { userName : Text };
+    #unblockUser : { userName : Text };
+    #other : Text;
+  };
+
+  public type AdminAction = {
+    admin : Principal;
+    action : AdminActionType;
+    timestamp : Time.Time;
+  };
+
   public type BlockReport = {
     id : Text;
     platform : Text;
@@ -78,25 +93,48 @@ actor {
     image : Storage.ExternalBlob;
   };
 
-  // Storage
+  public type AdminDashboardStats = {
+    totalUsers : Nat;
+    blockedUsers : Nat;
+    activeUsers : Nat;
+    recentRegistrations : [UserProfile];
+  };
+
   let userProfiles = Map.empty<Principal, UserProfile>();
   let blockReports = Map.empty<Principal, [BlockReport]>();
   let workHistories = Map.empty<Principal, [WorkHistory]>();
   let ceasedProfits = Map.empty<Principal, [CeasedProfits]>();
   let defenses = Map.empty<Principal, [LegalDefense]>();
   let galleryImages = Map.empty<Principal, [GalleryImage]>();
+  let adminActivityLog = Map.empty<Principal, [AdminAction]>();
 
-  // User Profile Management
+  func isUserBlocked(user : Principal) : Bool {
+    switch (userProfiles.get(user)) {
+      case (?profile) { profile.isBlocked };
+      case (null) { false };
+    };
+  };
+
+  func requireNotBlocked(caller : Principal) {
+    if (isUserBlocked(caller)) {
+      Runtime.trap("Access denied: Your account has been blocked");
+    };
+  };
+
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access profiles");
     };
+    requireNotBlocked(caller);
     userProfiles.get(caller);
   };
 
   public query ({ caller }) func getUserProfile(user : Principal) : async ?UserProfile {
     if (caller != user and not AccessControl.isAdmin(accessControlState, caller)) {
       Runtime.trap("Unauthorized: Can only view your own profile");
+    };
+    if (caller == user) {
+      requireNotBlocked(caller);
     };
     userProfiles.get(user);
   };
@@ -105,14 +143,119 @@ actor {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can save profiles");
     };
-    userProfiles.add(caller, profile);
+    requireNotBlocked(caller);
+    let newProfile = {
+      profile with
+      registrationDate = Time.now();
+      isBlocked = false;
+    };
+    userProfiles.add(caller, newProfile);
   };
 
-  // Block Report Management
+  public query ({ caller }) func getAllUsers() : async [UserProfileWithPrincipal] {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can access all users");
+    };
+
+    let allProfiles = userProfiles.toArray();
+    allProfiles.map(func((principal, profile)) : UserProfileWithPrincipal {
+      { principal; profile };
+    });
+  };
+
+  public shared ({ caller }) func blockUser(user : Principal, userName : Text) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can block users");
+    };
+
+    switch (userProfiles.get(user)) {
+      case (?profile) {
+        let updatedProfile = { profile with isBlocked = true };
+        userProfiles.add(user, updatedProfile);
+        addAdminAction(#blockUser({ userName }), caller);
+      };
+      case (null) {
+        Runtime.trap("User not found");
+      };
+    };
+  };
+
+  public shared ({ caller }) func unblockUser(user : Principal, userName : Text) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can unblock users");
+    };
+
+    switch (userProfiles.get(user)) {
+      case (?profile) {
+        let updatedProfile = { profile with isBlocked = false };
+        userProfiles.add(user, updatedProfile);
+        addAdminAction(#unblockUser({ userName }), caller);
+      };
+      case (null) {
+        Runtime.trap("User not found");
+      };
+    };
+  };
+
+  public query ({ caller }) func getAdminDashboardStats() : async AdminDashboardStats {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can access dashboard stats");
+    };
+
+    let allProfiles = userProfiles.toArray();
+    let totalUsers = allProfiles.size();
+
+    var blockedCount = 0;
+    var activeCount = 0;
+    for ((_, profile) in allProfiles.values()) {
+      if (profile.isBlocked) {
+        blockedCount += 1;
+      } else {
+        activeCount += 1;
+      };
+    };
+
+    let recentRegistrations = allProfiles.map(func((_, profile)) { profile });
+
+    {
+      totalUsers;
+      blockedUsers = blockedCount;
+      activeUsers = activeCount;
+      recentRegistrations;
+    };
+  };
+
+  public query ({ caller }) func getAdminActivityLog() : async [AdminAction] {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can access activity log");
+    };
+
+    let allActions = adminActivityLog.toArray().map(func((_, actions)) { actions }).flatten();
+    allActions;
+  };
+
+  func addAdminAction(actionType : AdminActionType, admin : Principal) {
+    let adminAction : AdminAction = {
+      admin;
+      action = actionType;
+      timestamp = Time.now();
+    };
+
+    switch (adminActivityLog.get(admin)) {
+      case (null) {
+        adminActivityLog.add(admin, [adminAction]);
+      };
+      case (?existing) {
+        adminActivityLog.add(admin, existing.concat([adminAction]));
+      };
+    };
+  };
+
   public shared ({ caller }) func addBlockReport(report : BlockReport) : async () {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can add block reports");
     };
+    requireNotBlocked(caller);
 
     switch (blockReports.get(caller)) {
       case (null) {
@@ -128,6 +271,7 @@ actor {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access block reports");
     };
+    requireNotBlocked(caller);
 
     switch (blockReports.get(caller)) {
       case (null) { [] };
@@ -135,11 +279,11 @@ actor {
     };
   };
 
-  // Work History Management
   public shared ({ caller }) func addWorkHistory(history : WorkHistory) : async () {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can add work history");
     };
+    requireNotBlocked(caller);
 
     switch (workHistories.get(caller)) {
       case (null) {
@@ -155,6 +299,7 @@ actor {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access work history");
     };
+    requireNotBlocked(caller);
 
     switch (workHistories.get(caller)) {
       case (null) { [] };
@@ -162,7 +307,6 @@ actor {
     };
   };
 
-  // Safe conversion from Nat to Float
   func natToFloat(n : Nat) : Float {
     var result : Float = 0.0;
     var current = n;
@@ -177,11 +321,11 @@ actor {
     result;
   };
 
-  // Ceased Profits Calculation
   public shared ({ caller }) func calculateCeasedProfits(totalBlockedDays : Nat, avgDailyEarnings : Float, monthlyExpenses : Float) : async CeasedProfits {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can calculate ceased profits");
     };
+    requireNotBlocked(caller);
 
     let blockedDaysFloat = avgDailyEarnings * natToFloat(totalBlockedDays);
     let totalLostEarnings = blockedDaysFloat;
@@ -213,6 +357,7 @@ actor {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access ceased profits data");
     };
+    requireNotBlocked(caller);
 
     switch (ceasedProfits.get(caller)) {
       case (null) { [] };
@@ -220,11 +365,11 @@ actor {
     };
   };
 
-  // AI-Powered Legal Defense Generator
   public shared ({ caller }) func generateLegalDefense(blockType : Text, context : Text) : async LegalDefense {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can generate legal defenses");
     };
+    requireNotBlocked(caller);
 
     let defense : LegalDefense = {
       blockType;
@@ -263,6 +408,7 @@ actor {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access legal defense data");
     };
+    requireNotBlocked(caller);
 
     switch (defenses.get(caller)) {
       case (null) { [] };
@@ -270,11 +416,11 @@ actor {
     };
   };
 
-  // Dashboard Homepage
   public query ({ caller }) func getDashboard() : async DashboardData {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access the dashboard");
     };
+    requireNotBlocked(caller);
 
     let reports = switch (blockReports.get(caller)) {
       case (null) { [] };
@@ -304,11 +450,11 @@ actor {
     };
   };
 
-  // Image Gallery
   public shared ({ caller }) func uploadGalleryImage(id : Text, title : Text, description : Text, image : Storage.ExternalBlob) : async () {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can upload gallery images");
     };
+    requireNotBlocked(caller);
 
     let galleryImage : GalleryImage = {
       id;
@@ -331,6 +477,7 @@ actor {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access gallery images");
     };
+    requireNotBlocked(caller);
 
     switch (galleryImages.get(caller)) {
       case (null) { [] };

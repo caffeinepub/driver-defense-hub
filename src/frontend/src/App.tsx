@@ -10,6 +10,10 @@ import Dashboard from './pages/Dashboard';
 import CalculatorPage from './pages/CalculatorPage';
 import LegalDefensePage from './pages/LegalDefensePage';
 import DraftsHistoryPage from './pages/DraftsHistoryPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import AdminUserManagementPage from './pages/AdminUserManagementPage';
+import AdminActivityLogPage from './pages/AdminActivityLogPage';
+import AdminRouteGuard from './components/AdminRouteGuard';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -75,7 +79,45 @@ const draftsRoute = createRoute({
   component: DraftsHistoryPage,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, calculatorRoute, defenseRoute, draftsRoute]);
+const adminDashboardRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/dashboard',
+  component: () => (
+    <AdminRouteGuard>
+      <AdminDashboardPage />
+    </AdminRouteGuard>
+  ),
+});
+
+const adminUsersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/users',
+  component: () => (
+    <AdminRouteGuard>
+      <AdminUserManagementPage />
+    </AdminRouteGuard>
+  ),
+});
+
+const adminActivityRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/activity',
+  component: () => (
+    <AdminRouteGuard>
+      <AdminActivityLogPage />
+    </AdminRouteGuard>
+  ),
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  calculatorRoute,
+  defenseRoute,
+  draftsRoute,
+  adminDashboardRoute,
+  adminUsersRoute,
+  adminActivityRoute,
+]);
 
 const router = createRouter({ routeTree });
 

@@ -57,9 +57,32 @@ export const LegalDefense = IDL.Record({
   'arguments' : IDL.Vec(IDL.Text),
   'applicableLaws' : IDL.Vec(IDL.Text),
 });
+export const AdminActionType = IDL.Variant({
+  'other' : IDL.Text,
+  'blockUser' : IDL.Record({ 'userName' : IDL.Text }),
+  'unblockUser' : IDL.Record({ 'userName' : IDL.Text }),
+});
+export const Time = IDL.Int;
+export const AdminAction = IDL.Record({
+  'action' : AdminActionType,
+  'admin' : IDL.Principal,
+  'timestamp' : Time,
+});
 export const UserProfile = IDL.Record({
+  'isBlocked' : IDL.Bool,
   'name' : IDL.Text,
   'email' : IDL.Text,
+  'registrationDate' : Time,
+});
+export const AdminDashboardStats = IDL.Record({
+  'recentRegistrations' : IDL.Vec(UserProfile),
+  'blockedUsers' : IDL.Nat,
+  'activeUsers' : IDL.Nat,
+  'totalUsers' : IDL.Nat,
+});
+export const UserProfileWithPrincipal = IDL.Record({
+  'principal' : IDL.Principal,
+  'profile' : UserProfile,
 });
 export const DashboardData = IDL.Record({
   'ceasedProfitsCalculations' : IDL.Vec(CeasedProfits),
@@ -106,15 +129,19 @@ export const idlService = IDL.Service({
   'addBlockReport' : IDL.Func([BlockReport], [], []),
   'addWorkHistory' : IDL.Func([WorkHistory], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'blockUser' : IDL.Func([IDL.Principal, IDL.Text], [], []),
   'calculateCeasedProfits' : IDL.Func(
       [IDL.Nat, IDL.Float64, IDL.Float64],
       [CeasedProfits],
       [],
     ),
   'generateLegalDefense' : IDL.Func([IDL.Text, IDL.Text], [LegalDefense], []),
+  'getAdminActivityLog' : IDL.Func([], [IDL.Vec(AdminAction)], ['query']),
+  'getAdminDashboardStats' : IDL.Func([], [AdminDashboardStats], ['query']),
   'getAllBlockReports' : IDL.Func([], [IDL.Vec(BlockReport)], ['query']),
   'getAllCeasedProfits' : IDL.Func([], [IDL.Vec(CeasedProfits)], ['query']),
   'getAllLegalDefenses' : IDL.Func([], [IDL.Vec(LegalDefense)], ['query']),
+  'getAllUsers' : IDL.Func([], [IDL.Vec(UserProfileWithPrincipal)], ['query']),
   'getAllWorkHistories' : IDL.Func([], [IDL.Vec(WorkHistory)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
@@ -127,6 +154,7 @@ export const idlService = IDL.Service({
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'unblockUser' : IDL.Func([IDL.Principal, IDL.Text], [], []),
   'uploadGalleryImage' : IDL.Func(
       [IDL.Text, IDL.Text, IDL.Text, ExternalBlob],
       [],
@@ -186,7 +214,33 @@ export const idlFactory = ({ IDL }) => {
     'arguments' : IDL.Vec(IDL.Text),
     'applicableLaws' : IDL.Vec(IDL.Text),
   });
-  const UserProfile = IDL.Record({ 'name' : IDL.Text, 'email' : IDL.Text });
+  const AdminActionType = IDL.Variant({
+    'other' : IDL.Text,
+    'blockUser' : IDL.Record({ 'userName' : IDL.Text }),
+    'unblockUser' : IDL.Record({ 'userName' : IDL.Text }),
+  });
+  const Time = IDL.Int;
+  const AdminAction = IDL.Record({
+    'action' : AdminActionType,
+    'admin' : IDL.Principal,
+    'timestamp' : Time,
+  });
+  const UserProfile = IDL.Record({
+    'isBlocked' : IDL.Bool,
+    'name' : IDL.Text,
+    'email' : IDL.Text,
+    'registrationDate' : Time,
+  });
+  const AdminDashboardStats = IDL.Record({
+    'recentRegistrations' : IDL.Vec(UserProfile),
+    'blockedUsers' : IDL.Nat,
+    'activeUsers' : IDL.Nat,
+    'totalUsers' : IDL.Nat,
+  });
+  const UserProfileWithPrincipal = IDL.Record({
+    'principal' : IDL.Principal,
+    'profile' : UserProfile,
+  });
   const DashboardData = IDL.Record({
     'ceasedProfitsCalculations' : IDL.Vec(CeasedProfits),
     'savedDefenses' : IDL.Vec(LegalDefense),
@@ -232,15 +286,23 @@ export const idlFactory = ({ IDL }) => {
     'addBlockReport' : IDL.Func([BlockReport], [], []),
     'addWorkHistory' : IDL.Func([WorkHistory], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'blockUser' : IDL.Func([IDL.Principal, IDL.Text], [], []),
     'calculateCeasedProfits' : IDL.Func(
         [IDL.Nat, IDL.Float64, IDL.Float64],
         [CeasedProfits],
         [],
       ),
     'generateLegalDefense' : IDL.Func([IDL.Text, IDL.Text], [LegalDefense], []),
+    'getAdminActivityLog' : IDL.Func([], [IDL.Vec(AdminAction)], ['query']),
+    'getAdminDashboardStats' : IDL.Func([], [AdminDashboardStats], ['query']),
     'getAllBlockReports' : IDL.Func([], [IDL.Vec(BlockReport)], ['query']),
     'getAllCeasedProfits' : IDL.Func([], [IDL.Vec(CeasedProfits)], ['query']),
     'getAllLegalDefenses' : IDL.Func([], [IDL.Vec(LegalDefense)], ['query']),
+    'getAllUsers' : IDL.Func(
+        [],
+        [IDL.Vec(UserProfileWithPrincipal)],
+        ['query'],
+      ),
     'getAllWorkHistories' : IDL.Func([], [IDL.Vec(WorkHistory)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
@@ -253,6 +315,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'unblockUser' : IDL.Func([IDL.Principal, IDL.Text], [], []),
     'uploadGalleryImage' : IDL.Func(
         [IDL.Text, IDL.Text, IDL.Text, ExternalBlob],
         [],

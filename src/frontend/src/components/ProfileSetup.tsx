@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { TRANSLATIONS } from '../constants/translations';
+import type { UserProfile } from '../backend';
 
 interface ProfileSetupProps {
   open: boolean;
@@ -42,7 +43,13 @@ export default function ProfileSetup({ open }: ProfileSetupProps) {
     }
 
     try {
-      await saveProfile.mutateAsync({ name: name.trim(), email: email.trim() });
+      const profile: UserProfile = {
+        name: name.trim(),
+        email: email.trim(),
+        registrationDate: BigInt(Date.now() * 1000000),
+        isBlocked: false,
+      };
+      await saveProfile.mutateAsync(profile);
     } catch (error) {
       console.error('Error saving profile:', error);
     }
