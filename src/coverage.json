@@ -1,210 +1,87 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-23T13:27:18.782Z",
+  "generatedAt": "2026-02-23T13:39:43.082Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 10,
-    "implemented": 10,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Replace the current FinancialCalculator component with a comprehensive block report form that collects: platform (Uber/99/iFood/Rappi/Indrive), alleged reason for block, driver's personal data (name, CPF, phone), date of block, and additional context. Store this data in the backend and associate it with calculations.",
+        "summary": "Update all English UI text in frontend components to Brazilian Portuguese, using the existing TRANSLATIONS constant from frontend/src/constants/translations.ts as the source of truth for all translated strings",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/components/BlockReportForm.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/FinancialCalculator.tsx"
+          "frontend/src/components/WorkHistoryForm.tsx",
+          "frontend/src/components/LegalDefenseGenerator.tsx",
+          "frontend/src/components/CalculationReview.tsx",
+          "frontend/src/components/DefenseEditor.tsx",
+          "frontend/src/components/ExportSuccessModal.tsx",
+          "frontend/src/components/DraftIndicator.tsx",
+          "frontend/src/components/InstallPrompt.tsx",
+          "frontend/src/components/Layout.tsx",
+          "frontend/src/components/LoginButton.tsx",
+          "frontend/src/components/NavigationButtons.tsx",
+          "frontend/src/components/ProfileSetup.tsx",
+          "frontend/src/components/ProgressIndicator.tsx",
+          "frontend/src/pages/CalculatorPage.tsx",
+          "frontend/src/pages/Dashboard.tsx",
+          "frontend/src/pages/DraftsHistoryPage.tsx",
+          "frontend/src/pages/LegalDefensePage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/BlockReportForm.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/FinancialCalculator.tsx"
-        ]
-      },
-      {
-        "id": "REQ-10",
-        "summary": "Ensure the entire flow from block report → work history → calculation review → defense generation → PDF export works as a seamless multi-step process with clear progress indication, back navigation, and the ability to save at any step.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/ProgressIndicator.tsx",
-          "frontend/src/components/NavigationButtons.tsx",
-          "frontend/src/pages/CalculatorPage.tsx",
-          "frontend/src/components/ExportSuccessModal.tsx",
-          "frontend/src/pages/CalculatorPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/ProgressIndicator.tsx",
-          "frontend/src/components/NavigationButtons.tsx",
-          "frontend/src/pages/CalculatorPage.tsx",
-          "frontend/src/components/ExportSuccessModal.tsx",
-          "frontend/src/pages/CalculatorPage.tsx"
+          "frontend/src/components/InstallPrompt.tsx",
+          "frontend/src/components/Layout.tsx",
+          "frontend/src/components/LoginButton.tsx",
+          "frontend/src/components/ProfileSetup.tsx",
+          "frontend/src/pages/Dashboard.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Add a work history section to collect: active time on platform (months/years), daily average earnings, weekly average earnings, and fixed monthly expenses (vehicle financing, insurance, fuel, maintenance). Calculate ceased profits (lucros cessantes) based on time blocked multiplied by average earnings minus expenses.",
+        "summary": "Update the PWA manifest (frontend/public/manifest.json) and HTML metadata to use Brazilian Portuguese for app name, description, and display properties",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/WorkHistoryForm.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/utils/currencyFormat.ts"
+          "frontend/public/manifest.json",
+          "frontend/index.html"
         ],
         "matchedFiles": [
-          "frontend/src/components/WorkHistoryForm.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/utils/currencyFormat.ts"
+          "frontend/public/manifest.json",
+          "frontend/index.html"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Create a detailed calculation review screen that displays all inputs and the itemized financial loss breakdown before proceeding to defense generation. Include daily rate, days blocked, total loss, expenses deducted, and net ceased profits with edit capability.",
+        "summary": "Update the offline fallback page (frontend/public/offline.html) to display all text in Brazilian Portuguese, including the heading, description, and retry button",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/CalculationReview.tsx",
-          "frontend/src/pages/CalculatorPage.tsx"
+          "frontend/public/offline.html"
         ],
         "matchedFiles": [
-          "frontend/src/components/CalculationReview.tsx",
-          "frontend/src/pages/CalculatorPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Enhance the LegalDefenseGenerator to include block type selection (arbitrary dismissal, false accusation, system error, discrimination, retaliation) and context-aware AI prompt that incorporates the block data, work history, and calculated losses into the generated defense with relevant Brazilian labor and consumer law citations.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/LegalDefenseGenerator.tsx",
-          "frontend/src/hooks/useQueries.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/LegalDefenseGenerator.tsx",
-          "frontend/src/hooks/useQueries.ts"
-        ]
-      },
-      {
-        "id": "REQ-5",
-        "summary": "Allow drivers to review and edit the AI-generated legal defense text before export, with a rich text editor that preserves formatting and legal structure while enabling customization.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/DefenseEditor.tsx",
-          "frontend/src/components/DefenseDocument.tsx",
-          "frontend/src/hooks/useLocalStorage.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/DefenseEditor.tsx",
-          "frontend/src/components/DefenseDocument.tsx",
-          "frontend/src/hooks/useLocalStorage.ts"
-        ]
-      },
-      {
-        "id": "REQ-6",
-        "summary": "Modify PDF export to generate a comprehensive legal document that includes: driver information, block details, complete work history, itemized financial loss calculation with formulas, AI-generated legal defense with citations, and signature/date fields. Format for A4 printing with professional legal document styling.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/utils/pdfExport.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/utils/pdfExport.ts"
-        ]
-      },
-      {
-        "id": "REQ-7",
-        "summary": "Implement localStorage/IndexedDB persistence to save draft calculations, work history, and defense documents automatically, allowing drivers to return and continue without losing data. Include a history view showing all saved drafts with timestamps.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useDraftPersistence.ts",
-          "frontend/src/components/DraftIndicator.tsx",
-          "frontend/src/pages/DraftsHistoryPage.tsx",
-          "frontend/src/pages/CalculatorPage.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useDraftPersistence.ts",
-          "frontend/src/components/DraftIndicator.tsx",
-          "frontend/src/pages/DraftsHistoryPage.tsx",
-          "frontend/src/pages/CalculatorPage.tsx",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-8",
-        "summary": "Update Dashboard to show quick access cards for: 'New Block Report', 'Continue Draft', 'View History', and stats showing total calculated losses and number of defenses generated. Remove or adapt existing calculator/legal defense cards to fit new flow.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/Dashboard.tsx",
-          "frontend/src/hooks/useQueries.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/Dashboard.tsx",
-          "frontend/src/hooks/useQueries.ts"
-        ]
-      },
-      {
-        "id": "REQ-9",
-        "summary": "Revise all UI text to use clear, accessible Portuguese language that avoids complex legal jargon in interface elements. Add tooltips or help text to explain legal terms where necessary (e.g., 'lucros cessantes', 'CDC', 'CLT').",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/constants/translations.ts",
-          "frontend/src/components/Tooltip.tsx",
-          "frontend/src/components/BlockReportForm.tsx",
-          "frontend/src/components/WorkHistoryForm.tsx",
-          "frontend/src/components/LegalDefenseGenerator.tsx",
-          "frontend/src/components/DefenseEditor.tsx",
-          "frontend/src/pages/Dashboard.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/constants/translations.ts",
-          "frontend/src/components/Tooltip.tsx",
-          "frontend/src/components/BlockReportForm.tsx",
-          "frontend/src/components/WorkHistoryForm.tsx",
-          "frontend/src/components/LegalDefenseGenerator.tsx",
-          "frontend/src/components/DefenseEditor.tsx",
-          "frontend/src/pages/Dashboard.tsx"
+          "frontend/public/offline.html"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/index.html",
+    "frontend/public/manifest.json",
+    "frontend/public/offline.html",
     "frontend/src/App.tsx",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
-    "frontend/src/components/BlockReportForm.tsx",
-    "frontend/src/components/CalculationHistory.tsx",
-    "frontend/src/components/CalculationReview.tsx",
-    "frontend/src/components/DefenseDocument.tsx",
-    "frontend/src/components/DefenseEditor.tsx",
-    "frontend/src/components/DefenseHistory.tsx",
-    "frontend/src/components/DraftIndicator.tsx",
-    "frontend/src/components/ExportSuccessModal.tsx",
-    "frontend/src/components/FinancialCalculator.tsx",
-    "frontend/src/components/LegalDefenseGenerator.tsx",
-    "frontend/src/components/NavigationButtons.tsx",
-    "frontend/src/components/ProgressIndicator.tsx",
-    "frontend/src/components/Tooltip.tsx",
-    "frontend/src/components/WorkHistoryForm.tsx",
+    "frontend/src/components/InstallPrompt.tsx",
+    "frontend/src/components/Layout.tsx",
+    "frontend/src/components/LoginButton.tsx",
+    "frontend/src/components/ProfileSetup.tsx",
     "frontend/src/constants/translations.ts",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useDraftPersistence.ts",
-    "frontend/src/hooks/useLocalStorage.ts",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/index.css",
-    "frontend/src/pages/CalculatorPage.tsx",
     "frontend/src/pages/Dashboard.tsx",
-    "frontend/src/pages/DraftsHistoryPage.tsx",
-    "frontend/src/pages/LegalDefensePage.tsx",
-    "frontend/src/utils/currencyFormat.ts",
-    "frontend/src/utils/pdfExport.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

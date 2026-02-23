@@ -1,11 +1,11 @@
 {
-  "name": "Driver Defense Hub",
-  "short_name": "Defense Hub",
-  "description": "Financial loss calculator and AI-powered legal defense generator for drivers",
+  "name": "Central de Defesa do Motorista",
+  "short_name": "Defesa Motorista",
+  "description": "Ferramenta completa para defesa legal e cálculo de lucros cessantes para motoristas de aplicativo",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#2d2418",
-  "theme_color": "#f59e0b",
+  "background_color": "#0a0a0a",
+  "theme_color": "#ea580c",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -20,8 +20,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["finance", "legal", "utilities"],
-  "lang": "en-US",
-  "dir": "ltr"
+  ]
 }

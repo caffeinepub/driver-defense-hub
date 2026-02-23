@@ -1,247 +1,79 @@
 {
   "kind": "build_request",
-  "title": "Implement core driver defense features based on plan",
-  "projectName": "Driver Defense Hub",
-  "priority": "high",
+  "title": "Change app language to Portuguese (Brazil)",
+  "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Replace the current FinancialCalculator component with a comprehensive block report form that collects: platform (Uber/99/iFood/Rappi/Indrive), alleged reason for block, driver's personal data (name, CPF, phone), date of block, and additional context. Store this data in the backend and associate it with calculations.",
-      "target": "both",
+      "text": "Update all English UI text in frontend components to Brazilian Portuguese, using the existing TRANSLATIONS constant from frontend/src/constants/translations.ts as the source of truth for all translated strings",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-recent"
+          "msg-user-1"
         ],
         "quotes": [
-          "Preenche formulário com dados do bloqueio (plataforma, motivo alegado, dados)"
+          "ALTERE O IDIOMA DO APP PARA PORTUGUES - BR"
         ]
       },
       "acceptanceCriteria": [
-        "Form includes dropdown for platform selection with all 5 platforms",
-        "Text field for alleged block reason",
-        "Personal data fields (name, CPF, phone number) with Brazilian format validation",
-        "Date picker for block date",
-        "Optional context/notes textarea",
-        "Data is saved to backend and linked to subsequent calculations",
-        "Mobile-optimized form layout with clear labels in Portuguese"
+        "All visible text in the application displays in Brazilian Portuguese",
+        "Form labels, placeholders, buttons, headings, and messages use the TRANSLATIONS object",
+        "No hardcoded English strings remain in component JSX",
+        "Error messages and success notifications appear in Portuguese",
+        "Help text and tooltips display in Portuguese"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Add a work history section to collect: active time on platform (months/years), daily average earnings, weekly average earnings, and fixed monthly expenses (vehicle financing, insurance, fuel, maintenance). Calculate ceased profits (lucros cessantes) based on time blocked multiplied by average earnings minus expenses.",
-      "target": "both",
+      "text": "Update the PWA manifest (frontend/public/manifest.json) and HTML metadata to use Brazilian Portuguese for app name, description, and display properties",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-recent"
+          "msg-user-1"
         ],
         "quotes": [
-          "Insere histórico de trabalho (tempo ativo, média de ganhos diários/semanais, despesas fixas)",
-          "Sistema calcula automaticamente as perdas financeiras (lucros cessantes)"
+          "ALTERE O IDIOMA DO APP PARA PORTUGUES - BR"
         ]
       },
       "acceptanceCriteria": [
-        "Input fields for time active on platform (years and months)",
-        "Daily and weekly average earnings inputs with currency formatting (R$)",
-        "Fixed monthly expenses breakdown: vehicle payment, insurance, fuel budget, maintenance",
-        "Automatic calculation of daily ceased profits: (daily avg - daily expenses) × days blocked",
-        "Automatic calculation of total ceased profits with projection",
-        "Clear formula display showing how losses were calculated",
-        "Results formatted in Brazilian currency (R$) with proper locale"
+        "manifest.json name and short_name fields are in Portuguese",
+        "manifest.json description field is in Portuguese",
+        "HTML title tag displays Portuguese app name",
+        "Meta tags reference Portuguese content where applicable"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Create a detailed calculation review screen that displays all inputs and the itemized financial loss breakdown before proceeding to defense generation. Include daily rate, days blocked, total loss, expenses deducted, and net ceased profits with edit capability.",
+      "text": "Update the offline fallback page (frontend/public/offline.html) to display all text in Brazilian Portuguese, including the heading, description, and retry button",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-recent"
+          "msg-user-1"
         ],
         "quotes": [
-          "Motorista revisa o cálculo detalhado"
+          "ALTERE O IDIOMA DO APP PARA PORTUGUES - BR"
         ]
       },
       "acceptanceCriteria": [
-        "Summary card showing all block information (platform, date, reason)",
-        "Work history summary (time active, averages)",
-        "Itemized loss calculation with line items",
-        "Edit button to go back and modify inputs",
-        "Confirm button to proceed to legal defense generation",
-        "Clear visual hierarchy with orange accent (#FF9800) for totals"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Enhance the LegalDefenseGenerator to include block type selection (arbitrary dismissal, false accusation, system error, discrimination, retaliation) and context-aware AI prompt that incorporates the block data, work history, and calculated losses into the generated defense with relevant Brazilian labor and consumer law citations.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "Selecionado tipo de bloqueio e contexto",
-          "IA gera texto de defesa personalizado com fundamentação legal"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Dropdown or radio selection for block type in Portuguese",
-        "AI prompt template includes: platform name, block reason, driver data, work history, calculated losses",
-        "Generated defense references relevant Brazilian laws (CLT, CDC, Marco Civil)",
-        "Defense structured with: introduction, facts, legal arguments, calculated damages, conclusion, next steps",
-        "Output in formal legal Portuguese suitable for administrative or judicial filing",
-        "Citations formatted properly with article numbers and law names"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Allow drivers to review and edit the AI-generated legal defense text before export, with a rich text editor that preserves formatting and legal structure while enabling customization.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "Motorista revisão e edição se necessário"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Editable text area or simple rich text editor for defense text",
-        "Preserves paragraph breaks and legal document formatting",
-        "Clear instructions in Portuguese about what can be edited",
-        "Reset button to restore AI-generated version",
-        "Character count or length indicator",
-        "Save draft functionality before export"
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Modify PDF export to generate a comprehensive legal document that includes: driver information, block details, complete work history, itemized financial loss calculation with formulas, AI-generated legal defense with citations, and signature/date fields. Format for A4 printing with professional legal document styling.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "Exporta PDF completo com projeto de perdas + defesa jurídica formatada"
-        ]
-      },
-      "acceptanceCriteria": [
-        "PDF includes header with document title and generation date",
-        "Section 1: Driver and block information",
-        "Section 2: Work history and earnings summary",
-        "Section 3: Itemized financial loss calculation",
-        "Section 4: Complete legal defense text with formatting",
-        "Section 5: Signature and date fields for driver",
-        "Professional formatting suitable for submission to platforms or courts",
-        "A4 page size with proper margins and page breaks",
-        "Export function works client-side for privacy"
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Implement localStorage/IndexedDB persistence to save draft calculations, work history, and defense documents automatically, allowing drivers to return and continue without losing data. Include a history view showing all saved drafts with timestamps.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "Armazenamento local (localStorage/IndexedDB) para salvar rascunhos e históricos"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Auto-save form inputs to localStorage every 30 seconds or on field blur",
-        "Saved drafts include: block data, work history, calculation results, defense text",
-        "History/drafts page shows list of all saved items with timestamps",
-        "Load draft functionality to restore a previous session",
-        "Delete draft functionality with confirmation",
-        "Indicator showing when draft was last saved",
-        "Clear all drafts option with confirmation dialog"
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Update Dashboard to show quick access cards for: 'New Block Report', 'Continue Draft', 'View History', and stats showing total calculated losses and number of defenses generated. Remove or adapt existing calculator/legal defense cards to fit new flow.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "Motorista acessa o app após ser bloqueado → Preenche formulário"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Primary CTA button: 'Report New Block' prominently displayed in orange (#FF9800)",
-        "Card to resume most recent draft if exists",
-        "Link to full history/drafts view",
-        "Dashboard stats: total ceased profits calculated, number of defenses generated",
-        "Clear visual hierarchy with most critical action (new report) most prominent",
-        "Mobile-optimized card layout"
-      ]
-    },
-    {
-      "id": "REQ-9",
-      "text": "Revise all UI text to use clear, accessible Portuguese language that avoids complex legal jargon in interface elements. Add tooltips or help text to explain legal terms where necessary (e.g., 'lucros cessantes', 'CDC', 'CLT').",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "Não usar linguagem jurídica inacessível na interface - traduzir termos técnicos"
-        ]
-      },
-      "acceptanceCriteria": [
-        "All form labels, buttons, and instructions in simple Portuguese",
-        "Legal terms explained with tooltips or help icons",
-        "Examples provided for unclear fields",
-        "Error messages in plain language",
-        "Success messages that clearly explain next steps"
-      ]
-    },
-    {
-      "id": "REQ-10",
-      "text": "Ensure the entire flow from block report → work history → calculation review → defense generation → PDF export works as a seamless multi-step process with clear progress indication, back navigation, and the ability to save at any step.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "Esses fluxos devem funcionar de ponta a ponta"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Multi-step form with progress indicator (e.g., Step 1/5)",
-        "Back button on each step to edit previous sections",
-        "Next/Continue button clearly labeled for forward progress",
-        "Data persists when navigating backward",
-        "Auto-save at each step transition",
-        "Final review screen before PDF export",
-        "Success confirmation after export with option to start new report"
+        "Offline page heading displays in Portuguese",
+        "Offline page description text is in Portuguese",
+        "Retry button label is in Portuguese",
+        "Page maintains the warm color palette and branding"
       ]
     }
   ],
   "constraints": [
-    "No login/authentication required - immediate access for emergency situations",
-    "PDF generation must happen client-side for data privacy",
-    "Must work well on low-end Android devices (Android Go/Lite)",
-    "Mobile-first responsive design",
-    "Use dark mode (#121212 background) with orange accent (#FF9800) and green success (#4CAF50)",
-    "All text in Portuguese (Brazil)",
-    "Respect existing PWA infrastructure (manifest, service worker, offline page)"
+    "Do not modify backend code or API responses - language changes are frontend-only",
+    "Preserve all existing functionality and user flows",
+    "Maintain the existing TRANSLATIONS constant structure in frontend/src/constants/translations.ts",
+    "Do not change any styling, colors, or visual design elements"
   ],
   "nonGoals": [
-    "User authentication or account creation in MVP",
-    "Backend storage of sensitive personal data (keep client-side)",
-    "Long or complicated multi-page flows beyond the core process",
-    "Complex legal research tools or case law database",
-    "Integration with court systems or platforms",
-    "Lawyer marketplace or partner network (future feature)",
-    "Real-time notifications or chat support",
-    "Payment processing",
-    "Social sharing features"
+    "Backend error messages or logging (remains in English)",
+    "Code comments or developer documentation",
+    "Multi-language support or language switching functionality",
+    "Translation of date/time formats (already using Brazilian format)",
+    "Currency formatting (already using BRL)"
   ],
   "imageRequirements": {
     "required": [],

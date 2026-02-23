@@ -1,97 +1,32 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "PWA jurídico para motoristas/entregadores de apps (Uber, 99, iFood, Rappi, Indrive) bloqueados injustamente. Calcula automaticamente prejuízo financeiro (lucros cessantes) e gera defesas jurídicas personalizadas com IA, exportando PDF profissional para recurso administrativo/judicial. Dark mode otimizado, mobile-first, sem login/cadastro no MVP.",
-  "architectural_notes": [
-    "PWA construído em React + TypeScript + Tailwind CSS",
-    "Otimizado para celulares de entrada (Android Go/Lite)",
-    "Geração de PDF do lado do cliente (privacidade)",
-    "Armazenamento local: localStorage/IndexedDB",
-    "Mobile-first responsive design",
-    "Dark mode (#121212 fundo, #FF9800 acentos laranja, #4CAF50 verde sucesso)",
-    "Sem cadastro/login no MVP - uso imediato",
-    "Futuro: offline-first para funcionamento sem internet"
-  ],
+  "summary": "New project",
+  "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-replace-the-current-financialcalculator-component-with-a-comprehensive-block-report-form-that-collects-platform-uber-99-ifood-rappi-indrive-alleged-reason-for-block-driver-s-personal-data-name-cpf-phone-date-of-block-and-additional-context-store-this-data-in-the-backend-and-associate-it-with-calculations",
-      "title": "Replace the current FinancialCalculator component with a comprehensive block report form that collects: platform (Uber/99/iFood/Rappi/Indrive), alleged reason for block, driver's personal data (name, CPF, phone), date of block, and additional context. Store this data in the backend and associate it with calculations.",
+      "id": "feature-update-all-english-ui-text-in-frontend-components-to-brazilian-portuguese-using-the-existing-translations-constant-from-frontend-src-constants-translations-ts-as-the-source-of-truth-for-all-translated-strings",
+      "title": "Update all English UI text in frontend components to Brazilian Portuguese, using the existing TRANSLATIONS constant from frontend/src/constants/translations.ts as the source of truth for all translated strings",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-add-a-work-history-section-to-collect-active-time-on-platform-months-years-daily-average-earnings-weekly-average-earnings-and-fixed-monthly-expenses-vehicle-financing-insurance-fuel-maintenance-calculate-ceased-profits-lucros-cessantes-based-on-time-blocked-multiplied-by-average-earnings-minus-expenses",
-      "title": "Add a work history section to collect: active time on platform (months/years), daily average earnings, weekly average earnings, and fixed monthly expenses (vehicle financing, insurance, fuel, maintenance). Calculate ceased profits (lucros cessantes) based on time blocked multiplied by average earnings minus expenses.",
+      "id": "feature-update-the-pwa-manifest-frontend-public-manifest-json-and-html-metadata-to-use-brazilian-portuguese-for-app-name-description-and-display-properties",
+      "title": "Update the PWA manifest (frontend/public/manifest.json) and HTML metadata to use Brazilian Portuguese for app name, description, and display properties",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-create-a-detailed-calculation-review-screen-that-displays-all-inputs-and-the-itemized-financial-loss-breakdown-before-proceeding-to-defense-generation-include-daily-rate-days-blocked-total-loss-expenses-deducted-and-net-ceased-profits-with-edit-capability",
-      "title": "Create a detailed calculation review screen that displays all inputs and the itemized financial loss breakdown before proceeding to defense generation. Include daily rate, days blocked, total loss, expenses deducted, and net ceased profits with edit capability.",
+      "id": "feature-update-the-offline-fallback-page-frontend-public-offline-html-to-display-all-text-in-brazilian-portuguese-including-the-heading-description-and-retry-button",
+      "title": "Update the offline fallback page (frontend/public/offline.html) to display all text in Brazilian Portuguese, including the heading, description, and retry button",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-enhance-the-legaldefensegenerator-to-include-block-type-selection-arbitrary-dismissal-false-accusation-system-error-discrimination-retaliation-and-context-aware-ai-prompt-that-incorporates-the-block-data-work-history-and-calculated-losses-into-the-generated-defense-with-relevant-brazilian-labor-and-consumer-law-citations",
-      "title": "Enhance the LegalDefenseGenerator to include block type selection (arbitrary dismissal, false accusation, system error, discrimination, retaliation) and context-aware AI prompt that incorporates the block data, work history, and calculated losses into the generated defense with relevant Brazilian labor and consumer law citations.",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-allow-drivers-to-review-and-edit-the-ai-generated-legal-defense-text-before-export-with-a-rich-text-editor-that-preserves-formatting-and-legal-structure-while-enabling-customization",
-      "title": "Allow drivers to review and edit the AI-generated legal defense text before export, with a rich text editor that preserves formatting and legal structure while enabling customization.",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-modify-pdf-export-to-generate-a-comprehensive-legal-document-that-includes-driver-information-block-details-complete-work-history-itemized-financial-loss-calculation-with-formulas-ai-generated-legal-defense-with-citations-and-signature-date-fields-format-for-a4-printing-with-professional-legal-document-styling",
-      "title": "Modify PDF export to generate a comprehensive legal document that includes: driver information, block details, complete work history, itemized financial loss calculation with formulas, AI-generated legal defense with citations, and signature/date fields. Format for A4 printing with professional legal document styling.",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-localstorage-indexeddb-persistence-to-save-draft-calculations-work-history-and-defense-documents-automatically-allowing-drivers-to-return-and-continue-without-losing-data-include-a-history-view-showing-all-saved-drafts-with-timestamps",
-      "title": "Implement localStorage/IndexedDB persistence to save draft calculations, work history, and defense documents automatically, allowing drivers to return and continue without losing data. Include a history view showing all saved drafts with timestamps.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-dashboard-to-show-quick-access-cards-for-new-block-report-continue-draft-view-history-and-stats-showing-total-calculated-losses-and-number-of-defenses-generated-remove-or-adapt-existing-calculator-legal-defense-cards-to-fit-new-flow",
-      "title": "Update Dashboard to show quick access cards for: 'New Block Report', 'Continue Draft', 'View History', and stats showing total calculated losses and number of defenses generated. Remove or adapt existing calculator/legal defense cards to fit new flow.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-revise-all-ui-text-to-use-clear-accessible-portuguese-language-that-avoids-complex-legal-jargon-in-interface-elements-add-tooltips-or-help-text-to-explain-legal-terms-where-necessary-e-g-lucros-cessantes-cdc-clt",
-      "title": "Revise all UI text to use clear, accessible Portuguese language that avoids complex legal jargon in interface elements. Add tooltips or help text to explain legal terms where necessary (e.g., 'lucros cessantes', 'CDC', 'CLT').",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-ensure-the-entire-flow-from-block-report-work-history-calculation-review-defense-generation-pdf-export-works-as-a-seamless-multi-step-process-with-clear-progress-indication-back-navigation-and-the-ability-to-save-at-any-step",
-      "title": "Ensure the entire flow from block report → work history → calculation review → defense generation → PDF export works as a seamless multi-step process with clear progress indication, back navigation, and the ability to save at any step.",
-      "reqIds": [
-        "REQ-10"
       ],
       "version": 1
     }
@@ -99,43 +34,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Formulário de dados do bloqueio (plataforma, motivo, dados pessoais)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Inserção de histórico de trabalho (tempo ativo, média de ganhos, despesas fixas)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Cálculo automático de perdas financeiras (lucros cessantes)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Gerador de defesa jurídica com IA (tipo de bloqueio, fundamentação legal)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-5",
-      "summary": "Exportação de PDF completo (cálculo + defesa formatada)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Armazenamento local (localStorage/IndexedDB) para rascunhos e histórico",
+      "summary": "Change app language to Portuguese (Brazil)",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "Assistente Jurídico para Motoristas de App",
+  "projectName": "Change app language to Portuguese (Brazil)",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

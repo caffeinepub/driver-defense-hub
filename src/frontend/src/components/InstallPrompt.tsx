@@ -1,58 +1,43 @@
-import { useState, useEffect } from 'react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Download, X } from 'lucide-react';
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
+import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import { Button } from './ui/button';
+import { TRANSLATIONS } from '../constants/translations';
 
 export default function InstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
-    // Check if user has already dismissed the prompt
     const dismissed = localStorage.getItem('pwa-install-dismissed');
-    if (dismissed === 'true') {
+    if (dismissed) {
       return;
     }
 
-    const handleBeforeInstallPrompt = (e: Event) => {
-      // Prevent the mini-infobar from appearing on mobile
+    const handler = (e: Event) => {
       e.preventDefault();
-      // Stash the event so it can be triggered later
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
+      setDeferredPrompt(e);
       setShowPrompt(true);
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('beforeinstallprompt', handler);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('beforeinstallprompt', handler);
     };
   }, []);
 
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) {
-      return;
-    }
+  const handleInstall = async () => {
+    if (!deferredPrompt) return;
 
-    // Show the install prompt
-    await deferredPrompt.prompt();
-
-    // Wait for the user to respond to the prompt
+    deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     
-    console.log(`[PWA] User response to install prompt: ${outcome}`);
-
-    // Clear the deferredPrompt
+    if (outcome === 'accepted') {
+      setShowPrompt(false);
+      localStorage.setItem('pwa-install-dismissed', 'true');
+    }
+    
     setDeferredPrompt(null);
-    setShowPrompt(false);
-
-    // Store dismissal state
-    localStorage.setItem('pwa-install-dismissed', 'true');
   };
 
   const handleDismiss = () => {
@@ -60,50 +45,31 @@ export default function InstallPrompt() {
     localStorage.setItem('pwa-install-dismissed', 'true');
   };
 
-  if (!showPrompt || !deferredPrompt) {
-    return null;
-  }
+  if (!showPrompt) return null;
 
   return (
-    <Alert className="mb-4 border-primary/50 bg-card">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-3 flex-1">
-          <Download className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-          <div className="flex-1">
-            <AlertDescription className="text-foreground">
-              <strong className="font-semibold">Install Driver Defense Hub</strong>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Add this app to your home screen for quick access and offline functionality.
-              </p>
-            </AlertDescription>
-            <div className="flex gap-2 mt-3">
-              <Button
-                onClick={handleInstallClick}
-                size="sm"
-                className="bg-primary hover:bg-primary/90"
-              >
-                Install App
-              </Button>
-              <Button
-                onClick={handleDismiss}
-                size="sm"
-                variant="ghost"
-                className="text-muted-foreground"
-              >
-                Not Now
-              </Button>
-            </div>
+    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm z-50 animate-in slide-in-from-bottom-5">
+      <div className="bg-card border border-border rounded-lg shadow-lg p-4 flex items-start gap-3">
+        <div className="flex-1">
+          <p className="text-sm text-foreground font-medium mb-2">
+            {TRANSLATIONS.install.message}
+          </p>
+          <div className="flex gap-2">
+            <Button size="sm" onClick={handleInstall}>
+              {TRANSLATIONS.install.install}
+            </Button>
+            <Button size="sm" variant="ghost" onClick={handleDismiss}>
+              {TRANSLATIONS.install.dismiss}
+            </Button>
           </div>
         </div>
-        <Button
+        <button
           onClick={handleDismiss}
-          size="icon"
-          variant="ghost"
-          className="h-8 w-8 shrink-0"
+          className="text-muted-foreground hover:text-foreground transition-colors"
         >
-          <X className="h-4 w-4" />
-        </Button>
+          <X className="w-4 h-4" />
+        </button>
       </div>
-    </Alert>
+    </div>
   );
 }

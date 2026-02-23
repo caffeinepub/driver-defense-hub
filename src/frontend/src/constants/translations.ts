@@ -81,6 +81,10 @@ export const TRANSLATIONS = {
     saveFailed: 'Erro ao salvar. Tente novamente.',
     loadFailed: 'Erro ao carregar dados.',
     exportFailed: 'Erro ao exportar PDF.',
+    generic: 'Ocorreu um erro. Por favor, tente novamente.',
+    unauthorized: 'Não autorizado. Por favor, faça login.',
+    notFound: 'Não encontrado.',
+    networkError: 'Erro de rede. Verifique sua conexão.',
   },
 
   // Success Messages
@@ -91,6 +95,9 @@ export const TRANSLATIONS = {
     defenseGenerated: 'Defesa jurídica gerada com sucesso!',
     pdfExported: 'Documento exportado com sucesso!',
     draftDeleted: 'Rascunho apagado.',
+    profileSaved: 'Perfil salvo com sucesso!',
+    calculationSaved: 'Cálculo salvo com sucesso!',
+    defenseSaved: 'Defesa salva com sucesso!',
   },
 
   // Help Text & Tooltips
@@ -173,5 +180,138 @@ export const TRANSLATIONS = {
     step1: '1. Imprima o documento',
     step2: '2. Assine na última página',
     step3: '3. Envie para a plataforma via SAC ou e-mail',
+  },
+
+  // Authentication
+  auth: {
+    login: 'Entrar',
+    logout: 'Sair',
+    loggingIn: 'Entrando...',
+    loginPrompt: 'Faça login para acessar seus dados',
+    welcomeBack: 'Bem-vindo de volta',
+  },
+
+  // Profile Setup
+  profile: {
+    setupTitle: 'Configure seu Perfil',
+    setupDescription: 'Por favor, forneça suas informações para começar',
+    name: 'Nome',
+    namePlaceholder: 'Digite seu nome completo',
+    nameRequired: 'Nome é obrigatório',
+    email: 'E-mail',
+    emailPlaceholder: 'seu@email.com',
+    emailRequired: 'E-mail é obrigatório',
+    emailInvalid: 'E-mail inválido',
+    saveProfile: 'Salvar Perfil',
+    saving: 'Salvando...',
+  },
+
+  // Navigation
+  nav: {
+    home: 'Início',
+    dashboard: 'Painel',
+    calculator: 'Calculadora',
+    legalDefense: 'Defesa Legal',
+    back: 'Voltar',
+    next: 'Próximo',
+    loading: 'Carregando...',
+  },
+
+  // Dashboard
+  dashboard: {
+    title: 'Central de Defesa do Motorista',
+    subtitle: 'Sua ferramenta completa para defesa legal e cálculo de lucros cessantes',
+    welcome: 'Bem-vindo',
+    quickActions: 'Ações Rápidas',
+    recentActivity: 'Atividade Recente',
+    statistics: 'Estatísticas',
+    
+    calculatorCard: {
+      title: 'Calculadora de Lucros Cessantes',
+      description: 'Calcule seus prejuízos financeiros durante bloqueios',
+      action: 'Iniciar Cálculo',
+    },
+    defenseCard: {
+      title: 'Gerador de Defesa Legal',
+      description: 'Crie documentos de defesa personalizados',
+      action: 'Criar Defesa',
+    },
+    
+    stats: {
+      totalCalculations: 'Cálculos Totais',
+      totalDefenses: 'Defesas Criadas',
+      totalLoss: 'Prejuízo Total',
+    },
+    
+    recentCalculations: 'Cálculos Recentes',
+    recentDefenses: 'Defesas Recentes',
+    noCalculations: 'Nenhum cálculo ainda',
+    noDefenses: 'Nenhuma defesa ainda',
+    viewAll: 'Ver Todos',
+  },
+
+  // Calculator Page
+  calculator: {
+    title: 'Calculadora de Lucros Cessantes',
+    subtitle: 'Calcule seus prejuízos financeiros durante bloqueios',
+    startCalculation: 'Iniciar Novo Cálculo',
+    history: 'Histórico de Cálculos',
+    noHistory: 'Nenhum cálculo salvo ainda',
+  },
+
+  // Calculation Review
+  calculationReview: {
+    title: 'Revisão do Cálculo',
+    blockInfo: 'Informações do Bloqueio',
+    workInfo: 'Informações de Trabalho',
+    financialImpact: 'Impacto Financeiro',
+    
+    platform: 'Plataforma',
+    blockReason: 'Motivo',
+    blockDate: 'Data do Bloqueio',
+    driverName: 'Motorista',
+    cpf: 'CPF',
+    phone: 'Telefone',
+    activeMonths: 'Meses Ativos',
+    dailyAvgEarnings: 'Ganho Médio Diário',
+    weeklyAvgEarnings: 'Ganho Médio Semanal',
+    totalBlockedDays: 'Total de Dias Bloqueados',
+    totalLostEarnings: 'Total de Ganhos Perdidos',
+    totalExpenses: 'Total de Despesas',
+    netLostProfits: 'Lucros Cessantes Líquidos',
+    
+    editBlockReport: 'Editar Relatório',
+    editWorkHistory: 'Editar Histórico',
+    generateDefense: 'Gerar Defesa',
+  },
+
+  // Install Prompt
+  install: {
+    message: 'Instale o app para acesso rápido e offline',
+    dismiss: 'Dispensar',
+    install: 'Instalar',
+  },
+
+  // Footer
+  footer: {
+    builtWith: 'Construído com',
+    love: 'amor',
+    using: 'usando',
+  },
+
+  // Common
+  common: {
+    save: 'Salvar',
+    cancel: 'Cancelar',
+    delete: 'Excluir',
+    edit: 'Editar',
+    view: 'Ver',
+    close: 'Fechar',
+    confirm: 'Confirmar',
+    loading: 'Carregando...',
+    error: 'Erro',
+    success: 'Sucesso',
+    warning: 'Aviso',
+    info: 'Informação',
   },
 };
