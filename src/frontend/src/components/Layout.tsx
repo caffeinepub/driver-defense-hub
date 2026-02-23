@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <img 
               src="/assets/LOGO LARANJA-2.png" 
               alt="ROTAS & DIREITOS" 
-              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              className="h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               loading="eager"
             />
           </Link>

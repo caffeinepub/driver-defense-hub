@@ -1,72 +1,22 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Mobile app with home page featuring clickable banners, navigation buttons (back/home) on all pages, and visual pricing plans interface with static PIX QR code payment",
-  "architectural_notes": [
-    "Static PIX QR code generated from email key: proj.defdriver+pagbank@gmail.com",
-    "Payment verification must be done manually - no automatic transaction processing",
-    "Navigation pattern: back/home buttons present on all pages for quick exit"
-  ],
-  "known_issues": [
-    "Push notifications not supported by platform - cannot implement 70-second payment reminder alerts",
-    "No real payment processing - PIX payments must be verified manually",
-    "No dynamic QR code generation - using static QR code only"
-  ],
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Static PIX QR code for email key proj.defdriver+pagbank@gmail.com (pix-qr-code.dim_400x400.png)",
   "existing_features": [
     {
-      "id": "feature-create-a-pricing-plans-page-displaying-subscription-tiers-basic-premium-etc-with-visual-cards-showing-price-benefits-and-feature-lists-for-each-plan",
-      "title": "Create a pricing plans page displaying subscription tiers (Basic, Premium, etc.) with visual cards showing price, benefits, and feature lists for each plan",
+      "id": "feature-increase-the-logo-size-in-the-header-navigation-to-be-larger-and-more-visually-harmonious-with-the-overall-layout",
+      "title": "Increase the logo size in the header navigation to be larger and more visually harmonious with the overall layout",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
-    },
-    {
-      "id": "feature-generate-a-static-pix-qr-code-image-using-the-email-key-proj-defdriver-pagbank-gmail-com-and-display-it-prominently-on-the-pricing-plans-page",
-      "title": "Generate a static PIX QR code image using the email key 'proj.defdriver+pagbank@gmail.com' and display it prominently on the pricing plans page",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-payment-instructions-section-explaining-how-to-complete-pix-payment-using-the-qr-code-including-steps-for-scanning-and-confirming-the-transaction",
-      "title": "Add payment instructions section explaining how to complete PIX payment using the QR code, including steps for scanning and confirming the transaction",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
     }
   ],
-  "new_feature_requests": [
-    {
-      "id": "AR-1",
-      "summary": "Add back/home navigation buttons on all pages",
-      "reqIds": [],
-      "status": "in_progress"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Create home page with intuitive clickable banners",
-      "reqIds": [],
-      "status": "in_progress"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Create visual pricing plans interface with cards showing different tiers",
-      "reqIds": [],
-      "status": "in_progress"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Implement static PIX QR code with email key proj.defdriver+pagbank@gmail.com",
-      "reqIds": [],
-      "status": "in_progress"
-    }
-  ],
-  "projectName": "Rotas & Direitos",
+  "new_feature_requests": [],
+  "projectName": "Increase logo size for better visual harmony",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

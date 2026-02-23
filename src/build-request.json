@@ -1,80 +1,39 @@
 {
   "kind": "build_request",
-  "title": "Create pricing plans interface with static PIX QR code payment",
-  "projectName": "Rotas & Direitos",
+  "title": "Increase logo size for better visual harmony",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Create a pricing plans page displaying subscription tiers (Basic, Premium, etc.) with visual cards showing price, benefits, and feature lists for each plan",
+      "text": "Increase the logo size in the header navigation to be larger and more visually harmonious with the overall layout",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-last"
+          "msg-user-latest"
         ],
         "quotes": [
-          "criE uma interface visual dos planos"
+          "almente o tamanho da logo para um tamanho maior e mais armonico"
         ]
       },
       "acceptanceCriteria": [
-        "Pricing plans page accessible from home page navigation",
-        "Each plan displayed as a distinct card with clear visual hierarchy",
-        "Plan details include price, benefits list, and feature comparison",
-        "Cards are responsive and work on mobile devices"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Generate a static PIX QR code image using the email key 'proj.defdriver+pagbank@gmail.com' and display it prominently on the pricing plans page",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-last"
-        ],
-        "quotes": [
-          "implemente o qr code pix estatico com a seguinte chave de email: proj.defdriver+pagbank@gmail.com"
-        ]
-      },
-      "acceptanceCriteria": [
-        "QR code displayed as a static image on pricing plans page",
-        "QR code is clearly visible and scannable on mobile devices",
-        "Email key 'proj.defdriver+pagbank@gmail.com' is shown as text alongside QR code",
-        "Payment instructions in Portuguese are displayed near the QR code"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Add payment instructions section explaining how to complete PIX payment using the QR code, including steps for scanning and confirming the transaction",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-last"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Clear step-by-step payment instructions in Portuguese",
-        "Instructions include how to scan QR code and verify payment details",
-        "Contact information or support guidance for payment issues is provided"
+        "Logo appears noticeably larger in the header",
+        "Logo size is proportional and harmonious with other header elements",
+        "Logo maintains proper spacing and alignment in the header",
+        "Logo scales appropriately on mobile devices"
       ]
     }
   ],
   "constraints": [
-    "No real payment processing or verification - PIX payments must be verified manually",
-    "QR code must be static - no dynamic generation",
-    "Use existing Layout component with back/home navigation buttons",
-    "Maintain Portuguese language for all user-facing text"
+    "Do not modify the Layout component's authentication logic or menu structure",
+    "Maintain existing orange branding theme (#ea580c)"
   ],
   "nonGoals": [
-    "Automated payment verification",
-    "Dynamic QR code generation",
-    "Push notifications for payment reminders",
-    "Integration with payment gateway APIs",
-    "Real-time payment status updates"
+    "Changing the logo image itself",
+    "Modifying other header elements besides logo size",
+    "Redesigning the entire header layout"
   ],
   "imageRequirements": {
-    "required": [
-      "Static PIX QR code for email key proj.defdriver+pagbank@gmail.com (pix-qr-code.dim_400x400.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Add a pricing plans interface with static PIX QR code payment option.
+**Goal:** Increase the logo size in the header for better visual harmony with the overall layout.
 
 **Planned changes:**
-- Create a pricing plans page displaying subscription tiers (Basic, Premium, etc.) with visual cards showing price, benefits, and feature lists
-- Display a static PIX QR code image for payment using the email key 'proj.defdriver+pagbank@gmail.com'
-- Add payment instructions in Portuguese explaining how to scan the QR code and complete the PIX transaction
-- Include the email key as text alongside the QR code for manual entry
+- Increase the logo dimensions in the header navigation component
+- Adjust spacing and alignment to maintain visual balance with other header elements
+- Ensure responsive scaling on mobile devices
 
-**User-visible outcome:** Users can view available subscription plans, see pricing details and features, and use a PIX QR code to make manual payments.
+**User-visible outcome:** Users will see a larger, more prominent logo in the header that is better proportioned with the rest of the navigation elements.

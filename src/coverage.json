@@ -1,56 +1,24 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-23T21:39:46.510Z",
+  "generatedAt": "2026-02-23T21:44:44.552Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 1,
+    "implemented": 1,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Create a pricing plans page displaying subscription tiers (Basic, Premium, etc.) with visual cards showing price, benefits, and feature lists for each plan",
+        "summary": "Increase the logo size in the header navigation to be larger and more visually harmonious with the overall layout",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/PricingPage.tsx",
-          "frontend/src/constants/translations.ts",
-          "frontend/src/App.tsx",
           "frontend/src/components/Layout.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/PricingPage.tsx",
-          "frontend/src/constants/translations.ts",
-          "frontend/src/App.tsx",
           "frontend/src/components/Layout.tsx"
-        ]
-      },
-      {
-        "id": "REQ-2",
-        "summary": "Generate a static PIX QR code image using the email key 'proj.defdriver+pagbank@gmail.com' and display it prominently on the pricing plans page",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/PricingPage.tsx",
-          "frontend/src/constants/translations.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/PricingPage.tsx",
-          "frontend/src/constants/translations.ts"
-        ]
-      },
-      {
-        "id": "REQ-3",
-        "summary": "Add payment instructions section explaining how to complete PIX payment using the QR code, including steps for scanning and confirming the transaction",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/PricingPage.tsx",
-          "frontend/src/constants/translations.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/PricingPage.tsx",
-          "frontend/src/constants/translations.ts"
         ]
       }
     ]
@@ -60,11 +28,7 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/pix-qr-code.dim_400x400.png",
-    "frontend/src/App.tsx",
     "frontend/src/components/Layout.tsx",
-    "frontend/src/constants/translations.ts",
-    "frontend/src/pages/PricingPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -2,13 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-create-a-pricing-plans-page-displaying-subscription-tiers-basic-premium-etc-with-visual-cards-showing-price-benefits-and-feature-lists-for-each-plan",
-      "featureTitle": "Create a pricing plans page displaying subscription tiers (Basic, Premium, etc.) with visual cards showing price, benefits, and feature lists for each plan",
+      "featureId": "feature-increase-the-logo-size-in-the-header-navigation-to-be-larger-and-more-visually-harmonious-with-the-overall-layout",
+      "featureTitle": "Increase the logo size in the header navigation to be larger and more visually harmonious with the overall layout",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/Layout.tsx",
-        "frontend/src/constants/translations.ts",
-        "frontend/src/pages/PricingPage.tsx"
+        "frontend/src/components/Layout.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -21,48 +18,6 @@
       ],
       "testIds": [
         "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-generate-a-static-pix-qr-code-image-using-the-email-key-proj-defdriver-pagbank-gmail-com-and-display-it-prominently-on-the-pricing-plans-page",
-      "featureTitle": "Generate a static PIX QR code image using the email key 'proj.defdriver+pagbank@gmail.com' and display it prominently on the pricing plans page",
-      "files": [
-        "frontend/src/constants/translations.ts",
-        "frontend/src/pages/PricingPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-2"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-payment-instructions-section-explaining-how-to-complete-pix-payment-using-the-qr-code-including-steps-for-scanning-and-confirming-the-transaction",
-      "featureTitle": "Add payment instructions section explaining how to complete PIX payment using the QR code, including steps for scanning and confirming the transaction",
-      "files": [
-        "frontend/src/constants/translations.ts",
-        "frontend/src/pages/PricingPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-3"
       ],
       "confidence": "high"
     }

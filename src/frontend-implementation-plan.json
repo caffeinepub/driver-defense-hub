@@ -1,80 +1,22 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Create pricing plans interface with static PIX QR code payment",
+  "title": "Increase logo size for better visual harmony",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Create pricing plans page with subscription tier cards displaying features and pricing",
+      "summary": "Increase the logo size in the header navigation to be larger and more visually harmonious with the overall layout",
       "acceptanceCriteria": [
-        "Pricing plans page accessible from home page navigation",
-        "Each plan displayed as a distinct card with clear visual hierarchy",
-        "Plan details include price, benefits list, and feature comparison",
-        "Cards are responsive and work on mobile devices"
+        "Logo appears noticeably larger in the header",
+        "Logo size is proportional and harmonious with other header elements",
+        "Logo maintains proper spacing and alignment in the header",
+        "Logo scales appropriately on mobile devices"
       ],
       "file_operations": [
-        {
-          "path": "frontend/src/pages/PricingPage.tsx",
-          "operation": "create",
-          "description": "Create the pricing plans page component that displays subscription tiers (Basic, Premium, etc.) as visually distinct cards. Each card should show the plan name, price in BRL, a list of benefits/features, and visual hierarchy using Tailwind CSS and shadcn/ui Card components. Include responsive grid layout that works on mobile devices. Use Portuguese for all text content following the existing translations pattern."
-        },
-        {
-          "path": "frontend/src/constants/translations.ts",
-          "operation": "modify",
-          "description": "Add Portuguese translations for pricing page content including plan names (Basic, Premium, etc.), plan descriptions, pricing labels, feature lists, payment section headings, and any instructional text needed for the pricing interface."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Register the new /pricing route in the router configuration. Import PricingPage component and add it to the routes array so users can navigate to the pricing plans page."
-        },
         {
           "path": "frontend/src/components/Layout.tsx",
           "operation": "modify",
-          "description": "Add a navigation link to the pricing page in the header navigation menu. Include appropriate label in Portuguese (e.g., 'Planos') and ensure it's accessible to both authenticated and unauthenticated users since pricing is public information."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Display static PIX QR code image with email key on pricing page",
-      "acceptanceCriteria": [
-        "QR code displayed as a static image on pricing plans page",
-        "QR code is clearly visible and scannable on mobile devices",
-        "Email key 'proj.defdriver+pagbank@gmail.com' is shown as text alongside QR code",
-        "Payment instructions in Portuguese are displayed near the QR code"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/PricingPage.tsx",
-          "operation": "modify",
-          "description": "Add a payment section to the pricing page that displays the static PIX QR code image located at frontend/public/assets/generated/pix-qr-code.dim_400x400.png. The QR code should be rendered at an appropriate size for mobile scanning (minimum 300px). Display the PIX key email 'proj.defdriver+pagbank@gmail.com' as copyable text below the QR code. Use a visually prominent section with clear spacing and borders to draw attention to the payment method."
-        },
-        {
-          "path": "frontend/src/constants/translations.ts",
-          "operation": "modify",
-          "description": "Add Portuguese translations for PIX payment section including labels like 'Pagamento via PIX', 'Chave PIX (Email)', 'Escaneie o QR Code', and any other payment-related labels needed to display the QR code and email key clearly."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Add PIX payment instructions explaining how to complete the transaction",
-      "acceptanceCriteria": [
-        "Clear step-by-step payment instructions in Portuguese",
-        "Instructions include how to scan QR code and verify payment details",
-        "Contact information or support guidance for payment issues is provided"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/PricingPage.tsx",
-          "operation": "modify",
-          "description": "Add a payment instructions section below or near the QR code that provides step-by-step guidance in Portuguese for completing a PIX payment. Include instructions for: (1) opening the banking app, (2) selecting PIX payment option, (3) scanning the QR code or copying the email key, (4) verifying payment details (amount and recipient), (5) confirming the transaction. Add a support/contact section with guidance for users who encounter payment issues or need assistance. Use an ordered list or numbered steps for clarity, with appropriate visual styling using Tailwind CSS."
-        },
-        {
-          "path": "frontend/src/constants/translations.ts",
-          "operation": "modify",
-          "description": "Add comprehensive Portuguese translations for payment instructions including step labels, instruction text for each step (scanning QR code, verifying details, confirming payment), support/contact information headings, and any disclaimers or important notes about manual payment verification."
+          "description": "Increase the logo image size in the header navigation from its current dimensions to a larger, more prominent size that creates better visual harmony with surrounding elements. Adjust the containing link element's dimensions and spacing to accommodate the larger logo while maintaining proper alignment with navigation items. Ensure the logo scales appropriately on mobile viewports using responsive sizing classes. Preserve all existing authentication logic, menu structure, and the orange branding theme (#ea580c)."
         }
       ]
     }
